@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="jquery-3.4.1.js"></script>
+	<script type="text/javascript" src ="menu.js"></script>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<p id="instruction" style="font-family: arial; font-size: 40px;"></p>
+				<p id="NoGo" style="font-family: arial; color: black; font-size: 40px;"></p>
+				<button id="myButton"> Continue </button>
+				<form id="mturk_form" method="POST" action="http://152.3.33.14/AMTSubmit/dataHandler.php">
+					<!-- <form id="mturk_form" method="POST" action="https://workersandbox.mturk.com/mturk/externalSubmit"> -->
+					<!-- <form id="mturk_form" method="POST" action="https://wwww.mturk.com/mturk/externalSubmit"> -->
+					<input type="hidden" id="assignmentId" name="assignmentId" value="">
+					<input type="hidden" id="workerId" name="workerId" value="">
+					<input type="hidden" id="hitId" name="hitId" value="">
+					<input type="hidden" id="RTs" name="RTs" value="">
+					<input type="hidden" id="demographics" name="demographics" value="TaskSwitchFlanker">
+					<input type="hidden" id="ExpName" name="ExpName" value="TaskSwitchFlanker">
+					<p style="font-size:22px; margin-left: 50px; margin-right:50px;">
+						Thank you for participating in this study. In this particular experiment, we were looking to see how well people are able to detect the rotation in images when they are abstract and difficult to identify.
+					</p>
+					<p style="font-size:22px; margin-left: 50px; margin-right:50px;">
+						If you would like to know more about or have any other questions about this experiment or your data, please feel free to contact me at rmg55@duke.edu or the principal investigator Tobias Egner at tobias.egner@duke.edu. Thank you so much for your participation!
+					</p>
+					<p style="font-size:24px">
+						Please click the "Submit" button to submit your data.
+					</p>
+					<input id="submitButton" type="submit" name="Finish" value="Submit">
+				</form>
+			</td>
+		</tr>
+	</table>
+	<div id="SoundCheck">
+		<p> This task involves audio feedback. Please complete the sound check below. </p>
+		<p> Play the audio file below and select which word is spoken. </p>
+		<audio controls>
+			<source src="chicken.wav" type="audio/wav">
+			Your browser does not support the audio element. Please return this HIT or try again with a different browser.
+		</audio>
+	</div>
+</body>
+</html>
