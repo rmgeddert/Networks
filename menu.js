@@ -1,5 +1,6 @@
 // create global curStage variable
 let curStage = 0;
+let onMturk = false;
 
 // creates popup window
 function basicPopup(url) {
@@ -15,9 +16,9 @@ function gup(name, tmpURL){
 }
 
 // stop users from closing the menu.html window
-window.onbeforeunload = function() {
-    return 'Please do not close this window!';
-}
+// window.onbeforeunload = function() {
+//     return 'Please do not close this window!';
+// }
 
 // function for navigating experiment stages
 function updateMainMenu(expStage){
@@ -27,11 +28,13 @@ function updateMainMenu(expStage){
   // display text based on experiment stage
   switch(expStage){
     case 0: //initial sound check
-      $("#SoundCheck").show();
+      $("#instruction").text("This task involves audio feedback. Please complete the sound check below. Play the audio file below and select which word is spoken.");
+      break;
     case 1: // demographics
-      $("#myButton").show();
-      $("#submit").hide();
       $("#instruction").text("Click button to fill out demographic survey. PLEASE DO NOT CLOSE THIS WINDOW.");
+      $("#myButton").show();
+      $("#table").show();
+      $("#SoundCheck").hide();
       $("#instruction").show();
       break;
     case 2: //main task
@@ -61,6 +64,7 @@ function duplicateWorker(workedID){
 
 $(document).ready(function(){
   // initial hide all DOM elements
+  $("#table").hide();
   $("#mturk_form").hide();
   $("#instructions").hide();
   $("#myButton").hide();
@@ -71,8 +75,13 @@ $(document).ready(function(){
   document.getElementById('hitId').value = gup('hitId', document.referrer);
   document.getElementById('workerId').value = gup('workerId', document.referrer);
 
+  // prevents multiple soundcheck checkboxes being selected
+  $('input[type="checkbox"]').on('change', function(){
+     $('input[type="checkbox"]').not(this).prop('checked', false);
+  });
+
   // check worker ID
-  if (document.getElementById("assignmentId").value == "" || document.getElementById("assignmentId").value == "ASSIGNMENT_ID_NOT_AVAILABLE"){
+  if (onMturk && (document.getElementById("assignmentId").value == "" || document.getElementById("assignmentId").value == "ASSIGNMENT_ID_NOT_AVAILABLE")){
 
     // display text for accepting HIT
     $("#instruction").text("Accept HIT first");
@@ -101,12 +110,23 @@ function prepareMenu(){
   // create button press code for switching between sections
   $("#myButton").click(function(){
     switch(curStage){
-      case 0:
+      case 1:
         basicPopup("demographics.html");
         break;
-      case 1:
+      case 2:
         basicPopup("main.html");
         break;
+    }
+  });
+
+  $("#soundCheckSubmit").click(function(){
+    if (true) {
+
+    }
+    if (document.getElementById("sc2").checked == true) {
+      updateMainMenu(1);
+    } else {
+      window.alert("Incorrect. Please try again.");
     }
   });
 }

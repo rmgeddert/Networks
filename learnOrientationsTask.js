@@ -2,7 +2,7 @@ function learnOrientationsTask(){
   // declare and set task variables
   sectionType = "pracTask";
   taskName = "learnOrientationsTask";
-  let nCorrectResponsesNeeded = 1;
+  let nCorrectResponsesNeeded = 4;
   let mistakeAlreadyMade = false;
   let correctImageDOM = document.getElementById("correctImage");
   let rotatedImageDOM = document.getElementById("rotatedImage");

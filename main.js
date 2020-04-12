@@ -1,7 +1,7 @@
 "use strict"
 
 // for testing
-let testMode = false;
+let testMode = true;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off
@@ -10,7 +10,7 @@ let openerNeeded = false; //true
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let fractalsNeeded = 11; //defined by network structure
 let stimInterval = (speed == "fast") ? 50 : 1500; //2000
-let nTrials = 600; //number of trials during random walk
+let nTrials = 1000; //number of trials during random walk
 let numBlocks = 5; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
@@ -22,7 +22,7 @@ let imageIsRotated, proportionRotated = 0.3;
 let taskFunc //function for current task
 let frCanvas, frCtx, ntCanvas, ntCtx; //fractal and network canvas
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //skip practice or not
-let trialCount = 1, blockTrialCount = 1, acc, accCount, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
+let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
 let sectionStart, sectionEnd, sectionType, taskName;
 let mistakeSound = new Audio('sounds/mistakeSoundShort.m4a');
@@ -50,6 +50,7 @@ function experimentFlow(){
   if (!repeatNecessary) {
     block = 1;
     trialCount = 1;
+    accCount = 0;
   } else {
     block++;
   }
@@ -64,9 +65,11 @@ function experimentFlow(){
   } else if (expStage.indexOf("main2") != -1){
     oddOneOutTest();
   } else if (expStage.indexOf("main3") != -1){
-    networkWithMathTask()
+    networkWithMathTask();
   } else if (expStage.indexOf("main4") != -1){
-    fractalPreferenceTask()
+    fractalPreferenceTask();
+  } else {
+    endOfExperiment();
   }
 }
 
@@ -133,6 +136,14 @@ $(document).ready(function(){
       console.log(data);
       // go to instructions
       navigateInstructionPath(repeatNecessary);
+    } else if (keyListener == 7) {
+      // log data
+      sectionEnd = new Date().getTime() - runStart;
+      data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      console.log(data);
+      // resume task
+      keyListener = 0;
+      countDown(3);
     }
   });
 
@@ -155,4 +166,20 @@ function randIntFromInterval(min, max) { // min and max included
 
 function promptMenuClosed(){
   $('.MenuClosedPrompt').show();
+}
+
+function endOfExperiment(){
+  // end of experiment stuff
+  try {
+    // upload data to menu.html's DOM element
+    $("#RTs", opener.window.document).val(data.join(";"));
+
+    // call menu debriefing script
+    opener.updateMainMenu(2);
+
+    // close the experiment window
+    JavaScript:window.close();
+  } catch (e) {
+    alert("Data upload failed. Did you close the previous window?");
+  }
 }

@@ -96,12 +96,14 @@ function learnNetworkTaskPractice(){
 
     // check if participant responded in time
     if (keyListener == 1 && speed != "fast") {
-      tooSlowScreen();
-    } else {
-      // reset and proceed to next image
-      imageIterator++; trialCount++; blockTrialCount++;
-      taskFlow();
+      // tooSlowScreen();
+      mistakeSound.play();
+      // keyListener == 0;
     }
+    // } else {
+    // reset and proceed to next image
+    imageIterator++; trialCount++; blockTrialCount++;
+    taskFlow();
   }
 
   function showTaskFeedback(accuracy){

@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 4, "prac2": 6, "main1": 6, "main2": 1, "main3": 1, "main4": 1
+    "prac1-1": 4, "prac1-2": 4, "prac2": 7, "main1": 6, "main2": 1, "main3": 1, "main4": 1
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -116,10 +116,12 @@ function getNextInstructions(slideNum, expStage){
         case 4:
           return "Press 'Z' with your left hand index finger if the number " + getKeyMappingText(2);;
         case 5:
+          return "You will hear a buzzer if you make a mistake or if you respond too slowly. Please make sure your sound is turned on, and feel free to adjust the volume to a comfortable level.";
+        case 6:
           iterateAgain = true;
           $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
           return "This block will contain "+fractalsNeeded+" trials. Please place your index fingers on the 'M' and 'Z' keys as shown.";
-        case 6:
+        case 7:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button to begin."
       }

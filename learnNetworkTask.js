@@ -58,6 +58,8 @@ function learnNetworkTask(){
   sectionType = "mainTask";
   taskName = "learnNetworkTask";
 
+  // declare task vars
+
   // hide instructions and show canvas
   $('#instructionsDiv').hide();
   frCanvas.style.display = "inline-block";
@@ -77,20 +79,20 @@ function learnNetworkTask(){
   function taskFlow(){
     // need to add block breaks in here still
     if (trialCount < nTrials) {
+      if (trialCount%(nTrials/numBlocks) == 0 && !breakOn) {
+        breakOn = true;
+        blockBreak();
 
-      // check if key is being held down going into trial
-      if (keyListener == 2 || keyListener == 3) {
-        promptLetGo();
       } else {
+        breakOn = false;
+        // potential check for keypress still being held down here
         runTrial();
       }
-
     } else {
-
       // end of experiment code
-      taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
+      // taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
+      breakOn = false;
       navigateInstructionPath();
-
     }
   }
 
@@ -111,6 +113,12 @@ function learnNetworkTask(){
   }
 
   function transitionToNextNode(){
+    if (keyListener == 1 && speed != "fast") {
+      // tooSlowScreen();
+      mistakeSound.play();
+      // keyListener == 0;
+    }
+
     // log data from previous trial
     data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, partResp, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
     console.log(data);
@@ -150,6 +158,18 @@ function learnNetworkTask(){
 
   function blockBreak(){
     sectionType = "blockBreak";
+    sectionStart = new Date().getTime() - runStart;
+    keyListener = 7;
+
+    // prep frCanvas
+    frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
+    frCtx.fillStyle = "black";
+    frCtx.font = "25px Arial";
+
+    // display miniblock text
+    frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2 - 50);
+    frCtx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",frCanvas.width/2,frCanvas.height/2);
+    frCtx.fillText("Press any button to continue.",frCanvas.width/2,frCanvas.height/2 + 100);
   }
 
   function drawNetwork(){

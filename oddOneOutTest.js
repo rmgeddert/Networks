@@ -8,14 +8,13 @@ function oddOneOutTest() {
   // run algorithm to set up main task array
   // prevents repeat of nodes from one trial to next
   let mainTaskArr;
-  let algorithmIterationCap = 1000;
+  let algorithmIterationCap = 10000;
   for (let i = 1; i < algorithmIterationCap; i++) {
     mainTaskArr = shuffleNodeSets();
     if (mainTaskArr.length != 0) {
       break;
     }
   }
-  console.log(mainTaskArr);
 
   // set section type
   sectionType = "mainTask";
@@ -55,8 +54,8 @@ function oddOneOutTest() {
 
   // FUNCTIONS:
   function processImageClick(index){
-    respOnset = new Date().getTime();
-    if (respOnset - nodeSetDisplayStart < 500) {
+    respOnset = new Date().getTime() - runStart;
+    if (respOnset - stimOnset < 500) {
 
       earlyButtonPressCounter++;
       if (earlyButtonPressCounter >= 2 && spamEvent == false) {
@@ -82,14 +81,18 @@ function oddOneOutTest() {
         pressedSameButtonCounter = 0;
       }
       if (pressedSameButtonCounter >= 10) {
-        console.log("Stop pressing the same damn button over and over");
+
+        console.log("Stop pressing the same button over and over");
         // prompt stop pressing same response over and over
       } else {
         acc = (currentNodeSet.indexer[index] == 1) ? 1 : 0;
-        console.log("accuracy: ", acc);
+        respOnset = new Date().getTime() - runStart;
+        respTime = respOnset - stimOnset;
 
         // log data
-        data.push([sectionType, taskname]);
+        // data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, NaN, NaN, NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
+        data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, acc, NaN, respOnset, respTime, NaN, NaN, NaN]);
+        console.log(data);
 
         if (nodeSetIterator < mainTaskArr.length - 1) {
           prevResponse = index;
@@ -99,14 +102,15 @@ function oddOneOutTest() {
         } else {
           // end of experiment, proceed to next instructions
           $("#oddOneOutTaskDiv").hide();
-          navigateInstructionPath();
+          // navigateInstructionPath();
+          endOfExperiment();
         }
       }
     }
   }
 
   function displayNodeSet(nodeSet){
-    nodeSetDisplayStart = new Date().getTime();
+    stimOnset = new Date().getTime() - runStart;
 
     // display images in node set
     image1.src = nodeSet.nodes[0].img.src;
