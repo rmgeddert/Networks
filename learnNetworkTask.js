@@ -159,17 +159,43 @@ function learnNetworkTask(){
   function blockBreak(){
     sectionType = "blockBreak";
     sectionStart = new Date().getTime() - runStart;
-    keyListener = 7;
+    setTimeout(function(){keyListener = 7},2000);
 
-    // prep frCanvas
-    frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
-    frCtx.fillStyle = "black";
-    frCtx.font = "25px Arial";
+    // display break screen (With timer)
+    drawBreakScreen("03","00");
+    blockBreakFunction(3,0);
 
-    // display miniblock text
-    frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2 - 50);
-    frCtx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",frCanvas.width/2,frCanvas.height/2);
-    frCtx.fillText("Press any button to continue.",frCanvas.width/2,frCanvas.height/2 + 100);
+    function blockBreakFunction(minutes, seconds){
+      let time = minutes*60 + seconds;
+      frCtx.fillStyle = "black";
+      sectionTimer = setInterval(function(){
+        if (time < 0) {return}
+        frCtx.fillStyle = (time <= 60) ? "red" : "black";
+        let minutes = Math.floor(time / 60);
+        if (minutes < 10) minutes = "0" + minutes;
+        let seconds = Math.floor(time % 60);
+        if (seconds < 10) seconds = "0" + seconds;
+        drawBreakScreen(minutes, seconds);
+        time--;
+      }, 1000);
+    }
+
+    function drawBreakScreen(minutes, seconds){
+      frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
+
+      // draw timer (with color from previous function)
+      frCtx.font = "bold 45px Arial";
+      frCtx.fillText(minutes + ":" + seconds,frCanvas.width/2,frCanvas.height/2 - 100);
+
+      // display miniblock text
+      frCtx.fillStyle = "black";
+      frCtx.font = "25px Arial";
+      frCtx.fillText("This is a short break. Please don't pause for more than 3 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
+      frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2);
+      frCtx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",frCanvas.width/2,frCanvas.height/2+50);
+      frCtx.font = "bold 25px Arial";
+      frCtx.fillText("Press any button to continue.",frCanvas.width/2,frCanvas.height/2 + 200);
+    }
   }
 
   function drawNetwork(){

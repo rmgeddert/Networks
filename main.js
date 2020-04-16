@@ -1,7 +1,7 @@
 "use strict"
 
 // for testing
-let testMode = true;
+let testMode = false;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off
@@ -10,8 +10,8 @@ let openerNeeded = false; //true
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let fractalsNeeded = 11; //defined by network structure
 let stimInterval = (speed == "fast") ? 50 : 1500; //2000
-let nTrials = 1000; //number of trials during random walk
-let numBlocks = 5; //number of blocks to divide nTrials into
+let nTrials = 600; //number of trials during random walk
+let numBlocks = 6; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
 // vars for network tasks
@@ -24,7 +24,7 @@ let frCanvas, frCtx, ntCanvas, ntCtx; //fractal and network canvas
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //skip practice or not
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
-let sectionStart, sectionEnd, sectionType, taskName;
+let sectionStart, sectionEnd, sectionType, taskName, sectionTimer;
 let mistakeSound = new Audio('sounds/mistakeSoundShort.m4a');
 let keyListener = 0;
 /*  keyListener explanations:
@@ -103,6 +103,10 @@ $(document).ready(function(){
         acc = ([109,77].includes(event.which)) ? 1 : 0;
       }
       if (acc == 1) {accCount++;}
+      // task feedback
+      if (acc == 0) {
+        mistakeSound.play();
+      }
       // reaction time
       respOnset = new Date().getTime() - runStart;
       respTime = respOnset - stimOnset;
@@ -112,9 +116,6 @@ $(document).ready(function(){
   // create key release listener
   $("body").keyup(function(event){
     if (keyListener == 2 ) { //good press release
-      if (acc == 0) {
-        mistakeSound.play();
-      }
       keyListener = 0;
     } else if (keyListener == 3) { //resets bad press to 0
       keyListener = 0;
@@ -136,7 +137,10 @@ $(document).ready(function(){
       console.log(data);
       // go to instructions
       navigateInstructionPath(repeatNecessary);
-    } else if (keyListener == 7) {
+    } else if (keyListener == 7) { //block break screen
+      clearInterval(sectionTimer);
+      // increment block for next time
+      block++;
       // log data
       sectionEnd = new Date().getTime() - runStart;
       data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
@@ -175,7 +179,7 @@ function endOfExperiment(){
     $("#RTs", opener.window.document).val(data.join(";"));
 
     // call menu debriefing script
-    opener.updateMainMenu(2);
+    opener.updateMainMenu(3);
 
     // close the experiment window
     JavaScript:window.close();

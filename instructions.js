@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 4, "prac2": 7, "main1": 6, "main2": 1, "main3": 1, "main4": 1
+    "prac1-1": 4, "prac1-2": 4, "prac2": 7, "main1": 6, "main2": 5, "main3": 1, "main4": 1
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -64,6 +64,7 @@ function displayDefaults(stage){
   switch(stage){
     case "prac1-2":
     case "prac2":
+    case "main2":
        showFirst();
     default:
       $('.instruction-header').show();
@@ -146,7 +147,17 @@ function getNextInstructions(slideNum, expStage){
     case "main2":
       switch (slideNum){
         case 1:
-          return "Now you will do odd one out test";
+          return "Great job! In this final task, you will be asked to select the fractal that does not belong with the other two images.";
+        case 2:
+          return "In the previous task, some images were more likely to appear after one another than others."
+        case 3:
+          return "Your job in this task is to choose the image that would be UNLIKELY to appear after either of the other two images.";
+        case 4:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Do not choose based on what the images look like. This decision should be based purely on which images appeared after one another in the previous task.";
+        case 5:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Press any button to begin."
       }
     case "main3":
       switch (slideNum){

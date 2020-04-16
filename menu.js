@@ -1,6 +1,7 @@
+console.log("Version - Last Updated 5-15-2020 12:11pm");
 // create global curStage variable
 let curStage = 0;
-let onMturk = false;
+let onMturk = true;
 
 // creates popup window
 function basicPopup(url) {
@@ -28,13 +29,15 @@ function updateMainMenu(expStage){
   // display text based on experiment stage
   switch(expStage){
     case 0: //initial sound check
+      $("#table").hide();
+      $("#soundCheck").show();
       $("#instruction").text("This task involves audio feedback. Please complete the sound check below. Play the audio file below and select which word is spoken.");
       break;
     case 1: // demographics
       $("#instruction").text("Click button to fill out demographic survey. PLEASE DO NOT CLOSE THIS WINDOW.");
       $("#myButton").show();
       $("#table").show();
-      $("#SoundCheck").hide();
+      $("#soundCheck").hide();
       $("#instruction").show();
       break;
     case 2: //main task
@@ -65,6 +68,7 @@ function duplicateWorker(workedID){
 $(document).ready(function(){
   // initial hide all DOM elements
   $("#table").hide();
+  $("#soundCheck").hide();
   $("#mturk_form").hide();
   $("#instructions").hide();
   $("#myButton").hide();
@@ -84,6 +88,7 @@ $(document).ready(function(){
   if (onMturk && (document.getElementById("assignmentId").value == "" || document.getElementById("assignmentId").value == "ASSIGNMENT_ID_NOT_AVAILABLE")){
 
     // display text for accepting HIT
+    $("#table").show();
     $("#instruction").text("Accept HIT first");
     $("#instruction").show();
     $("#myButton").hide();
@@ -120,9 +125,6 @@ function prepareMenu(){
   });
 
   $("#soundCheckSubmit").click(function(){
-    if (true) {
-
-    }
     if (document.getElementById("sc2").checked == true) {
       updateMainMenu(1);
     } else {
