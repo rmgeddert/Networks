@@ -48,12 +48,12 @@ function navigateInstructionPath(repeat = false){
       case "main1":
         expStage = "main2";
         break;
-      case "main2":
-        expStage = "main3";
-        break;
-      case "main3":
-        expStage = "main4";
-        break;
+      // case "main2":
+      //   expStage = "main3";
+      //   break;
+      // case "main3":
+      //   expStage = "main4";
+      //   break;
     }
   }
   runInstructions();
@@ -159,16 +159,16 @@ function getNextInstructions(slideNum, expStage){
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button to begin."
       }
-    case "main3":
-      switch (slideNum){
-        case 1:
-          return "now you will do the math task";
-      }
-    case "main4":
-      switch (slideNum){
-        case 1:
-          return "lets see which fractals you like bitch";
-      }
+    // case "main3":
+    //   switch (slideNum){
+    //     case 1:
+    //       return "now you will do the math task";
+    //   }
+    // case "main4":
+    //   switch (slideNum){
+    //     case 1:
+    //       return "lets see which fractals you like bitch";
+    //   }
   }
 }
 

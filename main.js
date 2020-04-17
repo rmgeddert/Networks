@@ -2,20 +2,20 @@
 
 // for testing
 let testMode = false;
-let speed = "normal"; //fast, normal
+let speed = "fast"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let fractalsNeeded = 11; //defined by network structure
-let stimInterval = (speed == "fast") ? 50 : 1500; //2000
+let stimInterval = (speed == "fast") ? 500 : 1500; //2000
 let nTrials = 600; //number of trials during random walk
 let numBlocks = 6; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
 // vars for network tasks
-let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
+let activeNode, taskNetwork = new Network(), showNetworkWalk = true;
 let imageIsRotated, proportionRotated = 0.3;
 
 //initialize global task variables
@@ -64,10 +64,10 @@ function experimentFlow(){
     learnNetworkTask();
   } else if (expStage.indexOf("main2") != -1){
     oddOneOutTest();
-  } else if (expStage.indexOf("main3") != -1){
-    networkWithMathTask();
-  } else if (expStage.indexOf("main4") != -1){
-    fractalPreferenceTask();
+  // } else if (expStage.indexOf("main3") != -1){
+  //   networkWithMathTask();
+  // } else if (expStage.indexOf("main4") != -1){
+  //   fractalPreferenceTask();
   } else {
     endOfExperiment();
   }
@@ -146,7 +146,7 @@ $(document).ready(function(){
       data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       // resume task
-      keyListener = 0;
+      keyListener = 0; sectionType = "mainTask";
       countDown(3);
     }
   });
@@ -184,6 +184,6 @@ function endOfExperiment(){
     // close the experiment window
     JavaScript:window.close();
   } catch (e) {
-    alert("Data upload failed. Did you close the previous window?");
+    alert("Data upload failed. Did you close the previous screen?");
   }
 }
