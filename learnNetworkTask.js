@@ -159,6 +159,7 @@ function learnNetworkTask(){
   function blockBreak(){
     sectionType = "blockBreak";
     sectionStart = new Date().getTime() - runStart;
+    keyListener = 0; //else keylistener stays = 1 till below runs
     setTimeout(function(){keyListener = 7},2000);
 
     // display break screen (With timer)

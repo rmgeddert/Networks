@@ -57,34 +57,34 @@ function oddOneOutTest() {
     respOnset = new Date().getTime() - runStart;
     if (respOnset - stimOnset < 500) {
 
-      earlyButtonPressCounter++;
-      if (earlyButtonPressCounter >= 2 && spamEvent == false) {
-        spamEvent = true;
-        spamEventCounter++;
-        console.log("spamEvent");
-      }
-      if (spamEventCounter >= 3) { //three consecutive spamming events
-        console.log("stop spamming button presses");
-        // prompt stop spamming
-      }
+      // earlyButtonPressCounter++;
+      // if (earlyButtonPressCounter >= 2 && spamEvent == false) {
+      //   spamEvent = true;
+      //   spamEventCounter++;
+      //   console.log("spamEvent");
+      // }
+      // if (spamEventCounter >= 3) { //three consecutive spamming events
+      //   console.log("stop spamming button presses");
+      //   // prompt stop spamming
+      // }
 
     } else {
-      if (spamEvent == false) {
-        spamEventCounter = 0;
-      }
-      // reset spam counters
-      spamEvent = false;
-      earlyButtonPressCounter = 0;
-      if (index == prevResponse) {
-        pressedSameButtonCounter++;
-      } else {
-        pressedSameButtonCounter = 0;
-      }
-      if (pressedSameButtonCounter >= 10) {
-
-        console.log("Stop pressing the same button over and over");
-        // prompt stop pressing same response over and over
-      } else {
+      // if (spamEvent == false) {
+      //   spamEventCounter = 0;
+      // }
+      // // reset spam counters
+      // spamEvent = false;
+      // earlyButtonPressCounter = 0;
+      // if (index == prevResponse) {
+      //   pressedSameButtonCounter++;
+      // } else {
+      //   pressedSameButtonCounter = 0;
+      // }
+      // if (pressedSameButtonCounter >= 10) {
+      //
+      //   console.log("Stop pressing the same button over and over");
+      //   // prompt stop pressing same response over and over
+      // } else {
         acc = (currentNodeSet.indexer[index] == 1) ? 1 : 0;
         respOnset = new Date().getTime() - runStart;
         respTime = respOnset - stimOnset;
@@ -105,7 +105,7 @@ function oddOneOutTest() {
           // navigateInstructionPath();
           endOfExperiment();
         }
-      }
+      // }
     }
   }
 
