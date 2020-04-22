@@ -2,20 +2,20 @@
 
 // for testing
 let testMode = false;
-let speed = "fast"; //fast, normal
+let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let fractalsNeeded = 11; //defined by network structure
-let stimInterval = (speed == "fast") ? 500 : 1500; //2000
+let stimInterval = (speed == "fast") ? 50 : 1500; //2000
 let nTrials = 600; //number of trials during random walk
 let numBlocks = 6; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
 // vars for network tasks
-let activeNode, taskNetwork = new Network(), showNetworkWalk = true;
+let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
 let imageIsRotated, proportionRotated = 0.3;
 
 //initialize global task variables
