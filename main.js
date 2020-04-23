@@ -123,6 +123,7 @@ $(document).ready(function(){
       keyListener = 0;
       countDown(3);
     } else if (keyListener == 5) { //press button to start task (instructions)
+      keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
       data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
@@ -131,6 +132,7 @@ $(document).ready(function(){
       keyListener = 0;
       experimentFlow();
     } else if (keyListener == 6) { //navigates from task feedback to instructions (handles repeats)
+      keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
       data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
@@ -138,6 +140,7 @@ $(document).ready(function(){
       // go to instructions
       navigateInstructionPath(repeatNecessary);
     } else if (keyListener == 7) { //block break screen
+      keyListener = 0;
       clearInterval(sectionTimer);
       // increment block for next time
       block++;
