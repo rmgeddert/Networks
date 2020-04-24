@@ -2,7 +2,6 @@ function learnOrientationsTask(){
   // declare and set task variables
   sectionType = "pracTask";
   taskName = "learnOrientationsTask";
-  let nCorrectResponsesNeeded = 4;
   let mistakeAlreadyMade = false;
   let correctImageDOM = document.getElementById("correctImage");
   let rotatedImageDOM = document.getElementById("rotatedImage");
@@ -12,7 +11,7 @@ function learnOrientationsTask(){
   $("#orientationPracticeDiv").show();
 
   // set up queue for fractals
-  pictureQueue = new Array(nCorrectResponsesNeeded).fill(selectedImages).flat();
+  pictureQueue = new Array(orientationCorrRespNeeded).fill(selectedImages).flat();
 
   // set up click event listener for  correct image
   $("#correctImage").click(function(){
@@ -21,7 +20,7 @@ function learnOrientationsTask(){
     if (respTime > 500) {
       // update data logger
       acc = (mistakeAlreadyMade) ? 0 : 1;
-      data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, NaN, NaN, NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
+      data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, NaN, NaN, fileOnly(pictureQueue[0].src), NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
       console.log(data);
 
       //remove item from queue once correct is clicked

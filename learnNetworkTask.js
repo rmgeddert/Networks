@@ -85,7 +85,6 @@ function learnNetworkTask(){
 
       } else {
         breakOn = false;
-        // potential check for keypress still being held down here
         runTrial();
       }
     } else {
@@ -97,19 +96,26 @@ function learnNetworkTask(){
   }
 
   function runTrial(){
-    // see if image is rotated
-    imageIsRotated = Math.random() < proportionRotated;
+    // check if key is being held down going into trial
+    if (keyListener == 2 || keyListener == 3) {
 
-    // display network and fractal
-    if (showNetworkWalk == true) {drawNetwork();}
-    displayFractal();
+      promptLetGo();
 
-    // set up for response
-    stimOnset = new Date().getTime() - runStart;
-    keyListener = 1, respTime = NaN, partResp = NaN, respOnset = NaN, acc = 0;
+    } else {
+      // see if image is rotated
+      imageIsRotated = Math.random() < proportionRotated;
 
-    // go to next trial after delay
-    setTimeout(transitionToNextNode, stimInterval);
+      // display network and fractal
+      if (showNetworkWalk == true) {drawNetwork();}
+      displayFractal();
+
+      // set up for response
+      stimOnset = new Date().getTime() - runStart;
+      keyListener = 1, respTime = NaN, partResp = NaN, respOnset = NaN, acc = 0;
+
+      // go to next trial after delay
+      setTimeout(transitionToNextNode, stimInterval);
+    }
   }
 
   function transitionToNextNode(){
@@ -120,7 +126,7 @@ function learnNetworkTask(){
     }
 
     // log data from previous trial
-    data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, partResp, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, fileOnly(activeNode.img.src), partResp, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
     console.log(data);
 
     // reset old and activate new node
@@ -163,8 +169,8 @@ function learnNetworkTask(){
     setTimeout(function(){keyListener = 7},2000);
 
     // display break screen (With timer)
-    drawBreakScreen("03","00");
-    blockBreakFunction(3,0);
+    drawBreakScreen("05","00");
+    blockBreakFunction(5,0);
 
     function blockBreakFunction(minutes, seconds){
       let time = minutes*60 + seconds;
@@ -191,7 +197,7 @@ function learnNetworkTask(){
       // display miniblock text
       frCtx.fillStyle = "black";
       frCtx.font = "25px Arial";
-      frCtx.fillText("This is a short break. Please don't pause for more than 3 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
+      frCtx.fillText("This is a short break. Please don't pause for more than 5 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
       frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2);
       frCtx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",frCanvas.width/2,frCanvas.height/2+50);
       frCtx.font = "bold 25px Arial";

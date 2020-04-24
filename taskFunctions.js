@@ -1,11 +1,12 @@
 let screenSizePromptCount = 0, numScreenSizeWarnings = 2;
-function countDown(seconds){
+function countDown(seconds, cdSpeed = "normal"){
+  let timePerCycle = (cdSpeed == "fast") ? 500 : 1000;
   frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
   frCtx.fillStyle = "black";
   frCtx.font = "bold 60px Arial";
   if (seconds > 0){
     frCtx.fillText(seconds,frCanvas.width/2,frCanvas.height/2)
-    setTimeout(function(){countDown(seconds - 1)},1000);
+    setTimeout(function(){countDown(seconds - 1, cdSpeed)},timePerCycle);
   } else {
     taskFunc();
   }
@@ -18,16 +19,24 @@ function shuffle(array){
 }
 
 function promptLetGo(){
-  keyListener = 4;
+  keyListener = 0;
+  setTimeout(function(){keyListener = 4},1000);
 
   //prepare canvas
   frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
-  frCtx.fillStyle = "black";
-  frCtx.font = "30px Arial";
 
   // show warning
+  frCtx.fillStyle = "black";
+  frCtx.font = "30px Arial";
   frCtx.fillText("Please release key",frCanvas.width/2,frCanvas.height/2);
   frCtx.fillText("immediately after responding.",frCanvas.width/2,frCanvas.height/2 + 30);
+
+  frCtx.font = "bold 25px Arial";
+  frCtx.fillText("Press any button to resume.",frCanvas.width/2,frCanvas.height/2 + 150);
+
+  frCtx.fillStyle = "red";
+  frCtx.font = "bold 30px Arial";
+  frCtx.fillText("Can't initiate trial if a key is held down.",frCanvas.width/2,frCanvas.height/2 - 100);
 }
 
 // code for checking screen size
@@ -87,4 +96,8 @@ function promptScreenSize(){
     frCtx.fillText("Please refresh the page to restart the experiment.",myCanvas.width/2,(myCanvas.height/2)+100);
 
   }
+}
+
+function fileOnly(strSRC){
+  return strSRC.match(/[^\\/:*?"<>|\r\n]+$/g)[0];
 }

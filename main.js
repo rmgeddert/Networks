@@ -9,9 +9,10 @@ let openerNeeded = false; //true
 
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let fractalsNeeded = 11; //defined by network structure
+let orientationCorrRespNeeded = 5;
 let stimInterval = (speed == "fast") ? 50 : 1500; //2000
-let nTrials = 600; //number of trials during random walk
-let numBlocks = 6; //number of blocks to divide nTrials into
+let nTrials = 1000; //number of trials during random walk
+let numBlocks = 5; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
 // vars for network tasks
@@ -119,14 +120,14 @@ $(document).ready(function(){
       keyListener = 0;
     } else if (keyListener == 3) { //resets bad press to 0
       keyListener = 0;
-    } else if (keyListener == 4) { //too slow
+    } else if (keyListener == 4) { //didn't let go
       keyListener = 0;
-      countDown(3);
+      countDown(3, "fast");
     } else if (keyListener == 5) { //press button to start task (instructions)
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       // go to next experiment
       keyListener = 0;
@@ -135,7 +136,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       // go to instructions
       navigateInstructionPath(repeatNecessary);
@@ -146,7 +147,7 @@ $(document).ready(function(){
       block++;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
       console.log(data);
       // resume task
       keyListener = 0; sectionType = "mainTask";

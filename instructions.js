@@ -102,7 +102,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Click on the image that is rotated correctly. If you make a mistake, you will be prompted to 'Try Again' until you respond correctly.";
         case 3:
-          return "You will keep going until you have correctly identified each image 4 times.";
+          return "You will keep going until you have correctly identified each image " + orientationCorrRespNeeded + " times.";
         case 4:
           return "At first you may just be guessing, but try and pay attention to what each image looks like so you can remember the correct orientation.";
       }
@@ -135,7 +135,7 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "Press 'Z' with your left hand index finger if the image " + getKeyMappingText(2);
         case 4:
-          return "This task will take approximately 15 minutes, and you will have periodic short breaks. Remember to respond on each image as quickly and accurately as possible.";
+          return "This task will take approximately 15 minutes, and you will have periodic short breaks. Remember to respond to each image as quickly and accurately as possible.";
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
@@ -233,7 +233,7 @@ function runInstructions(){
   $(document).on('click', '#startExpButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart])
+    data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart])
     console.log(data);
 
     $('#instructionsDiv').hide();
@@ -250,7 +250,7 @@ function runInstructions(){
   $(document).on('click', '#nextSectionButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart])
+    data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart])
     console.log(data);
 
     // clear all button press listeners

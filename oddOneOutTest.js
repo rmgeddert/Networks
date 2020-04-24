@@ -91,7 +91,7 @@ function oddOneOutTest() {
 
         // log data
         // data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, NaN, NaN, NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
-        data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, acc, NaN, respOnset, respTime, NaN, NaN, NaN]);
+        data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, NaN, acc, NaN, respOnset, respTime, NaN, NaN, NaN]);
         console.log(data);
 
         if (nodeSetIterator < mainTaskArr.length - 1) {
