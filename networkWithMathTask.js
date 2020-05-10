@@ -1,6 +1,10 @@
 function networkWithMathTask() {
-  console.log("I ran");
-  let timerObj;
+  let timerObj, mathProblem, easyCounter = 0, difficultCounter = 0;
+  let chanceOfMathProblem = 0.9;
+
+  // data logging vars
+  sectionType = "mainTask";
+  taskName = "networkWithMathTask";
 
   // hide instructions
   $('#instructionsDiv').hide();
@@ -10,108 +14,119 @@ function networkWithMathTask() {
   if (showNetworkWalk == true) {ntCanvas.style.display = "inline-block";}
   $(".canvasas").show();
 
+  // clear node visitCounts from learn network task
+  taskNetwork.nodes.forEach(node => node.visitCount = 0);
+
   // set up first active node
   activeNode = _.sample(taskNetwork.nodes,1)[0];
   activeNode.activate();
 
-  // set taskFunc so countdown goes to right task
+  // set taskFunc so countdown() goes to right task
   taskFunc = taskFlow;
 
   // set up submit button for math problem
-  $("#mathSubmit").click(function(){
-    let resp = document.getElementById("mathInput").value;
-    if (resp === "") { //no resp
+  $("#mathSubmit2").hide();
+  $("#mathSubmit1").click(function(){
+    console.log("math task submit");
+    partResp = document.getElementById("mathInput").value;
+    if (partResp == "") { //no resp
       window.alert("Please enter your answer.")
     } else {
-      let respIsOK = /^\d+(\.\d+)?$/.test(resp); //checks for integer with or without decimal
+      let respIsOK = /^\d+(\.\d+)?$/.test(partResp); //checks for integer with or without decimal
       if (respIsOK) {
         $("#mathTask").hide();
         clearTimeout(timerObj);
-        processResponse(resp);
+        processResponse();
       } else {
-        window.alert("Invalid response. Answer must be a number in the form '###' or '###.###'. Letters [A-Z] and special charachters [!@#$%^&*()] are not allowed.")
+        partResp = NaN;
+        window.alert("Invalid response. Answer must be a whole number in the form '###'. Letters [A-Z] and special charachters [!@#$%^&*()] are not allowed.")
       }
     }
   });
 
+  // shuffle mathDict
+  shuffle(mathDict.easy)
+  shuffle(mathDict.difficult)
+
   // start task after countdown
-  countDown(1);
+  countDown(3);
 
   function taskFlow(){
-    // need to add block breaks in here still
-    if (trialCount < nTrials) {
-
+    if (trialCount < mathTaskTrials) {
+      respTime = NaN, partResp = NaN, respOnset = NaN, acc = 0;
       runTrial();
-
     } else {
       // end of experiment code
-      taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
+      taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)});
+      // clear previous math listener
+      $(document).off("click","#mathSubmit");
       navigateInstructionPath();
     }
   }
 
   function runTrial(){
-
     // display network and fractal
     if (showNetworkWalk == true) {drawNetwork();}
     displayFractal();
-    console.log("----",activeNode.name,"----");
-    console.log("Associated with task: ",activeNode.associatedWithTask);
+    stimOnset = new Date().getTime() - runStart;
+
     let rand = Math.random();
-    if (activeNode.associatedWithTask) {
-      console.log(`Math.random() = ${rand}`);
-      console.log("Greater than cutoff 0.1 = ",rand>0.1);
-    }
-
     if (testMode) {
-
       setTimeout(transitionToNextNode, 50);
-
     } else {
-      if (activeNode.associatedWithTask == true & rand > 0.1) {
-
-          console.log("Displaying math problem...");
-          console.log(activeNode.community);
-          // show math problem after 1000 ms
-          setTimeout(showMathProblem, 500);
-
+      if (activeNode.associatedWithTask && rand < chanceOfMathProblem) {
+        // show math problem after 1000 ms
+        setTimeout(showMathProblem, 1500);
       } else {
-
-        console.log("Moving to next....");
-        // go to next trial after delay
-        setTimeout(transitionToNextNode, 1000);
-
+        setTimeout(noGoTrial, 1500);
       }
     }
   }
 
-  function showMathProblem(){
+  function noGoTrial(){
+    // log data
+    trialType = "noGoTrial";
+    data.push([sectionType, NaN, taskName, trialType, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.associatedWithTask, fileOnly(activeNode.img.src), NaN, partResp, NaN, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    console.log(data);
 
+    transitionToNextNode();
+  }
+
+  function showMathProblem(){
     // clear old response
     $("#mathInput").val("");
 
-    // show problem based on difficulty
-    let txt = (activeNode.community == "easy") ? "2+2" : "12 x 7";
+    // start timer
+    stimOnset = new Date().getTime() - runStart;
+
+    // select next problem based on difficulty
+    mathProblem = mathDict[activeNode.community].shift(); //remove 1st element
+    // increment counters that determine end of task
+    if (activeNode.community == "easy") {
+      easyCounter++;
+    } else {
+      difficultCounter++;
+    }
+    let txt = mathProblem[0];
 
     // draw white background to make text easier to ready
     frCtx.fillStyle = "white";
     frCtx.globalAlpha = 0.9;
-    let mt = frCtx.measureText(txt);
-    frCtx.fillRect(frCanvas.width/2 - mt.width/2 - 10,
-      frCanvas.height/2 - 55, mt.width + 20, 80);
+    frCtx.fillRect(frCanvas.width/2 - 90,
+      frCanvas.height/2 - 40, 180, 70);
     frCtx.globalAlpha = 1.0;
 
     // draw math problem
     frCtx.textAlign = "center";
     frCtx.fillStyle = "red";
     frCtx.font = "bold 50px Arial";
-    frCtx.fillText(txt, frCanvas.width/2,frCanvas.height/2 + 5)
+    frCtx.fillText(txt, frCanvas.width/2,frCanvas.height/2)
 
     // display response input box
     $("#mathTask").show();
 
     // start timer for problem
-    countDownTimer(10);
+    countDownTimer(20);
   }
 
   function countDownTimer(seconds){
@@ -128,25 +143,38 @@ function networkWithMathTask() {
       timerObj = setTimeout(function(){countDownTimer(seconds - 1)},1000);
 
     } else {
+      // participant didn't respond
+      partResp = NaN;
+      trialType = "mathProblem";
+      data.push([sectionType, NaN, taskName, trialType, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.associatedWithTask, fileOnly(activeNode.img.src), NaN, partResp, acc, NaN, NaN, mathProblem[0], mathProblem[1], stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      console.log(data);
 
+      // procede to next
       $("#mathTask").hide();
       transitionToNextNode();
-
     }
   }
 
-  function processResponse(value){
+  function processResponse(){
+    // set variables for data logger
+    acc = (partResp == mathProblem[1]) ? 1 : 0;
+    respOnset = new Date().getTime() - runStart;
+    respTime = respOnset - stimOnset;
+    trialType = "mathProblem";
+
+    // log data
+    data.push([sectionType, NaN, taskName, trialType, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.associatedWithTask, fileOnly(activeNode.img.src), NaN, partResp, acc, NaN, NaN, mathProblem[0], mathProblem[1], stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    console.log(data);
+
     transitionToNextNode();
   }
 
   function displayFractal(){
-
     // clear canvas
     frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
 
     // display fractal
     frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
-
   }
 
   function transitionToNextNode(){
@@ -154,16 +182,64 @@ function networkWithMathTask() {
     activeNode.reset();
 
     // sample a random new neighbor to become new active node
-    activeNode = _.sample(activeNode.neighbors,1)[0];
+    // activeNode = _.sample(activeNode.neighbors,1)[0];
+    activeNode = sampleNeighbors(activeNode.neighbors);
 
     //set graph drawing info for new active node
     activeNode.activate();
 
     // iterate trial count
     trialCount++;
+    blockTrialCount++;
 
     // return to taskFlow func
     taskFlow();
+  }
+
+  function sampleNeighbors(neighborsArr){
+    // console.log("neighborsArr: ", neighborsArr);
+    // create visit count arr
+    let visitCountArr = [];
+    for (let i = 0; i < neighborsArr.length; i++) {
+      visitCountArr.push(neighborsArr[i].visitCount);
+    }
+    // console.log("visitCountArr: ", visitCountArr);
+
+    // get unique visit counts
+    let uniqueVisitCounts = visitCountArr.filter((v, i, a) => a.indexOf(v) === i);
+    uniqueVisitCounts.sort((a,b)=>a-b);
+    uniqueVisitCounts.reverse();
+    // console.log("uniqueVisitCounts: ", uniqueVisitCounts);
+
+    // assign rankings
+    let visitCountRankings = {};
+    for (let i = 0; i < uniqueVisitCounts.length; i++) {
+      visitCountRankings[uniqueVisitCounts[i]] = i + 1; //0th index (highest value) gets rank 1
+    }
+    // console.log("visitCountRankings: ", visitCountRankings);
+
+    // assign rankings to nodes based on visitCount
+    let nodeRankings = {};
+    for (let i = 0; i < neighborsArr.length; i++) {
+      let node = neighborsArr[i];
+      nodeRankings[node.name] = visitCountRankings[node.visitCount];
+    }
+    // console.log("nodeRankings: ", nodeRankings);
+
+    // calculate softmax probability for each node
+    let sumExp = 0;
+    Object.values(nodeRankings).forEach(r => sumExp += Math.exp(r));
+    // softmax
+    let nodeProbabilities = {};
+    Object.keys(nodeRankings).forEach(
+      n => nodeProbabilities[n] = Math.exp(nodeRankings[n]) / sumExp
+    );
+    // console.log("nodeProbabilities: ", nodeProbabilities);
+
+    // now sample from neighbors based on their probability
+    let probabilitiesArr = [];
+    neighborsArr.forEach(n => probabilitiesArr.push(nodeProbabilities[n.name]))
+    return multinomialSample(neighborsArr, probabilitiesArr);
   }
 
   function drawNetwork(){
@@ -188,5 +264,4 @@ function networkWithMathTask() {
       ntCtx.fill();
     });
   }
-
 }

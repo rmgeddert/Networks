@@ -38,72 +38,43 @@ function oddOneOutTest() {
 
   // set listener function of image clicks
   $("#OO_image1").click(function(){
-    processImageClick(0);
-  })
-
-  $("#OO_image2").click(function(){
     processImageClick(1);
   })
 
-  $("#OO_image3").click(function(){
+  $("#OO_image2").click(function(){
     processImageClick(2);
+  })
+
+  $("#OO_image3").click(function(){
+    processImageClick(3);
   })
 
   // start by displaying first node set
   displayNodeSet(currentNodeSet);
 
   // FUNCTIONS:
-  function processImageClick(index){
+  function processImageClick(imageNum){
     respOnset = new Date().getTime() - runStart;
-    if (respOnset - stimOnset < 500) {
-
-      // earlyButtonPressCounter++;
-      // if (earlyButtonPressCounter >= 2 && spamEvent == false) {
-      //   spamEvent = true;
-      //   spamEventCounter++;
-      //   console.log("spamEvent");
-      // }
-      // if (spamEventCounter >= 3) { //three consecutive spamming events
-      //   console.log("stop spamming button presses");
-      //   // prompt stop spamming
-      // }
-
-    } else {
-      // if (spamEvent == false) {
-      //   spamEventCounter = 0;
-      // }
-      // // reset spam counters
-      // spamEvent = false;
-      // earlyButtonPressCounter = 0;
-      // if (index == prevResponse) {
-      //   pressedSameButtonCounter++;
-      // } else {
-      //   pressedSameButtonCounter = 0;
-      // }
-      // if (pressedSameButtonCounter >= 10) {
-      //
-      //   console.log("Stop pressing the same button over and over");
-      //   // prompt stop pressing same response over and over
-      // } else {
-        acc = (currentNodeSet.indexer[index] == 1) ? 1 : 0;
+    if (respOnset - stimOnset > 500) {
+        acc = (currentNodeSet.indexer[imageNum - 0] == 1) ? 1 : 0;
+        partResp = imageNum;
         respOnset = new Date().getTime() - runStart;
         respTime = respOnset - stimOnset;
 
         // log data
-        // data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, NaN, NaN, NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
-        data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, NaN, acc, NaN, respOnset, respTime, NaN, NaN, NaN]);
+        data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, partResp, acc, imageNum, currentNodeSet.indexer[imageNum - 0], NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
         console.log(data);
 
         if (nodeSetIterator < mainTaskArr.length - 1) {
-          prevResponse = index;
+          prevResponse = imageNum;
           nodeSetIterator++;
           currentNodeSet = mainTaskArr[nodeSetIterator];
           displayNodeSet(currentNodeSet);
         } else {
           // end of experiment, proceed to next instructions
           $("#oddOneOutTaskDiv").hide();
-          // navigateInstructionPath();
-          endOfExperiment();
+          navigateInstructionPath();
+          // endOfExperiment();
         }
       // }
     }
@@ -119,6 +90,7 @@ function oddOneOutTest() {
   }
 
   function shuffleNodeSets(){
+    // shuffling function for oddoneout task
     // shuffle node sets so there are no repeats in images
     let newArr = [];
     let baseArr = shuffle($.extend(true,[],taskNodeSets)); //copy taskNodeSets into new variable (shuffled)
@@ -178,9 +150,9 @@ function oddOneOutTest() {
     // for testing algorithmic efficiency
     // logs how many iterations algorithm takes to find solution
     let nTests = 1000;
-    let algorithmicCap = 1000; //after testing 100,000 iterations of algorithm, max was 148 attempts to find solution
+    let algorithmicCap = 10000; //after testing 100,000 iterations of algorithm, max was 148 attempts to find solution
     let iterations = {
-      "No Solution (500 attempts)": 0
+      "No Solution (10000 attempts)": 0
     };
     for (var j = 1; j < nTests; j++) {
       let iterationCount = getIterationCount();
@@ -229,7 +201,7 @@ function oddOneOutTest() {
             return (nodeSetsBatch.length == 0) ? false : nodeSetsBatch.some(ns => oppCommSelection.every(n => ns.nodes.includes(n)));
           }
 
-          // create nodeSet node array and indexer (which one is odd one)
+          // create nodeSet node array and indexer (identify which node is oddOneOut)
           let nodeSetArr = oppCommSelection;
           nodeSetArr.splice(i, 0, node);
           let oddOneIndexer = [0,0];

@@ -10,9 +10,10 @@ let openerNeeded = false; //true
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let fractalsNeeded = 11; //defined by network structure
 let orientationCorrRespNeeded = 5;
-let stimInterval = (speed == "fast") ? 50 : 1500; //2000
-let nTrials = 1000; //number of trials during random walk
-let numBlocks = 5; //number of blocks to divide nTrials into
+let stimInterval = (speed == "fast") ? 5 : 1500; //2000
+let nTrials = 600; //number of trials during random walk
+let mathTaskTrials = 100;
+let numBlocks = 1; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
 // vars for network tasks
@@ -25,7 +26,7 @@ let frCanvas, frCtx, ntCanvas, ntCtx; //fractal and network canvas
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //skip practice or not
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
-let sectionStart, sectionEnd, sectionType, taskName, sectionTimer;
+let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType;
 let mistakeSound = new Audio('sounds/mistakeSoundShort.m4a');
 let keyListener = 0;
 /*  keyListener explanations:
@@ -65,10 +66,10 @@ function experimentFlow(){
     learnNetworkTask();
   } else if (expStage.indexOf("main2") != -1){
     oddOneOutTest();
-  // } else if (expStage.indexOf("main3") != -1){
-  //   networkWithMathTask();
-  // } else if (expStage.indexOf("main4") != -1){
-  //   fractalPreferenceTask();
+  } else if (expStage.indexOf("main3") != -1){
+    networkWithMathTask();
+  } else if (expStage.indexOf("main4") != -1){
+    fractalPreferenceTask();
   } else {
     endOfExperiment();
   }
@@ -127,7 +128,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
       // go to next experiment
       keyListener = 0;
@@ -136,7 +137,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([sectionType, NaN, taskName, NaN, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
       // go to instructions
       navigateInstructionPath(repeatNecessary);
@@ -147,7 +148,7 @@ $(document).ready(function(){
       block++;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+      data.push([sectionType, NaN, taskName, NaN, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
       // resume task
       keyListener = 0; sectionType = "mainTask";
@@ -162,15 +163,13 @@ $(document).ready(function(){
     // start experiment
     runStart = new Date().getTime();
     setUpNetwork();
+    // learnNetworkTask();
     runInstructions();
+    // fractalPreferenceTask();
     // oddOneOutTest();
     // networkWithMathTask();
   }
 });
-
-function randIntFromInterval(min, max) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 function promptMenuClosed(){
   $('.MenuClosedPrompt').show();
@@ -191,3 +190,34 @@ function endOfExperiment(){
     alert("Data upload failed. Did you close the previous screen?");
   }
 }
+
+function randIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function multinomialSample(sampleArr, probArr){
+  // build probability integer var
+  let sampleProbs = [];
+  let probability = 0;
+  for (let i = 0; i < sampleArr.length; i++) {
+    probability += probArr[i];
+    sampleProbs.push(probability);
+  }
+
+  // get random number, use to grab value
+  let randNumber = Math.random();
+  for (let i = 0; i < sampleProbs.length; i++) {
+    if (randNumber > sampleProbs[i]) {
+      continue;
+    } else {
+      return sampleArr[i];
+    }
+  }
+}
+
+// // testing multinomialSample function
+// let testingVar = {1:0,2:0,3:0,4:0}
+// for (var i = 0; i < 10000; i++) {
+//   testingVar[multinomialSample([1,2,3,4],[0.2,0.4,0.3,0.1])]++;
+// }
+// console.log(testingVar);

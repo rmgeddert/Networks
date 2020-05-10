@@ -20,7 +20,7 @@ function learnOrientationsTask(){
     if (respTime > 500) {
       // update data logger
       acc = (mistakeAlreadyMade) ? 0 : 1;
-      data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, NaN, NaN, fileOnly(pictureQueue[0].src), NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
+      data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, NaN, NaN, NaN, NaN, fileOnly(pictureQueue[0].src), NaN, NaN, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
 
       //remove item from queue once correct is clicked

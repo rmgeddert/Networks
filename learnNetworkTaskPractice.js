@@ -91,7 +91,7 @@ function learnNetworkTaskPractice(){
 
   function transitionFunction(){
     // log data from previous trial
-    data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, NaN, NaN, fileOnly(taskImages[imageIterator].src), partResp, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, NaN, NaN, NaN, NaN, fileOnly(taskImages[imageIterator].src), imageIsRotated ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // check if participant responded in time

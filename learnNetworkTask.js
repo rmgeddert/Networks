@@ -89,7 +89,7 @@ function learnNetworkTask(){
       }
     } else {
       // end of experiment code
-      // taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
+      taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
       breakOn = false;
       navigateInstructionPath();
     }
@@ -126,7 +126,7 @@ function learnNetworkTask(){
     }
 
     // log data from previous trial
-    data.push([sectionType, NaN, taskName, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, fileOnly(activeNode.img.src), partResp, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, NaN, NaN,  fileOnly(activeNode.img.src), imageIsRotated ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // reset old and activate new node
@@ -169,8 +169,8 @@ function learnNetworkTask(){
     setTimeout(function(){keyListener = 7},2000);
 
     // display break screen (With timer)
-    drawBreakScreen("05","00");
-    blockBreakFunction(5,0);
+    drawBreakScreen("03","00");
+    blockBreakFunction(3,0);
 
     function blockBreakFunction(minutes, seconds){
       let time = minutes*60 + seconds;
@@ -197,7 +197,7 @@ function learnNetworkTask(){
       // display miniblock text
       frCtx.fillStyle = "black";
       frCtx.font = "25px Arial";
-      frCtx.fillText("This is a short break. Please don't pause for more than 5 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
+      frCtx.fillText("This is a short break. Please don't pause for more than 3 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
       frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2);
       frCtx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",frCanvas.width/2,frCanvas.height/2+50);
       frCtx.font = "bold 25px Arial";
