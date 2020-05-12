@@ -52,9 +52,15 @@ function fractalPreferenceTask(){
   let nodePairs = [[1,7], [1,8], [2,7], [2,8], [3,9], [4,9], [5,9], [3,10], [4,10], [5,10], [3,11], [4,11], [5,11]];
 
   // shuffle nodePairs to meet requirements
+  for (var i = 0; i < 100; i++) {
+    mainTaskArr = shuffleNodeSets();
+    console.log($.extend(true,[],mainTaskArr));
+  }
   while (mainTaskArr.length == 0){
     mainTaskArr = shuffleNodeSets();
   }
+  console.log("Main Task Arr");
+  console.log(mainTaskArr);
 
   // set first trial
   let currentNodeSet = mainTaskArr[iterator];
@@ -218,19 +224,31 @@ function fractalPreferenceTask(){
     let baseArr = shuffle($.extend(true,[],nodePairs))
 
     // subset of nodePairs that are paired
-    let pairedNodeSets = nodePairs.filter(nodePairs => nodePairs.some(node => ![1,2,7,8].includes(node)));
+    let pairedNodeSets = baseArr.filter(np => np.some(node => ![1,2,7,8].includes(node)));
+    // console.log($.extend(true,[],pairedNodeSets));
 
     // --- TRIAL 1 --- //
     let nextNodeSet = _.sample(pairedNodeSets,1)[0];
+    // console.log("Chosen:");
+    // console.log($.extend(true,[],nextNodeSet));
     newArr.push(nextNodeSet);
+    // console.log($.extend(true,[],newArr));
     baseArr.splice(baseArr.indexOf(nextNodeSet),1);
     pairedNodeSets.splice(pairedNodeSets.indexOf(nextNodeSet),1);
+    // console.log("baseArr after splice");
+    // console.log($.extend(true,[],baseArr));
 
     // --- TRIAL 2 --- //
-    nextPairedSet = pairedNodeSets.filter(nodeSets => !nodeSets.some(node => newArr[newArr.length-1].includes(node)));
+    nextPairedSet = pairedNodeSets.filter(pns => !pns.some(node => newArr[newArr.length-1].includes(node)));
+    // console.log("Next set of paired:");
+    // console.log($.extend(true,[],nextPairedSet));
     nextNodeSet = _.sample(nextPairedSet,1)[0];
+    // console.log("Chosen:");
+    // console.log($.extend(true,[],nextNodeSet));
     newArr.push(nextNodeSet);
     baseArr.splice(baseArr.indexOf(nextNodeSet),1)
+    // console.log("baseArr after two splices");
+    // console.log($.extend(true,[],baseArr));
 
     // repeat but this time with baseArr instead
     while (baseArr.length > 0) {
@@ -248,7 +266,7 @@ function fractalPreferenceTask(){
     function getNextNodeSet(){
       let lastNodeSet = newArr[newArr.length - 1];
       // filter array to nodes that don't repeat previous nodeset
-      let filteredArr = baseArr.filter(nodeSet => !nodeSet.some(node => lastNodeSet.includes(node)));
+      let filteredArr = baseArr.filter(np => !np.some(node => lastNodeSet.includes(node)));
 
       if (filteredArr.length == 0) {
 
