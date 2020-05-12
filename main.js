@@ -13,7 +13,7 @@ let orientationCorrRespNeeded = 5;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let nTrials = 600; //number of trials during random walk
 let mathTaskTrials = 100;
-let numBlocks = 1; //number of blocks to divide nTrials into
+let numBlocks = 5; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 80; // 70 acc%
 
 // vars for network tasks

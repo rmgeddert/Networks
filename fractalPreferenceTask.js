@@ -142,7 +142,8 @@ function fractalPreferenceTask(){
       displayNodePair(currentNodeSet);
     } else {
       // end of task
-      navigateInstructionPath();
+      // navigateInstructionPath();
+      endOfExperiment();
     }
   }
 
