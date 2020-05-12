@@ -52,15 +52,15 @@ function fractalPreferenceTask(){
   let nodePairs = [[1,7], [1,8], [2,7], [2,8], [3,9], [4,9], [5,9], [3,10], [4,10], [5,10], [3,11], [4,11], [5,11]];
 
   // shuffle nodePairs to meet requirements
-  for (var i = 0; i < 100; i++) {
-    mainTaskArr = shuffleNodeSets();
-    console.log($.extend(true,[],mainTaskArr));
-  }
+  // for (var i = 0; i < 100; i++) {
+  //   mainTaskArr = shuffleNodeSets();
+  //   console.log($.extend(true,[],mainTaskArr));
+  // }
   while (mainTaskArr.length == 0){
     mainTaskArr = shuffleNodeSets();
   }
-  console.log("Main Task Arr");
-  console.log(mainTaskArr);
+  // console.log("Main Task Arr");
+  // console.log(mainTaskArr);
 
   // set first trial
   let currentNodeSet = mainTaskArr[iterator];
