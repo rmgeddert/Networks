@@ -62,7 +62,7 @@ function oddOneOutTest() {
         respTime = respOnset - stimOnset;
 
         // log data
-        data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, partResp, acc, imageNum, currentNodeSet.indexer[imageNum - 0], NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+        data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, partResp, acc, imageNum, currentNodeSet.indexer[imageNum - 1], NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
         console.log(data);
 
         if (nodeSetIterator < mainTaskArr.length - 1) {
