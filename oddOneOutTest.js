@@ -15,6 +15,7 @@ function oddOneOutTest() {
       break;
     }
   }
+  console.log(mainTaskArr);
 
   // set section type
   sectionType = "mainTask";
@@ -179,7 +180,7 @@ function oddOneOutTest() {
   function createNodeSetArr(){
     // create node sets for task
     taskNetwork.nodes.forEach((node) => {
-      if (node.name != "Node6") { //dont consider center node
+      // if (node.name != "Node6") { //dont consider center node
         let nodeSetsBatch = [];
         for (let i = 0; i < 3; i++) { //do three times
           // object for node set
@@ -217,7 +218,7 @@ function oddOneOutTest() {
 
         // add node set to task set
         taskNodeSets = taskNodeSets.concat(nodeSetsBatch);
-      }
+      // }
     });
   }
 }

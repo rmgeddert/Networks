@@ -49,7 +49,7 @@ function fractalPreferenceTask(){
 
   // set up task
   let mainTaskArr = [], iterator = 0;
-  let nodePairs = [[1,7], [1,8], [2,7], [2,8], [3,9], [4,9], [5,9], [3,10], [4,10], [5,10], [3,11], [4,11], [5,11]];
+  let nodePairs = [[1,7], [1,8], [2,7], [2,8], [3,6], [3,9], [3,10], [4,6], [4,9], [4,10], [5,6], [5,9], [5,10]];
 
   // shuffle nodePairs to meet requirements
   // for (var i = 0; i < 100; i++) {

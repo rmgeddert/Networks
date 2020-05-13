@@ -8,7 +8,7 @@ let skipPractice = false; // <- turn practice blocks on or off
 let openerNeeded = false; //true
 
 // ----- Experiment Paramenters (CHANGE ME) ----- //
-let fractalsNeeded = 11; //defined by network structure
+let fractalsNeeded = 10; //defined by network structure
 let orientationCorrRespNeeded = 5;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let nTrials = 600; //number of trials during random walk
@@ -17,7 +17,7 @@ let numBlocks = 5; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 80; // 70 acc%
 
 // vars for network tasks
-let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
+let activeNode, taskNetwork = new Network(), showNetworkWalk = true;
 let imageIsRotated, proportionRotated = 0.3;
 
 //initialize global task variables
