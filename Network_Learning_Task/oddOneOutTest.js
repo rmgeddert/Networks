@@ -73,8 +73,8 @@ function oddOneOutTest() {
         } else {
           // end of experiment, proceed to next instructions
           $("#oddOneOutTaskDiv").hide();
-          navigateInstructionPath();
-          // endOfExperiment();
+          // navigateInstructionPath();
+          endOfExperiment();
         }
       // }
     }

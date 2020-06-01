@@ -14,8 +14,6 @@ for (let i = 1; i < 19; i++) { //19 is number of fractals currently made
   fractalSRCs.push(`qbist_fractals/Fractal${i}.png`);
 }
 
-selectedSRCs = [`qbist_fractals/Fractal1.png`, `qbist_fractals/Fractal2.png`, `qbist_fractals/Fractal3.png`, `qbist_fractals/Fractal4.png`, `qbist_fractals/Fractal5.png`, `qbist_fractals/Fractal6.png`]
-
 // randomly sample from fractal images
 let selectedSRCs = _.sample(fractalSRCs,fractalsNeeded);
 

@@ -4,11 +4,11 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "main1": 1, "main2": 1, "main3-1": 1, "main3-2": 1, "main4": 1
+    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "main1": 1, "main2": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 4, "prac2": 8, "main1": 6, "main2": 5, "main3-1": 5, "main3-2": 4, "main4": 5
+    "prac1-1": 4, "prac1-2": 4, "prac2": 8, "main1": 6, "main2": 6
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -18,10 +18,7 @@ let instructions = {
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
-    "main2": '#startExpButton',
-    "main3-1": '#nextSectionButton',
-    "main3-2": 'buttonPressStartTask',
-    "main4": '#startExpButton'
+    "main2": '#startExpButton'
   }
 };
 let iterateAgain = false, task;
@@ -49,15 +46,6 @@ function navigateInstructionPath(repeat = false){
       case "main1":
         expStage = "main2";
         break;
-      case "main2":
-        expStage = "main3-1";
-        break;
-      case "main3-1":
-        expStage = "main3-2";
-        break;
-      case "main3-2":
-        expStage = "main4";
-        break;
     }
   }
   runInstructions();
@@ -68,6 +56,7 @@ function displayDefaults(stage){
   switch(stage){
     case "prac1-2":
     case "prac2":
+    case "main1":
     case "main2":
        showFirst();
     default:
@@ -153,58 +142,18 @@ function getNextInstructions(slideNum, expStage){
     case "main2":
       switch (slideNum){
         case 1:
-          return "Great job! In this next task, you will be asked to select the images that does not belong with the other two images.";
+          return "In this next task, you will see three images. You will be asked to select the image that does not fit with the other two images.";
         case 2:
-          return "In the previous task, some images were more likely to appear after one another than others."
+          return "In the previous task, the stream of images you saw adhered to a pattern. Thus, some images were presented after one another frequently while others were not."
         case 3:
           return "Your job in this task is to choose the image that would be UNLIKELY to appear after either of the other two images.";
         case 4:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Do not choose based on what the images look like. This decision should be based purely on which images appeared after one another in the previous task.";
+          return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented after one another frequently.";
         case 5:
-          return "Please take your time and think carefully about which images were paired with each other and which one was not. If we detect button mashing you will not be compensated. Thank you.";
+          return "Please take your time and think carefully about which image does not fit with the other two images based on the image sequence. If we detect button mashing you will not be compensated. Thank you.";
         case 6:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin.";
-      }
-    case "main3-1":
-      switch (slideNum){
-        case 1:
-          return "You are finished with the image rotation task. There are two  tasks left which take approximately 10 minutes to complete.";
-        case 2:
-          return "The next task is a math task. You will see a series of fractal images appear on the screen just as before.";
-        case 3:
-          return "You do not need to indicate if the image has been rotated correctly or not. All images will be oriented correctly.";
-        case 4:
-          return "Instead, on some trials you will be asked to answer a simple math question. Some questions will be easier and some may be difficult.";
-        case 5:
-          return "You will have 20 seconds to respond to each question.";
-      }
-    case "main3-2":
-      switch (slideNum){
-        case 1:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "It is EXTREMELY important that you do not cheat on the math problems. For this reason, you will be compensated regardless of your accuracy. If we suspect cheating you will not be compensated.";
-        case 2:
-          return "If you are unable to figure out the answer after 20 seconds make your best guess."
-        case 3:
-          return "Please take the full 20 seconds to think about the problem before guessing. Participants that enter nonsensical answers or answer suspiciously quickly will not be compensated.";
-        case 4:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin.";
-      }
-    case "main4":
-      switch (slideNum){
-        case 1:
-          return "You have reached the final task. Thank you for your participation!";
-        case 2:
-          return "In the previous task, each image was associated with a different level of math problem difficulty.";
-        case 3:
-          return "In this next task you will get to CHOOSE which images you would like to complete math problems for.";
-        case 4:
-          return "You will have a choice between two images. Select the image you wish to complete a math problem for.";
-        case 5:
-          return "After choosing an image, you will complete a math problem associated with that image. You may not have to answer a math problem every time you choose an image.";
+          return "If you are unsure, make your best guess.";
       }
   }
 }

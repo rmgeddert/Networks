@@ -1,4 +1,4 @@
-console.log("Version - Last Updated 5-15-2020 12:11pm");
+console.log("Version - Last Updated 6-1-2020 11:05pm");
 // create global curStage variable
 let curStage = 0;
 let onMturk = true;
