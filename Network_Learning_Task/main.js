@@ -12,7 +12,7 @@ let fractalsNeeded = 11; //defined by network structure
 let orientationCorrRespNeeded = 6;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let nTrials = 1000; //number of trials during random walk
-let numBlocks = 6; //number of blocks to divide nTrials into
+let numBlocks = 5; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
 // vars for network tasks

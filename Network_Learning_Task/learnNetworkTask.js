@@ -198,7 +198,11 @@ function learnNetworkTask(){
       frCtx.fillStyle = "black";
       frCtx.font = "25px Arial";
       frCtx.fillText("This is a short break. Please don't pause for more than 3 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
-      frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2);
+      if (numBlocks - block > 1) {
+        frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2);
+      } else {
+        frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " block left.",frCanvas.width/2,frCanvas.height/2);
+      }
       frCtx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",frCanvas.width/2,frCanvas.height/2+50);
       frCtx.font = "bold 25px Arial";
       frCtx.fillText("Press any button to continue.",frCanvas.width/2,frCanvas.height/2 + 200);
