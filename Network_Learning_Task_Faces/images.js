@@ -9,13 +9,13 @@ let instructionImages = {
 }
 
 // array for fractal images
-let fractalSRCs = [];
-for (let i = 1; i < 19; i++) { //19 is number of fractals currently made
-  fractalSRCs.push(`qbist_fractals/Fractal${i}.png`);
+let facesSRCs = [];
+for (let i = 1; i <= 15; i++) { //19 is number of fractals currently made
+  facesSRCs.push(`faces/face_${i}.jpeg`);
 }
 
 // randomly sample from fractal images
-let selectedSRCs = _.sample(fractalSRCs,fractalsNeeded);
+let selectedSRCs = _.sample(facesSRCs,facesNeeded);
 
 // load images based on URL's and store in selectedImages var
 let selectedImages = Array(selectedSRCs.length);
@@ -25,7 +25,7 @@ for (var i = 0; i < selectedImages.length; i++) {
 }
 
 // -------------------------------------------//
-// Code for displaying fractals in instructions:
+// Code for displaying faces in instructions:
 // -------------------------------------------//
 
 // defines how many images fit per row (within 900px width and 26px padding)

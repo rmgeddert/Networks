@@ -2,7 +2,7 @@ function learnNetworkTaskPractice(){
   // declare and set task variables
   sectionType = "pracTask";
   taskName = "learnNetworkTaskPractice";
-  let imageIterator = 0, proportionRotated = 0.3;
+  let imageIterator = 0, proportionBlurry = 0.3;
   accCount = 0;
 
   // hide instructions, show canvas
@@ -13,13 +13,13 @@ function learnNetworkTaskPractice(){
   // set taskFunc so countdown goes to right task
   taskFunc = taskFlow;
 
-  // create array of rotations 0 = normal, 1 = rotated
-  let nRotated = Math.floor(selectedImages.length * proportionRotated)
-  let nNormal = selectedImages.length - nRotated;
-  let rotationArray = new Array(nRotated).fill(1).concat(new Array(nNormal).fill(0));
+  // create array of blurriness 0 = normal, 1 = blurry
+  let nBlurry = Math.floor(selectedImages.length * proportionBlurry)
+  let nNormal = selectedImages.length - nBlurry;
+  let blurryArray = new Array(nBlurry).fill(1).concat(new Array(nNormal).fill(0));
   do {
-    shuffle(rotationArray);
-  } while (!rotationArrIsOK(rotationArray));
+    shuffle(blurryArray);
+  } while (!blurryArrIsOK(blurryArray));
 
   // shuffle selected images
   let taskImages = shuffle(selectedImages);
@@ -27,10 +27,10 @@ function learnNetworkTaskPractice(){
   // start task after countdown
   countDown(3);
 
-  function rotationArrIsOK(arr){
-    // first trial is not rotated
+  function blurryArrIsOK(arr){
+    // first trial is not blurry
     if (arr[0] == 1) {return false;}
-    // no rotated repeat images
+    // no blurry repeat images
     for (var i = 0; i < arr.length; i++) {
       if ((arr[i] == 1) && (arr[i] == arr[i+1])) {
         return false;
@@ -43,7 +43,7 @@ function learnNetworkTaskPractice(){
     if (imageIterator < taskImages.length) {
       // reset task vars
       acc = 0;
-      imageIsRotated = (rotationArray[imageIterator] == 1)
+      imageIsBlurry = (blurryArray[imageIterator] == 1)
       displayFractal();
     } else {
       showTaskFeedback( Math.round((accCount / taskImages.length) * 100));
@@ -64,14 +64,12 @@ function learnNetworkTaskPractice(){
       // set img variable
       let img = taskImages[imageIterator];
 
-      // rotate context (or don't, based on % criterion)
-      if (imageIsRotated) {
+      // blur context (or don't, based on % criterion)
+      if (imageIsBlurry) {
 
-        frCtx.save();
-        frCtx.translate(frCanvas.width/2 + img.width/2,frCanvas.height/2-img.height/2);
-        frCtx.rotate(0.5*Math.PI);
-        frCtx.drawImage(img,0,0);
-        frCtx.restore();
+        frCtx.filter = 'blur(2px)';
+        frCtx.drawImage(img,frCanvas.width/2 - img.width/2,frCanvas.height/2-img.height/2);
+        frCtx.filter = 'blur(0px)';
 
       } else {
 
@@ -91,13 +89,13 @@ function learnNetworkTaskPractice(){
 
   function transitionFunction(){
     // log data from previous trial
-    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, NaN, NaN, NaN, NaN, fileOnly(taskImages[imageIterator].src), imageIsRotated ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, NaN, NaN, NaN, NaN, fileOnly(taskImages[imageIterator].src), imageIsBlurry ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // check if participant responded in time
     if (keyListener == 1 && speed != "fast") {
       // tooSlowScreen();
-      mistakeSound.play();
+      if (playSounds) {mistakeSound.play()}
       // keyListener == 0;
     }
     // } else {

@@ -4,18 +4,17 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "main1": 1, "main2": 1
+    "prac1-1": 1, "prac1-2": 1, "main1": 1, "main2": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 4, "prac2": 8, "main1": 6, "main2": 6
+    "prac1-1": 4, "prac1-2": 7, "main1": 6, "main2": 6
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
   exitResponse: {
     "prac1-1": '#nextSectionButton',
-    "prac1-2": '#startExpButton',
-    "prac2": 'buttonPressStartTask',
+    "prac1-2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
     "main2": '#startExpButton'
@@ -38,9 +37,6 @@ function navigateInstructionPath(repeat = false){
         expStage = "prac1-2";
         break;
       case "prac1-2":
-        expStage = "prac2";
-        break;
-      case "prac2":
         expStage = "main1";
         break;
       case "main1":
@@ -55,7 +51,6 @@ function displayDefaults(stage){
   // default values of instruction blocks. add any special cases
   switch(stage){
     case "prac1-2":
-    case "prac2":
     case "main1":
     case "main2":
        showFirst();
@@ -79,58 +74,45 @@ function getNextInstructions(slideNum, expStage){
     case "prac1-1":
       switch (slideNum){
         case 1:
-          return "In this experiment, you will see a series of fractal images. You will need to indicate if the image is oriented correctly or if it has been rotated.";
+          return "In this experiment, you will see a series of individual faces, presented one after another in succession.";
         case 2:
-          return "You will first complete a series of practice tasks designed to familiarize you with the images and help you complete the main task.";
-        case 3:
-          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen. Try your best to pay attention to what each image looks like.";
-        case 4:
           $(imageTableDiv).insertAfter("#instructions" + slideNum);
-          return "Below are the images you will be using in this experiment. Please take a few moments to familiarize yourself with them before continuing to the next section.";
+          return "Take a moment to familiarize yourself with the faces you will be seeing in this task before continuing.";
+        case 3:
+          return "Sometimes the faces will be presented clearly, and sometimes they will be slightly blurry. Your task will be to indicate if the face you see is clear or blurry, using your left and right index fingers."
+        case 4:
+          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen. Remember not to close any of the other windows during the duration of the experiment.";
       }
     case "prac1-2":
       switch (slideNum){
         case 1:
-          return "In the first practice task, you will see each image and its rotated version.";
+          return "You will begin with a practice block before completing the main experiment. Indicate if the face you see is clear or blurry.";
         case 2:
-          return "Click on the image that is rotated correctly. If you make a mistake, you will be prompted to 'Try Again' until you respond correctly.";
+          return "Press 'M' with your right hand index finger if the face " + getKeyMappingText(1);
         case 3:
-          return "You will keep going until you have correctly identified each image " + orientationCorrRespNeeded + " times.";
+          return "Press 'Z' with your left hand index finger if the face " + getKeyMappingText(2);
         case 4:
-          return "At first you may just be guessing, but try and pay attention to what each image looks like so you can remember the correct orientation.";
-      }
-    case "prac2":
-      switch (slideNum){
-        case 1:
-          return "Great job! Now that you are familiar with the images and their correct orientation, you will now practice the main task.";
-        case 2:
-          return "You will see a single image on the screen. You will need to indicate if the image is in its correct orientation or if it has been rotated.";
-        case 3:
-          return "Press 'M' with your right hand index finger if the number " + getKeyMappingText(1);
-        case 4:
-          return "Press 'Z' with your left hand index finger if the number " + getKeyMappingText(2);;
-        case 5:
           return "You will hear a buzzer if you make a mistake or if you respond too slowly. Please make sure your sound is turned on, and feel free to adjust the volume to a comfortable level.";
+        case 5:
+          return "This block will contain " + facesNeeded + " trials. You must get " + practiceAccCutoff + "% correct in order to move on to the main task."
         case 6:
-          return "This block will contain "+fractalsNeeded+" trials. You must get " + practiceAccCutoff +"% correct in order to move on to the main task."
-        case 7:
           iterateAgain = true;
           $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
           return "Please place your index fingers on the 'M' and 'Z' keys as shown.";
-        case 8:
+        case 7:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button to begin."
       }
     case "main1":
       switch (slideNum){
         case 1:
-          return "You are now ready to start the main task. As you just practiced, you will see one image appear on the screen."
+          return "You are now ready to start the main task. As you just practiced, you will see a series of faces appear on the screen."
         case 2:
-          return "Press 'M' with your right hand index finger if the image " + getKeyMappingText(1);
+          return "Press 'M' with your right hand index finger if the face " + getKeyMappingText(1);
         case 3:
-          return "Press 'Z' with your left hand index finger if the image " + getKeyMappingText(2);
+          return "Press 'Z' with your left hand index finger if the face " + getKeyMappingText(2);
         case 4:
-          return "This task will take approximately 15 minutes, and you will have periodic short breaks. Remember to respond to each image as quickly and accurately as possible.";
+          return "This task will take approximately 15 minutes, and you will have periodic short breaks. Remember to respond to each trial as quickly and accurately as possible.";
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
@@ -142,16 +124,16 @@ function getNextInstructions(slideNum, expStage){
     case "main2":
       switch (slideNum){
         case 1:
-          return "In this next task, you will see three images. You will be asked to select the image that does not fit with the other two images.";
+          return "In this next task, you will see three faces. You will be asked to select the individual that does not fit with the other two individuals.";
         case 2:
-          return "In the previous task, the stream of images you saw adhered to a pattern. Thus, some images were presented after one another frequently while others were not."
+          return "In the previous task, the stream of faces you saw adhered to a pattern. Thus, some individuals were presented after one another frequently while others were not."
         case 3:
-          return "Your job in this task is to choose the image that would be UNLIKELY to appear after either of the other two images.";
+          return "Your job in this task is to choose the person that would be UNLIKELY to appear after either of the other two people.";
         case 4:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented after one another frequently.";
+          return "Do not choose based on what the faces look like. Your choice should be based purely on the image sequence that you observed and which faces were presented after one another frequently.";
         case 5:
-          return "Please take your time and think carefully about which image does not fit with the other two images based on the image sequence. If we detect button mashing you will not be compensated. Thank you.";
+          return "Please take your time and think carefully about which person does not fit with the other two people based on the image sequence.";
         case 6:
           return "If you are unsure, make your best guess.";
       }
@@ -323,8 +305,8 @@ function resetDefaultStyles(domObject){
 
 function getKeyMappingText(item){
   if (keyMapping == 1 ? item == 2 : item == 1) {
-    return "is oriented correctly.";
+    return "is clear.";
   } else {
-    return "has been rotated.";
+    return "is blurry.";
   }
 }

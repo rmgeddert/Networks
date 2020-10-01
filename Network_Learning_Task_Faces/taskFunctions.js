@@ -46,8 +46,8 @@ function promptLetGo(){
   // show warning
   frCtx.fillStyle = "black";
   frCtx.font = "30px Arial";
-  frCtx.fillText("Please release key",frCanvas.width/2,frCanvas.height/2);
-  frCtx.fillText("immediately after responding.",frCanvas.width/2,frCanvas.height/2 + 30);
+  frCtx.fillText("Please try and release key",frCanvas.width/2,frCanvas.height/2);
+  frCtx.fillText("as quickly as possible after responding.",frCanvas.width/2,frCanvas.height/2 + 30);
 
   frCtx.font = "bold 25px Arial";
   frCtx.fillText("Press any button to resume.",frCanvas.width/2,frCanvas.height/2 + 150);

@@ -5,7 +5,7 @@ function oddOneOutTest() {
   // fill taskNodesSets
   // let newNodeSetArr = createNodeSetArr();
   let mainTaskArr = shuffle(createNodeSetArr());
-  console.log(mainTaskArr);
+  mainTaskArr = mainTaskArr_set_shuffler(mainTaskArr);
 
   function createNodeSetArr(){
     let nodeSetArr = [];
@@ -28,6 +28,31 @@ function oddOneOutTest() {
     });
 
     return nodeSetArr;
+  }
+
+  function mainTaskArr_set_shuffler(main_task_arr){
+    // shuffle nodesets while there are node similarities between node set and previous node set
+    let shuffled_array = [];
+    main_task_arr.forEach((nodeSetArr, i) => {
+      if (i != 0) {
+        do {
+          shuffle(nodeSetArr);
+        } while (!nodeSetPositionsOk(nodeSetArr, main_task_arr[i - 1]));
+      }
+      shuffled_array.push(nodeSetArr);
+    });
+
+    return shuffled_array;
+
+    function nodeSetPositionsOk(nodeSetArr, prevNodeSet){
+      // check if any nodes in nodeset are in same position as prev node set
+      for (var i = 0; i < nodeSetArr.length; i++) {
+        if (nodeSetArr[i][0].name == prevNodeSet[i][0].name) {
+          return false;
+        }
+      }
+      return true;
+    }
   }
 
   // set section type
@@ -78,12 +103,13 @@ function oddOneOutTest() {
       respTime = respOnset - stimOnset;
 
       // log data
-      data.push([sectionType, NaN, taskName, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, partResp, acc, imageNum, currentNodeSet[imageNum - 1][1], NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      data.push([sectionType, NaN, taskName, NaN, trialCount, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, partResp, acc, imageNum, currentNodeSet[imageNum - 1][1], NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
 
       if (nodeSetIterator < mainTaskArr.length - 1) {
         prevResponse = imageNum;
         nodeSetIterator++;
+        trialCount++;
         currentNodeSet = mainTaskArr[nodeSetIterator];
         displayNodeSet(currentNodeSet);
       } else {

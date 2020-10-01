@@ -78,7 +78,7 @@ function learnNetworkTask(){
 
   function taskFlow(){
     // need to add block breaks in here still
-    if (trialCount < nTrials) {
+    if (trialCount <= nTrials) {
       if (trialCount%(nTrials/numBlocks) == 0 && !breakOn) {
         breakOn = true;
         blockBreak();
@@ -102,8 +102,8 @@ function learnNetworkTask(){
       promptLetGo();
 
     } else {
-      // see if image is rotated
-      imageIsRotated = Math.random() < proportionRotated;
+      // see if image is blurry
+      imageIsBlurry = Math.random() < proportionBlurry;
 
       // display network and fractal
       if (showNetworkWalk == true) {drawNetwork();}
@@ -121,12 +121,12 @@ function learnNetworkTask(){
   function transitionToNextNode(){
     if (keyListener == 1 && speed != "fast") {
       // tooSlowScreen();
-      mistakeSound.play();
+      if (playSounds) {mistakeSound.play()}
       // keyListener == 0;
     }
 
     // log data from previous trial
-    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, NaN, NaN,  fileOnly(activeNode.img.src), imageIsRotated ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, NaN, NaN,  fileOnly(activeNode.img.src), imageIsBlurry ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // reset old and activate new node
@@ -145,14 +145,12 @@ function learnNetworkTask(){
     // clear canvas
     frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
 
-    // rotate context (or don't, based on % criterion)
-    if (imageIsRotated) {
+    // Blurry context (or don't, based on % criterion)
+    if (imageIsBlurry) {
 
-      frCtx.save();
-      frCtx.translate(frCanvas.width/2 + activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
-      frCtx.rotate(0.5*Math.PI);
-      frCtx.drawImage(activeNode.img,0,0);
-      frCtx.restore();
+      frCtx.filter = 'blur(2px)';
+      frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
+      frCtx.filter = 'blur(0px)';
 
     } else {
 
@@ -163,14 +161,15 @@ function learnNetworkTask(){
   }
 
   function blockBreak(){
+    let minutesBreak = 2;
     sectionType = "blockBreak";
     sectionStart = new Date().getTime() - runStart;
     keyListener = 0; //else keylistener stays = 1 till below runs
     setTimeout(function(){keyListener = 7},2000);
 
     // display break screen (With timer)
-    drawBreakScreen("02","00");
-    blockBreakFunction(2,0);
+    drawBreakScreen("0" + minutesBreak,"00");
+    blockBreakFunction(minutesBreak,0);
 
     function blockBreakFunction(minutes, seconds){
       let time = minutes*60 + seconds;
@@ -197,7 +196,7 @@ function learnNetworkTask(){
       // display miniblock text
       frCtx.fillStyle = "black";
       frCtx.font = "25px Arial";
-      frCtx.fillText("This is a short break. Please don't pause for more than 3 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
+      frCtx.fillText("This is a short break. Please don't pause for more than " + minutesBreak + " minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
       if (numBlocks - block > 1) {
         frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2);
       } else {
