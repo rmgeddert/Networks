@@ -1,4 +1,4 @@
-console.log("Version - Last Updated 6-8-2020");
+console.log("Version - Last Updated 10-2-2020");
 // create global curStage variable
 let curStage = 0;
 let onMturk = true;
@@ -89,7 +89,7 @@ $(document).ready(function(){
 
     // display text for accepting HIT
     $("#table").show();
-    $("#instruction").text("Accept HIT first");
+    $("#instruction").text("Thank you for your interest, but you are unfortunetaly not eligible for this HIT because of previous participation. Please return the HIT. We apologize for any inconvenience.");
     $("#instruction").show();
     $("#myButton").hide();
     $("#redo").hide();

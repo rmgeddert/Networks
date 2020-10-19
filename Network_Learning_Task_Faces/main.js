@@ -44,6 +44,7 @@ let keyMapping = randIntFromInterval(1,2);
   case 1: 'Z' => clear | 'M' => blurry
   case 2: 'Z' => blurry | 'M' => clear
 */
+let imageSet = randIntFromInterval(1,4);
 
 function experimentFlow(){
   // reset block and trial counts (unless repeat)
