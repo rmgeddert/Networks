@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 7, "main1": 6, "main2": 6
+    "prac1-1": 4, "prac1-2": 7, "main1": 6, "main2": 5
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -124,18 +124,16 @@ function getNextInstructions(slideNum, expStage){
     case "main2":
       switch (slideNum){
         case 1:
-          return "In this next task, you will see three faces. You will be asked to select the individual that does not fit with the other two individuals.";
+          return "Great job! In the final task, you will have to determine which one of three faces doesn't belong with the other two.";
         case 2:
-          return "In the previous task, the stream of faces you saw adhered to a pattern. Thus, some individuals were presented after one another frequently while others were not."
+          return "In the task you just completed, the series of faces you saw belonged to a pattern. Some faces were presented after one another frequently, but some faces were never presented after one another."
         case 3:
-          return "Your job in this task is to choose the person that would be UNLIKELY to appear after either of the other two people.";
+          return "In this task, you will see three faces. Two of the faces are faces that were presented after one another frequently. The third face was never presented after the other two.";
         case 4:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Do not choose based on what the faces look like. Your choice should be based purely on the image sequence that you observed and which faces were presented after one another frequently.";
+          return "Your task is to choose the face that does not belong with the other two, the one that would not have been presented after the other two. Be sure to choose based purely on the face sequence from the task before, not on any physical characteristics of what the faces look like.";
         case 5:
-          return "Please take your time and think carefully about which person does not fit with the other two people based on the image sequence.";
-        case 6:
-          return "If you are unsure, make your best guess.";
+          return "Please take your time and think carefully about which faces does not fit with the other two faces. If you are unsure, make your best guess.";
       }
   }
 }

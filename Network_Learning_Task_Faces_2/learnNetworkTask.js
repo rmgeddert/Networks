@@ -79,7 +79,7 @@ function learnNetworkTask(){
   function taskFlow(){
     // need to add block breaks in here still
     if (trialCount <= nTrials) {
-      if (trialCount%(nTrials/numBlocks) == 0 && !breakOn) {
+      if (trialCount%(nTrials/numBlocks) == 0 && !breakOn && block < numBlocks) {
         breakOn = true;
         blockBreak();
 

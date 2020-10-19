@@ -11,7 +11,7 @@ let instructionImages = {
 // array for fractal images
 let facesSRCs = [];
 for (let i = 1; i <= 15; i++) { //19 is number of fractals currently made
-  facesSRCs.push(`faces/face_${i}.jpeg`);
+  facesSRCs.push(`faces/Group_${imageSet}/face_${i}.jpeg`);
 }
 
 // randomly sample from fractal images
