@@ -27,11 +27,12 @@ class Node {
     this.neighbors = [];
     this.coord = {x: NaN, y: NaN};
     this.rad = 7;
+    this.face_sex = NaN;
     this.color = "black";
     this.visitCount = 0;
     this.community = NaN;
     this.communityNumber = NaN;
-    this.associatedWithTask = false;
+    //this.associatedWithTask = false;
   }
 
   addNeighbor(newNeighbor) {
@@ -102,12 +103,12 @@ function learnNetworkTask(){
       promptLetGo();
 
     } else {
-      // see if image is blurry
-      imageIsBlurry = Math.random() < proportionBlurry;
+      // // see if image is blurry
+      // imageIsBlurry = Math.random() < proportionBlurry;
 
       // display network and fractal
       if (showNetworkWalk == true) {drawNetwork();}
-      displayFractal();
+      displayFace();
 
       // set up for response
       stimOnset = new Date().getTime() - runStart;
@@ -126,7 +127,7 @@ function learnNetworkTask(){
     }
 
     // log data from previous trial
-    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, NaN, NaN,  fileOnly(activeNode.img.src), imageIsBlurry ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, NaN, NaN,  fileOnly(activeNode.img.src), activeNode.face_sex, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // reset old and activate new node
@@ -141,23 +142,23 @@ function learnNetworkTask(){
     taskFlow();
   }
 
-  function displayFractal(){
+  function displayFace(){
     // clear canvas
     frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
 
-    // Blurry context (or don't, based on % criterion)
-    if (imageIsBlurry) {
+    // // Blurry context (or don't, based on % criterion)
+    // if (imageIsBlurry) {
+    //
+    //   frCtx.filter = 'blur(2px)';
+    //   frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
+    //   frCtx.filter = 'blur(0px)';
+    //
+    // } else {
 
-      frCtx.filter = 'blur(2px)';
-      frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
-      frCtx.filter = 'blur(0px)';
+    // // display fractal
+    frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
 
-    } else {
-
-      // // display fractal
-      frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
-
-    }
+    // }
   }
 
   function blockBreak(){
@@ -256,16 +257,31 @@ function setUpNetwork(){
     9: {x: (19/20), y: (1/2)}, 10: {x: (4/5), y: (4/5)}
   }
 
-  // defines which nodes are being associated and whose associations will need to be inferred
-  let associationStatuses = {
-    1: false, 2: true, 3: true, 4: true, 5: true,
-    6: true, 7: true, 8: false, 9: true, 10: true
+  // // defines which nodes are being associated and whose associations will need to be inferred
+  // let associationStatuses = {
+  //   1: true, 2: true, 3: true, 4: true, 5: true,
+  //   6: true, 7: true, 8: true, 9: true, 10: true
+  // }
+
+  let image_sexes = {
+    1: "m", 2: "f", 3: "m", 4: "m", 5: "m",
+    6: "f", 7: "f", 8: "f", 9: "m", 10: "f"
   }
 
-  // create network with nodes for each image
-  selectedImages.forEach((imageObj, i) => {
-    taskNetwork.addNode(new Node(i + 1, imageObj));
-  });
+  // // create network with nodes for each image
+  // selectedImages.forEach((imageObj, i) => {
+  //   taskNetwork.addNode(new Node(i + 1, imageObj));
+  // });
+  let imageObj;
+  for (var i = 0; i < 10; i++) {
+    if (image_sexes[i] == "m") {
+      imageObj = selectedMaleImages.splice(0,1);
+      taskNetwork.addNode(new Node(i + 1, imageObj));
+    } else {
+      imageObj = selectedFemaleImages.splice(0,1);
+      taskNetwork.addNode(new Node(i + 1, imageObj));
+    }
+  }
 
   // add neighbors to objects as specified in nodeNeighbors var
   taskNetwork.nodes.forEach((node, i) => {
@@ -284,17 +300,22 @@ function setUpNetwork(){
   taskNetwork.nodes.forEach((node, i) => {
     // console.log(i, node.name);
     if (i < 5) {
-      node.community = "easy";
+      node.community = "mostly_male";
       node.communityNumber = 1;
     } else if (i >= 5) {
-      node.community = "difficult";
+      node.community = "mostly_female";
       node.communityNumber = 2;
     }
     // console.log(node.community);
   })
 
-  //set association statuses
+  // //set association statuses
+  // taskNetwork.nodes.forEach((node, i) => {
+  //   node.associatedWithTask = associationStatuses[node.index];
+  // })
+
+  //set node sexes
   taskNetwork.nodes.forEach((node, i) => {
-    node.associatedWithTask = associationStatuses[node.index];
+    node.face_sex = image_sexes[node.index];
   })
 }

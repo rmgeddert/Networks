@@ -8,21 +8,37 @@ let instructionImages = {
   3: 'images/oneFingerKeyboard3.png'
 }
 
-// array for fractal images
-let facesSRCs = [];
-for (let i = 1; i <= 15; i++) { //19 is number of fractals currently made
-  facesSRCs.push(`faces/Group_${imageSet}/face_${i}.jpeg`);
+// male face images
+let maleFacesSRCs = [];
+for (let i = 1; i <= 5; i++) { //15
+  maleFacesSRCs.push(`faces/Group_${imageSet}/Male/face_${i}.jpeg`);
 }
 
-// randomly sample from fractal images
-let selectedSRCs = _.sample(facesSRCs,facesNeeded);
-
-// load images based on URL's and store in selectedImages var
-let selectedImages = Array(selectedSRCs.length);
-for (var i = 0; i < selectedImages.length; i++) {
-  selectedImages[i] = new Image();
-  selectedImages[i].src = selectedSRCs[i];
+// female face images
+let femaleFacesSRCs = [];
+for (let i = 1; i <= 5; i++) { //15
+  femaleFacesSRCs.push(`faces/Group_${imageSet}/Female/face_${i}.jpeg`);
 }
+
+// // randomly sample from fractal images
+// let selectedMaleSRCs = _.sample(facesSRCs,facesNeeded);
+
+// load male images
+let selectedMaleImages = Array(maleFacesSRCs.length);
+for (var i = 0; i < selectedMaleImages.length; i++) {
+  selectedMaleImages[i] = new Image();
+  selectedMaleImages[i].src = maleFacesSRCs[i];
+}
+
+// load female images
+let selectedFemaleImages = Array(femaleFacesSRCs.length);
+for (var i = 0; i < selectedMaleImages.length; i++) {
+  selectedFemaleImages[i] = new Image();
+  selectedFemaleImages[i].src = femaleFacesSRCs[i];
+}
+
+//create single array for images
+let selectedImages = shuffle(selectedMaleImages.concat(selectedFemaleImages));
 
 // -------------------------------------------//
 // Code for displaying faces in instructions:

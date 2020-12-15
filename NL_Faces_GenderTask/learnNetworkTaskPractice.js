@@ -13,14 +13,6 @@ function learnNetworkTaskPractice(){
   // set taskFunc so countdown goes to right task
   taskFunc = taskFlow;
 
-  // create array of blurriness 0 = normal, 1 = blurry
-  let nBlurry = Math.floor(selectedImages.length * proportionBlurry)
-  let nNormal = selectedImages.length - nBlurry;
-  let blurryArray = new Array(nBlurry).fill(1).concat(new Array(nNormal).fill(0));
-  do {
-    shuffle(blurryArray);
-  } while (!blurryArrIsOK(blurryArray));
-
   // shuffle selected images
   let taskImages = shuffle(selectedImages);
 

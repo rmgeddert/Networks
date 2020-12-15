@@ -1,7 +1,7 @@
 "use strict"
 
 // for testing
-let testMode = false;
+let testMode = true;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off

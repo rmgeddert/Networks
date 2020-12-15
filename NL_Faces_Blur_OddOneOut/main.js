@@ -6,11 +6,11 @@ let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off
 let openerNeeded = false; //true
-let playSounds = true; //true
+let playSounds = false; //true
 
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let facesNeeded = 10; //defined by network structure
-let stimInterval = (speed == "fast") ? 5 : 1000; //2000
+let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let nTrials = 1000; //number of trials during random walk
 let numBlocks = 5; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 90; // 70 acc%
