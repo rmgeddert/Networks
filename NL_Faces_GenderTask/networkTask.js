@@ -27,11 +27,12 @@ class Node {
     this.neighbors = [];
     this.coord = {x: NaN, y: NaN};
     this.rad = 7;
+    this.face_sex = NaN;
     this.color = "black";
     this.visitCount = 0;
     this.community = NaN;
     this.communityNumber = NaN;
-    this.associatedWithTask = false;
+    //this.associatedWithTask = false;
   }
 
   addNeighbor(newNeighbor) {
@@ -78,8 +79,8 @@ function learnNetworkTask(){
 
   function taskFlow(){
     // need to add block breaks in here still
-    if (trialCount < nTrials) {
-      if (trialCount%(nTrials/numBlocks) == 0 && !breakOn) {
+    if (trialCount <= nTrials) {
+      if (trialCount%(nTrials/numBlocks) == 0 && !breakOn && block < numBlocks) {
         breakOn = true;
         blockBreak();
 
@@ -89,7 +90,7 @@ function learnNetworkTask(){
       }
     } else {
       // end of experiment code
-      taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
+      // taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
       breakOn = false;
       navigateInstructionPath();
     }
@@ -102,12 +103,11 @@ function learnNetworkTask(){
       promptLetGo();
 
     } else {
-      // see if image is rotated
-      imageIsRotated = Math.random() < proportionRotated;
+      imageIsMale = activeNode.face_sex == "m";
 
       // display network and fractal
       if (showNetworkWalk == true) {drawNetwork();}
-      displayFractal();
+      displayFace();
 
       // set up for response
       stimOnset = new Date().getTime() - runStart;
@@ -126,7 +126,7 @@ function learnNetworkTask(){
     }
 
     // log data from previous trial
-    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, NaN, NaN,  fileOnly(activeNode.img.src), imageIsRotated ? 1 : 0, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, taskName, NaN, trialCount, blockTrialCount, block, activeNode.index, activeNode.communityNumber, NaN, NaN,  fileOnly(activeNode.img.src), activeNode.face_sex, partResp, acc, NaN, NaN, NaN, NaN, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // reset old and activate new node
@@ -141,36 +141,26 @@ function learnNetworkTask(){
     taskFlow();
   }
 
-  function displayFractal(){
+  function displayFace(){
     // clear canvas
     frCtx.clearRect(0, 0, frCanvas.width, frCanvas.height);
 
-    // rotate context (or don't, based on % criterion)
-    if (imageIsRotated) {
+    // // display face
+    frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
 
-      frCtx.save();
-      frCtx.translate(frCanvas.width/2 + activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
-      frCtx.rotate(0.5*Math.PI);
-      frCtx.drawImage(activeNode.img,0,0);
-      frCtx.restore();
-
-    } else {
-
-      // // display fractal
-      frCtx.drawImage(activeNode.img,frCanvas.width/2 - activeNode.img.width/2,frCanvas.height/2-activeNode.img.height/2);
-
-    }
+    // }
   }
 
   function blockBreak(){
+    let minutesBreak = 2;
     sectionType = "blockBreak";
     sectionStart = new Date().getTime() - runStart;
     keyListener = 0; //else keylistener stays = 1 till below runs
     setTimeout(function(){keyListener = 7},2000);
 
     // display break screen (With timer)
-    drawBreakScreen("03","00");
-    blockBreakFunction(3,0);
+    drawBreakScreen("0" + minutesBreak,"00");
+    blockBreakFunction(minutesBreak,0);
 
     function blockBreakFunction(minutes, seconds){
       let time = minutes*60 + seconds;
@@ -197,7 +187,7 @@ function learnNetworkTask(){
       // display miniblock text
       frCtx.fillStyle = "black";
       frCtx.font = "25px Arial";
-      frCtx.fillText("This is a short break. Please don't pause for more than 3 minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
+      frCtx.fillText("This is a short break. Please don't pause for more than " + minutesBreak + " minutes.",frCanvas.width/2,frCanvas.height/2 - 150);
       if (numBlocks - block > 1) {
         frCtx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",frCanvas.width/2,frCanvas.height/2);
       } else {
@@ -236,40 +226,56 @@ function learnNetworkTask(){
 function setUpNetwork(){
   // define edges between nodes
   let nodeNeighbors = {
-    1: [2,3,4,5,6],
-    2: [1,3,4,5,6],
-    3: [1,2,4,5,6],
-    4: [1,2,3,5,6],
-    5: [1,2,3,4,6],
-    6: [1,2,3,4,5,7,8,9,10,11],
-    7: [6,8,9,10,11],
-    8: [6,7,9,10,11],
-    9: [6,7,8,10,11],
-    10: [6,7,8,9,11],
-    11: [6,7,8,9,10]
+    1: [2,3,4,5],
+    2: [1,3,4,5],
+    3: [1,2,4,5],
+    4: [1,2,3,6],
+    5: [1,2,3,7],
+    6: [4,8,9,10],
+    7: [5,8,9,10],
+    8: [6,7,9,10],
+    9: [6,7,8,10],
+    10: [6,7,8,9],
   }
 
   // define coordinates for nodes for drawing purposes
   let coordinates = {
-    1: {x: (7/32), y: (1/4)}, 2: {x: (3/8), y: (1/4)},
-    3: {x: (3/32), y: (1/2)}, 4: {x: (7/32), y: (3/4)},
-    5: {x: (3/8), y: (3/4)}, 6: {x: (1/2), y: (1/2)},
-    7: {x: (5/8), y: (1/4)}, 8: {x: (25/32), y: (1/4)},
-    9: {x: (29/32), y: (1/2)}, 10: {x: (5/8), y: (3/4)},
-    11: {x: (25/32), y: (3/4)}
+    1: {x: (1/5), y: (4/5)}, 2: {x: (1/20), y: (1/2)},
+    3: {x: (1/5), y: (1/5)}, 4: {x: (17/40), y: (1/3)},
+    5: {x: (17/40), y: (2/3)}, 6: {x: (23/40), y: (1/3)},
+    7: {x: (23/40), y: (2/3)}, 8: {x: (4/5), y: (1/5)},
+    9: {x: (19/20), y: (1/2)}, 10: {x: (4/5), y: (4/5)}
   }
 
-  // defines which nodes are being associated and whose associations will need to be inferred
-  let associationStatuses = {
-    1: false, 2: false, 3: true, 4: true, 5: true,
-    6: false, 7: false, 8: false, 9: true, 10: true,
-    11: true
+  // // defines which nodes are being associated and whose associations will need to be inferred
+  // let associationStatuses = {
+  //   1: true, 2: true, 3: true, 4: true, 5: true,
+  //   6: true, 7: true, 8: true, 9: true, 10: true
+  // }
+
+  let image_sexes = {
+    1: "m", 2: "f", 3: "m", 4: "m", 5: "m",
+    6: "f", 7: "f", 8: "f", 9: "m", 10: "f"
   }
 
-  // create network with nodes for each image
-  selectedImages.forEach((imageObj, i) => {
-    taskNetwork.addNode(new Node(i + 1, imageObj));
-  });
+  // // create network with nodes for each image
+  // selectedImages.forEach((imageObj, i) => {
+  //   taskNetwork.addNode(new Node(i + 1, imageObj));
+  // });
+
+  let male_keys = shuffle(Object.keys(selectedMaleImages));
+  let female_keys = shuffle(Object.keys(selectedFemaleImages));
+  for (let i = 1; i <= Object.keys(image_sexes).length; i++) {
+    if (image_sexes[i] == "m") {
+      let imageObj_key = male_keys.splice(0,1);
+      let imageObj = selectedMaleImages[imageObj_key]["img"];
+      taskNetwork.addNode(new Node(i, imageObj));
+    } else {
+      let imageObj_key = female_keys.splice(0,1);
+      let imageObj = selectedFemaleImages[imageObj_key]["img"];
+      taskNetwork.addNode(new Node(i, imageObj));
+    }
+  }
 
   // add neighbors to objects as specified in nodeNeighbors var
   taskNetwork.nodes.forEach((node, i) => {
@@ -286,20 +292,24 @@ function setUpNetwork(){
 
   // assign communities to nodes
   taskNetwork.nodes.forEach((node, i) => {
+    // console.log(i, node.name);
     if (i < 5) {
-      node.community = "easy";
+      node.community = "mostly_male";
       node.communityNumber = 1;
-    } else if (i > 5) {
-      node.community = "difficult";
+    } else if (i >= 5) {
+      node.community = "mostly_female";
       node.communityNumber = 2;
-    } else {
-      node.community = NaN;
-      node.communityNumber = 0;
     }
+    // console.log(node.community);
   })
 
-  //set association statuses
+  // //set association statuses
+  // taskNetwork.nodes.forEach((node, i) => {
+  //   node.associatedWithTask = associationStatuses[node.index];
+  // })
+
+  //set node sexes
   taskNetwork.nodes.forEach((node, i) => {
-    node.associatedWithTask = associationStatuses[node.index];
+    node.face_sex = image_sexes[node.index];
   })
 }

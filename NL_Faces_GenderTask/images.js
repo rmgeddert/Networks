@@ -24,21 +24,25 @@ for (let i = 1; i <= 5; i++) { //15
 // let selectedMaleSRCs = _.sample(facesSRCs,facesNeeded);
 
 // load male images
-let selectedMaleImages = Array(maleFacesSRCs.length);
-for (var i = 0; i < selectedMaleImages.length; i++) {
-  selectedMaleImages[i] = new Image();
-  selectedMaleImages[i].src = maleFacesSRCs[i];
+let selectedMaleImages = {};
+for (var i = 0; i < maleFacesSRCs.length; i++) {
+  selectedMaleImages["Male " + (i+1)] = {};
+  selectedMaleImages["Male " + (i+1)]["img"] = new Image();
+  selectedMaleImages["Male " + (i+1)]["img"].src = maleFacesSRCs[i];
+  selectedMaleImages["Male " + (i+1)]["sex"] = "male";
 }
 
 // load female images
-let selectedFemaleImages = Array(femaleFacesSRCs.length);
-for (var i = 0; i < selectedMaleImages.length; i++) {
-  selectedFemaleImages[i] = new Image();
-  selectedFemaleImages[i].src = femaleFacesSRCs[i];
+let selectedFemaleImages = {};
+for (var i = 0; i < femaleFacesSRCs.length; i++) {
+  selectedFemaleImages["Female " + (i+1)] = {};
+  selectedFemaleImages["Female " + (i+1)]["img"] = new Image();
+  selectedFemaleImages["Female " + (i+1)]["img"].src = femaleFacesSRCs[i];
+  selectedFemaleImages["Female " + (i+1)]["sex"] = "female";
 }
 
 //create single array for images
-let selectedImages = shuffle(selectedMaleImages.concat(selectedFemaleImages));
+let selectedImages = {...selectedMaleImages, ...selectedFemaleImages};
 
 // -------------------------------------------//
 // Code for displaying faces in instructions:
@@ -52,7 +56,8 @@ let imageTable = document.createElement("div");
 imageTable.className = "imageTable";
 
 // add images to imageTable
-selectedImages.forEach((imageObj, i) => {
+for (var image in selectedImages) {
+  let imageObj = selectedImages[image]["img"];
 
   // create div element to hold image
   let imageDiv = document.createElement("div");
@@ -71,7 +76,7 @@ selectedImages.forEach((imageObj, i) => {
 
   // add imageDiv to imageRow
   imageTable.appendChild(imageDiv);
-});
+};
 
 // wrap imageTable in div wrapper of class "insertedContent"
 let imageTableDiv = document.createElement("div");

@@ -121,7 +121,7 @@ function learnNetworkTask(){
   function transitionToNextNode(){
     if (keyListener == 1 && speed != "fast") {
       // tooSlowScreen();
-      mistakeSound.play();
+      if (playSounds) {mistakeSound.play()}
       // keyListener == 0;
     }
 

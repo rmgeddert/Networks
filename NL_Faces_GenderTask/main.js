@@ -1,7 +1,7 @@
 "use strict"
 
 // for testing
-let testMode = true;
+let testMode = false;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off
@@ -17,7 +17,7 @@ let practiceAccCutoff = (testMode == true) ? 0 : 90; // 70 acc%
 
 // vars for network tasks
 let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
-let imageIsBlurry, proportionBlurry = 0.3;
+let imageIsMale;
 
 //initialize global task variables
 let taskFunc //function for current task
@@ -41,10 +41,11 @@ let keyListener = 0;
 */
 let keyMapping = randIntFromInterval(1,2);
 /*
-  case 1: 'Z' => clear | 'M' => blurry
-  case 2: 'Z' => blurry | 'M' => clear
+  case 1: 'Z' => male | 'M' => female
+  case 2: 'Z' => female | 'M' => male
 */
 let imageSet = randIntFromInterval(1,4);
+// pick which set of gendered faces to use
 
 function experimentFlow(){
   // reset block and trial counts (unless repeat)
@@ -97,7 +98,7 @@ $(document).ready(function(){
       keyListener = 2;
       // accuracy
       partResp = event.which;
-      if (keyMapping == 1 ? !imageIsBlurry : imageIsBlurry ) {
+      if (keyMapping == 1 ? !imageIsMale : imageIsMale ) {
         acc = ([122,90].includes(event.which)) ? 1 : 0;
       } else {
         acc = ([109,77].includes(event.which)) ? 1 : 0;

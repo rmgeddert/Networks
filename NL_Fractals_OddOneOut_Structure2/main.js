@@ -6,6 +6,7 @@ let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // <- turn practice blocks on or off
 let openerNeeded = false; //true
+let playSounds = false; //true
 
 // ----- Experiment Paramenters (CHANGE ME) ----- //
 let fractalsNeeded = 10; //defined by network structure
@@ -106,7 +107,7 @@ $(document).ready(function(){
       if (acc == 1) {accCount++;}
       // task feedback
       if (acc == 0) {
-        mistakeSound.play();
+        if (playSounds) {mistakeSound.play()}
       }
       // reaction time
       respOnset = new Date().getTime() - runStart;
