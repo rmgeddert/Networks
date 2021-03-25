@@ -27,7 +27,6 @@ let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //skip practice or 
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
 let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType;
-let mistakeSound = new Audio('sounds/mistakeSoundShort.m4a');
 let keyListener = 0;
 /*  keyListener explanations:
       0: No key press expected/needed
@@ -59,8 +58,8 @@ function experimentFlow(){
   // designates which task gets called based on experiment stage var
   // experiment flow gets called by instructions.js listener
   if (expStage.indexOf("prac1") != -1){
-    learnOrientationsTask();
-  } else if (expStage.indexOf("prac2") != -1){
+  //   learnOrientationsTask();
+  // } else if (expStage.indexOf("prac2") != -1){
     learnNetworkTaskPractice();
   } else if (expStage.indexOf("main1") != -1){
     learnNetworkTask();

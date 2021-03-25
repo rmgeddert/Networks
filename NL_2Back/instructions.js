@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 4, "prac2": 8, "main1": 6, "main2": 6
+    "prac1-1": 5, "prac1-2": 4, "prac2": 8, "main1": 6, "main2": 6
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -79,14 +79,16 @@ function getNextInstructions(slideNum, expStage){
     case "prac1-1":
       switch (slideNum){
         case 1:
-          return "In this experiment, you will see a series of fractal images. You will need to indicate if the image is oriented correctly or if it has been rotated.";
+          return "In this experiment, you will see a series of fractal images. You will need to indicate every times the image you see is the same as two images ago.";
         case 2:
-          return "You will first complete a series of practice tasks designed to familiarize you with the images and help you complete the main task.";
+          return "For example, if you see...";
         case 3:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen. Try your best to pay attention to what each image looks like.";
         case 4:
           $(imageTableDiv).insertAfter("#instructions" + slideNum);
           return "Below are the images you will be using in this experiment. Please take a few moments to familiarize yourself with them before continuing to the next section.";
+        case 5:
+          return "See I told you there would be 5.";
       }
     case "prac1-2":
       switch (slideNum){
