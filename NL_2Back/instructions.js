@@ -4,21 +4,21 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "main1": 1, "main2": 1
+    "prac1-1": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1
   },
-  // contains the max value of each instruction iteration. iteration will STOP at max.
+  // contains the max value of each instruction iteration. iteration will STOP at max. (maximum 9 per section currently)
   max: {
-    "prac1-1": 5, "prac1-2": 4, "prac2": 8, "main1": 6, "main2": 6
+    "prac1-1": 6, "prac2": 5, "prac3": 5, "main1": 5, "main2": 5, "main3": 5
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
   exitResponse: {
-    "prac1-1": '#nextSectionButton',
-    "prac1-2": '#startExpButton',
+    "prac1-1": '#startExpButton',
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
-    "main2": '#startExpButton'
+    "main2": '#startExpButton',
+    "main3": '#startExpButton'
   }
 };
 let iterateAgain = false, task;
@@ -35,16 +35,19 @@ function navigateInstructionPath(repeat = false){
   } else {
     switch (expStage){
       case "prac1-1":
-        expStage = "prac1-2";
-        break;
-      case "prac1-2":
         expStage = "prac2";
         break;
       case "prac2":
+        expStage = "prac3";
+        break;
+      case "prac3":
         expStage = "main1";
         break;
       case "main1":
         expStage = "main2";
+        break;
+      case "main2":
+        expStage = "main3";
         break;
     }
   }
@@ -53,12 +56,14 @@ function navigateInstructionPath(repeat = false){
 
 function displayDefaults(stage){
   // default values of instruction blocks. add any special cases
+  // showFirst(); <- automatically shows the first line
+  //$('.instruction-header').show(); <- shows the "instructions header", which is default.
+  //make sure to "break;" anything you dont want to look like the default.
   switch(stage){
-    case "prac1-2":
-    case "prac2":
-    case "main1":
-    case "main2":
-       showFirst();
+    // case "prac1":
+    // case "prac2":
+    // case "main1":
+    // case "main2":
     default:
       $('.instruction-header').show();
       break;
@@ -79,8 +84,9 @@ function getNextInstructions(slideNum, expStage){
     case "prac1-1":
       switch (slideNum){
         case 1:
-          return "In this experiment, you will see a series of fractal images. You will need to indicate every times the image you see is the same as two images ago.";
+          return "Hi welcome to the experiment. You are going to be doing several practice tasks as well as a main task blah blah blah";
         case 2:
+          iterateAgain = true;
           return "For example, if you see...";
         case 3:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen. Try your best to pay attention to what each image looks like.";
@@ -89,6 +95,8 @@ function getNextInstructions(slideNum, expStage){
           return "Below are the images you will be using in this experiment. Please take a few moments to familiarize yourself with them before continuing to the next section.";
         case 5:
           return "See I told you there would be 5.";
+        case 6:
+            return "This is the text for line 6";
       }
     case "prac1-2":
       switch (slideNum){

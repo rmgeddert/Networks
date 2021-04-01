@@ -9,20 +9,18 @@ let openerNeeded = false; //true
 let playSounds = false; //true
 
 // ----- Experiment Paramenters (CHANGE ME) ----- //
-let fractalsNeeded = 11; //defined by network structure
-let orientationCorrRespNeeded = 6;
+let fractalsNeeded = 10; //defined by network structure
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let nTrials = 1000; //number of trials during random walk
 let numBlocks = 5; //number of blocks to divide nTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
 
 // vars for network tasks
-let activeNode, taskNetwork = new Network(), showNetworkWalk = true;
-let imageIsRotated, proportionRotated = 0.3;
+let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
 
 //initialize global task variables
 let taskFunc //function for current task
-let frCanvas, frCtx, ntCanvas, ntCtx; //fractal and network canvas
+let frCanvas, frCtx, ntCanvas, ntCtx; //fractal and network walk canvas
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //skip practice or not
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
@@ -39,10 +37,12 @@ let keyListener = 0;
       7: proceed to next instruction "press to continue"
       8: Screen Size too small, "press any button to continue"
 */
+
+// dont need key mapping but need to choose which keys to press
 let keyMapping = randIntFromInterval(1,2);
 /*
-  case 1: 'Z' => correct orientation | 'M' => rotated image
-  case 2: 'Z' => rotated image | 'M' => correct orientation
+  case 1: '1' => n-back repeat | '0' => n-back no repeat
+  case 2: '1' => n-back no repeat | '0' => n-back repeat
 */
 
 function experimentFlow(){
@@ -55,20 +55,20 @@ function experimentFlow(){
   } else {
     block++;
   }
-  // designates which task gets called based on experiment stage var
-  // experiment flow gets called by instructions.js listener
+
+  // go to the correct task based on expStage variable
   if (expStage.indexOf("prac1") != -1){
-  //   learnOrientationsTask();
-  // } else if (expStage.indexOf("prac2") != -1){
-    learnNetworkTaskPractice();
+    oneBackPractice();
+  } else if (expStage.indexOf("prac2") != -1){
+    twoBackPractice();
+  } else if (expStage.indexOf("prac3") != -1){
+    twoBackFractalPractice();
   } else if (expStage.indexOf("main1") != -1){
     learnNetworkTask();
   } else if (expStage.indexOf("main2") != -1){
+    parsingTask();
+  } else if (expStage.indexOf("main3") != -1){
     oddOneOutTest();
-  // } else if (expStage.indexOf("main3") != -1){
-  //   networkWithMathTask();
-  // } else if (expStage.indexOf("main4") != -1){
-  //   fractalPreferenceTask();
   } else {
     endOfExperiment();
   }
@@ -96,6 +96,7 @@ $(document).ready(function(){
       keyListener = 3;
     } else if (keyListener == 1) { //good press
       keyListener = 2;
+
       // accuracy
       partResp = event.which;
       if (keyMapping == 1 ? !imageIsRotated : imageIsRotated ) {
@@ -104,10 +105,14 @@ $(document).ready(function(){
         acc = ([109,77].includes(event.which)) ? 1 : 0;
       }
       if (acc == 1) {accCount++;}
+
       // task feedback
       if (acc == 0) {
-        if (playSounds) {mistakeSound.play()}
+        if (playSounds) {
+          mistakeSound.play();
+        }
       }
+
       // reaction time
       respOnset = new Date().getTime() - runStart;
       respTime = respOnset - stimOnset;
@@ -161,13 +166,10 @@ $(document).ready(function(){
   } else {
     // start experiment
     runStart = new Date().getTime();
-    setUpNetwork();
-    // learnNetworkTask();
+    // setUpNetwork();
     runInstructions();
-    // fractalPreferenceTask();
-    // oddOneOutTest();
-    // networkWithMathTask();
   }
+
 });
 
 function promptMenuClosed(){
