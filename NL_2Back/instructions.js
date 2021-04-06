@@ -4,21 +4,21 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1
+    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "main1": 1, "main2": 1
   },
-  // contains the max value of each instruction iteration. iteration will STOP at max. (maximum 9 per section currently)
+  // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 6, "prac2": 5, "prac3": 5, "main1": 5, "main2": 5, "main3": 5
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 6, "main1": 6, "main2": 4, "main3": 7
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
   exitResponse: {
-    "prac1-1": '#startExpButton',
+    "prac1-1": '#nextSectionButton',
+    "prac1-2": 'buttonPressStartTask',
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
-    "main2": '#startExpButton',
-    "main3": '#startExpButton'
+    "main2": 'buttonPressStartTask'
   }
 };
 let iterateAgain = false, task;
@@ -35,19 +35,16 @@ function navigateInstructionPath(repeat = false){
   } else {
     switch (expStage){
       case "prac1-1":
+        expStage = "prac1-2";
+        break;
+      case "prac1-2":
         expStage = "prac2";
         break;
       case "prac2":
-        expStage = "prac3";
-        break;
-      case "prac3":
         expStage = "main1";
         break;
       case "main1":
         expStage = "main2";
-        break;
-      case "main2":
-        expStage = "main3";
         break;
     }
   }
@@ -56,14 +53,12 @@ function navigateInstructionPath(repeat = false){
 
 function displayDefaults(stage){
   // default values of instruction blocks. add any special cases
-  // showFirst(); <- automatically shows the first line
-  //$('.instruction-header').show(); <- shows the "instructions header", which is default.
-  //make sure to "break;" anything you dont want to look like the default.
   switch(stage){
-    // case "prac1":
-    // case "prac2":
-    // case "main1":
-    // case "main2":
+    case "prac1-2":
+    case "prac2":
+    case "main1":
+    case "main2":
+       showFirst();
     default:
       $('.instruction-header').show();
       break;
@@ -84,72 +79,92 @@ function getNextInstructions(slideNum, expStage){
     case "prac1-1":
       switch (slideNum){
         case 1:
-          return "Hi welcome to the experiment. You are going to be doing several practice tasks as well as a main task blah blah blah";
+          return "Welcome to the experiment, thank you for your participation.";
         case 2:
-          iterateAgain = true;
-          return "For example, if you see...";
+          return "In this experiment you will be completing several practice tasks designed to help you complete the main task, followed by the main task. ";
         case 3:
-          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen. Try your best to pay attention to what each image looks like.";
+          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 4:
-          $(imageTableDiv).insertAfter("#instructions" + slideNum);
-          return "Below are the images you will be using in this experiment. Please take a few moments to familiarize yourself with them before continuing to the next section.";
-        case 5:
-          return "See I told you there would be 5.";
-        case 6:
-            return "This is the text for line 6";
+          return "Respond as quickly and as accurately as possible during the tasks.";
       }
     case "prac1-2":
       switch (slideNum){
         case 1:
-          return "In the first practice task, you will see each image and its rotated version.";
+          return "In this first practice task, you will see a sequence of vowels presented one at a time.";
         case 2:
-          return "Click on the image that is rotated correctly. If you make a mistake, you will be prompted to 'Try Again' until you respond correctly.";
+          return "Press the 1 key on your keyboard if the next vowel in the sequence is a repeat of the previous vowel from one trial before. Press the 0 key if it is not a repeat.";
         case 3:
-          return "You will keep going until you have correctly identified each image " + orientationCorrRespNeeded + " times.";
+          return "For example, if you see A then E press 0. If you see A then A then you would press 1.";
         case 4:
-          return "At first you may just be guessing, but try and pay attention to what each image looks like so you can remember the correct orientation.";
+          return "You will need to get at least 75% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
+        case 5:
+          return "Please place your fingers on the 0 and 1 keys before beginning the task."
+        case 6:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Press any button to start."
       }
     case "prac2":
       switch (slideNum){
         case 1:
-          return "Great job! Now that you are familiar with the images and their correct orientation, you will now practice the main task.";
+          return "Great job! In this second practice task, you will see a sequence of vowels presented one at a time just as in the first practice task. However, in this task you will be paying attention to repeats from TWO trials before.";
         case 2:
-          return "You will see a single image on the screen. You will need to indicate if the image is in its correct orientation or if it has been rotated.";
+          return "Press the 1 key if the vowel you see is the same as the vowel from two trials before in the sequence. Otherwise, press the 0 key.";
         case 3:
-          return "Press 'M' with your right hand index finger if the number " + getKeyMappingText(1);
+          return "For example, if you see the sequence A, I, A press the 1 key. If you see the sequence A, A, I press the 0 key.";
         case 4:
-          return "Press 'Z' with your left hand index finger if the number " + getKeyMappingText(2);;
+          return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
         case 5:
-          return "You will hear a buzzer if you make a mistake or if you respond too slowly. Please make sure your sound is turned on, and feel free to adjust the volume to a comfortable level.";
+          return "Please place your fingers on the 0 and 1 keys before beginning the task.";
         case 6:
-          return "This block will contain "+fractalsNeeded+" trials. You must get " + practiceAccCutoff +"% correct in order to move on to the main task."
-        case 7:
-          iterateAgain = true;
-          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
-          return "Please place your index fingers on the 'M' and 'Z' keys as shown.";
-        case 8:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin."
+          return "Press any button to start."
       }
+      case "prac3":
+        switch (slideNum){
+          case 1:
+            return "In the third and final practice task, you will see a sequence of fractal images, like those pictured below.";
+          case 2:
+            return "You will then perform a similar task as in the second practice task in which you will pay attention to repeats from TWO trials before, but in this task you will be looking at repeats in the fractal images presented.";
+          case 3:
+            return " Press the 1 key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the 0 key.";
+          case 4:
+            return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
+          case 5:
+            return "Please place your fingers on the 0 and 1 keys before beginning the task.";
+          case 6:
+            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+            return "Press any button to start."
+        }
     case "main1":
       switch (slideNum){
         case 1:
-          return "You are now ready to start the main task. As you just practiced, you will see one image appear on the screen."
+          return "You are now ready to start the main task. In the main task, you will follow the same procedure as in the final practice task. This task will last approximately 25 minutes. You will get periodic breaks about every 7 minutes."
         case 2:
-          return "Press 'M' with your right hand index finger if the image " + getKeyMappingText(1);
+          return "As a reminder, you will see a sequence of fractal images, like those pictured below.";
         case 3:
-          return "Press 'Z' with your left hand index finger if the image " + getKeyMappingText(2);
+          return "Press the 1 key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the 0 key.";
         case 4:
-          return "This task will take approximately 15 minutes, and you will have periodic short breaks. Remember to respond to each image as quickly and accurately as possible.";
+          return "You will need to get a least 75% correct on this task in order to move onto the main task, otherwise you will need to repeat the practice.";
         case 5:
-          iterateAgain = true;
-          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
-          return "Please place your index fingers on the 'M' and 'Z' keys as shown.";
+          return "Please place your fingers on the 0 and 1 keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
         case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to begin."
+          return "Press any button to start."
       }
-    case "main2":
+      case "main2":
+        switch (slideNum){
+          case 1:
+            return "This next task will take about 15 minutes, and you will get a break halfway through. In the task, you will see a sequence of fractal images."
+          case 2:
+            return "Press the space bar every time you think you have come to a natural breaking point in the sequence.";
+          case 3:
+            return "Please place your finger on the spacebar before beginning the task.";          case 5:
+            return "Please place your fingers on the 0 and 1 keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
+          case 4:
+            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+            return "Press any button to start."
+        }
+    case "main3":
       switch (slideNum){
         case 1:
           return "In this next task, you will see three images. You will be asked to select the image that does not fit with the other two images.";
@@ -164,6 +179,9 @@ function getNextInstructions(slideNum, expStage){
           return "Please take your time and think carefully about which image does not fit with the other two images based on the image sequence. If we detect button mashing you will not be compensated. Thank you.";
         case 6:
           return "If you are unsure, make your best guess.";
+        case 7:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Press any button to start."
       }
   }
 }
