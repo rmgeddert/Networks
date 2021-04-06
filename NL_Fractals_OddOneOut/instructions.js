@@ -8,17 +8,17 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 6, "main1": 6, "main2": 4, "main3": 7
+    "prac1-1": 4, "prac1-2": 4, "prac2": 8, "main1": 6, "main2": 6
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
   exitResponse: {
     "prac1-1": '#nextSectionButton',
-    "prac1-2": 'buttonPressStartTask',
+    "prac1-2": '#startExpButton',
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
-    "main2": 'buttonPressStartTask'
+    "main2": '#startExpButton'
   }
 };
 let iterateAgain = false, task;
@@ -79,92 +79,67 @@ function getNextInstructions(slideNum, expStage){
     case "prac1-1":
       switch (slideNum){
         case 1:
-          return "Welcome to the experiment, thank you for your participation.";
+          return "In this experiment, you will see a series of fractal images. You will need to indicate if the image is oriented correctly or if it has been rotated.";
         case 2:
-          return "In this experiment you will be completing several practice tasks designed to help you complete the main task, followed by the main task. ";
+          return "You will first complete a series of practice tasks designed to familiarize you with the images and help you complete the main task.";
         case 3:
-          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
+          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen. Try your best to pay attention to what each image looks like.";
         case 4:
-          return "Respond as quickly and as accurately as possible during the tasks.";
+          $(imageTableDiv).insertAfter("#instructions" + slideNum);
+          return "Below are the images you will be using in this experiment. Please take a few moments to familiarize yourself with them before continuing to the next section.";
       }
     case "prac1-2":
       switch (slideNum){
         case 1:
-          return "In this first practice task, you will see a sequence of vowels presented one at a time.";
+          return "In the first practice task, you will see each image and its rotated version.";
         case 2:
-          return "Press the 1 key on your keyboard if the next vowel in the sequence is a repeat of the previous vowel from one trial before. Press the 0 key if it is not a repeat.";
+          return "Click on the image that is rotated correctly. If you make a mistake, you will be prompted to 'Try Again' until you respond correctly.";
         case 3:
-          return "For example, if you see A then E press 0. If you see A then A then you would press 1.";
+          return "You will keep going until you have correctly identified each image " + orientationCorrRespNeeded + " times.";
         case 4:
-          return "You will need to get at least 75% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
-        case 5:
-          return "Please place your fingers on the 0 and 1 keys before beginning the task."
-        case 6:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start."
+          return "At first you may just be guessing, but try and pay attention to what each image looks like so you can remember the correct orientation.";
       }
     case "prac2":
       switch (slideNum){
         case 1:
-          return "Great job! In this second practice task, you will see a sequence of vowels presented one at a time just as in the first practice task. However, in this task you will be paying attention to repeats from TWO trials before.";
+          return "Great job! Now that you are familiar with the images and their correct orientation, you will now practice the main task.";
         case 2:
-          return "Press the 1 key if the vowel you see is the same as the vowel from two trials before in the sequence. Otherwise, press the 0 key.";
+          return "You will see a single image on the screen. You will need to indicate if the image is in its correct orientation or if it has been rotated.";
         case 3:
-          return "For example, if you see the sequence A, I, A press the 1 key. If you see the sequence A, A, I press the 0 key.";
+          return "Press 'M' with your right hand index finger if the number " + getKeyMappingText(1);
         case 4:
-          return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
+          return "Press 'Z' with your left hand index finger if the number " + getKeyMappingText(2);;
         case 5:
-          return "Please place your fingers on the 0 and 1 keys before beginning the task.";
+          return "You will hear a buzzer if you make a mistake or if you respond too slowly. Please make sure your sound is turned on, and feel free to adjust the volume to a comfortable level.";
         case 6:
+          return "This block will contain "+fractalsNeeded+" trials. You must get " + practiceAccCutoff +"% correct in order to move on to the main task."
+        case 7:
+          iterateAgain = true;
+          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
+          return "Please place your index fingers on the 'M' and 'Z' keys as shown.";
+        case 8:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start."
+          return "Press any button to begin."
       }
-      case "prac3":
-        switch (slideNum){
-          case 1:
-            return "In the third and final practice task, you will see a sequence of fractal images, like those pictured below.";
-          case 2:
-            return "You will then perform a similar task as in the second practice task in which you will pay attention to repeats from TWO trials before, but in this task you will be looking at repeats in the fractal images presented.";
-          case 3:
-            return " Press the 1 key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the 0 key.";
-          case 4:
-            return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
-          case 5:
-            return "Please place your fingers on the 0 and 1 keys before beginning the task.";
-          case 6:
-            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Press any button to start."
-        }
     case "main1":
       switch (slideNum){
         case 1:
-          return "You are now ready to start the main task. In the main task, you will follow the same procedure as in the final practice task. This task will last approximately 25 minutes. You will get periodic breaks about every 7 minutes."
+          return "You are now ready to start the main task. As you just practiced, you will see one image appear on the screen."
         case 2:
-          return "As a reminder, you will see a sequence of fractal images, like those pictured below.";
+          return "Press 'M' with your right hand index finger if the image " + getKeyMappingText(1);
         case 3:
-          return "Press the 1 key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the 0 key.";
+          return "Press 'Z' with your left hand index finger if the image " + getKeyMappingText(2);
         case 4:
-          return "You will need to get a least 75% correct on this task in order to move onto the main task, otherwise you will need to repeat the practice.";
+          return "This task will take approximately 15 minutes, and you will have periodic short breaks. Remember to respond to each image as quickly and accurately as possible.";
         case 5:
-          return "Please place your fingers on the 0 and 1 keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
+          iterateAgain = true;
+          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
+          return "Please place your index fingers on the 'M' and 'Z' keys as shown.";
         case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start."
+          return "Press any button to begin."
       }
-      case "main2":
-        switch (slideNum){
-          case 1:
-            return "This next task will take about 15 minutes, and you will get a break halfway through. In the task, you will see a sequence of fractal images."
-          case 2:
-            return "Press the space bar every time you think you have come to a natural breaking point in the sequence.";
-          case 3:
-            return "Please place your finger on the spacebar before beginning the task.";          case 5:
-            return "Please place your fingers on the 0 and 1 keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
-          case 4:
-            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Press any button to start."
-        }
-    case "main3":
+    case "main2":
       switch (slideNum){
         case 1:
           return "In this next task, you will see three images. You will be asked to select the image that does not fit with the other two images.";
@@ -179,9 +154,6 @@ function getNextInstructions(slideNum, expStage){
           return "Please take your time and think carefully about which image does not fit with the other two images based on the image sequence. If we detect button mashing you will not be compensated. Thank you.";
         case 6:
           return "If you are unsure, make your best guess.";
-        case 7:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start."
       }
   }
 }
