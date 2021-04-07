@@ -5,7 +5,8 @@
 let instructionImages = {
   1: 'images/oneFingerKeyboard1.png',
   2: 'images/oneFingerKeyboard2.png',
-  3: 'images/oneFingerKeyboard3.png'
+  3: 'images/oneFingerKeyboard3.png',
+  4: 'images/handsOnKeyboard5.png'
 }
 
 // array for fractal images
@@ -29,7 +30,7 @@ for (var i = 0; i < selectedImages.length; i++) {
 // -------------------------------------------//
 
 // defines how many images fit per row (within 900px width and 26px padding)
-let chunkSize = 6;
+let chunkSize = 5;
 
 // create image table
 let imageTable = document.createElement("div");

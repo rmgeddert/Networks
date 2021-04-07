@@ -56,22 +56,23 @@ function experimentFlow(){
     block++;
   }
 
-  // go to the correct task based on expStage variable
-  if (expStage.indexOf("prac1") != -1){
-    oneBackPractice();
-  } else if (expStage.indexOf("prac2") != -1){
-    twoBackPractice();
-  } else if (expStage.indexOf("prac3") != -1){
-    twoBackFractalPractice();
-  } else if (expStage.indexOf("main1") != -1){
-    learnNetworkTask();
-  } else if (expStage.indexOf("main2") != -1){
-    parsingTask();
-  } else if (expStage.indexOf("main3") != -1){
-    oddOneOutTest();
-  } else {
-    endOfExperiment();
-  }
+  navigateInstructionPath(repeatNecessary);
+  // // go to the correct task based on expStage variable
+  // if (expStage.indexOf("prac1") != -1){
+  //   oneBackPractice();
+  // } else if (expStage.indexOf("prac2") != -1){
+  //   twoBackPractice();
+  // } else if (expStage.indexOf("prac3") != -1){
+  //   twoBackFractalPractice();
+  // } else if (expStage.indexOf("main1") != -1){
+  //   learnNetworkTask();
+  // } else if (expStage.indexOf("main2") != -1){
+  //   parsingTask();
+  // } else if (expStage.indexOf("main3") != -1){
+  //   oddOneOutTest();
+  // } else {
+  //   endOfExperiment();
+  // }
 }
 
 $(document).ready(function(){
@@ -129,6 +130,7 @@ $(document).ready(function(){
       keyListener = 0;
       countDown(3, "fast");
     } else if (keyListener == 5) { //press button to start task (instructions)
+      console.log("key up 5");
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
