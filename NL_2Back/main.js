@@ -4,42 +4,49 @@
 let testMode = false;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = false; // <- turn practice blocks on or off
-let openerNeeded = false; //true
-let playSounds = false; //true
+let skipPractice = false; // turn practice blocks on or off
+let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
 
-// ----- Experiment Paramenters (CHANGE ME) ----- //
+// ----- Experiment Paramenters (CHANGE ME) -----
 let fractalsNeeded = 10; //defined by network structure
+let showFixation = true;
+let fixationSymbol = ""; // "", "+"
+let fixInterval = 500;
+let showFeedback = true;
+let feedbackInterval = 1200;
+let playSounds = false;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
+let earlyRelease = true;
 let nTrials = 1000; //number of trials during random walk
+let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
+let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nTrials into
-let practiceAccCutoff = (testMode == true) ? 0 : 70; // 70 acc%
+let practiceAccCutoff = (testMode == true) ? 0 : 90; // 70 acc%
+let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //initial expStage
 
-// vars for network tasks
-let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
-
-//initialize global task variables
+// global task variables
+// let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
 let taskFunc //function for current task
-let frCanvas, frCtx, ntCanvas, ntCtx; //fractal and network walk canvas
-let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //skip practice or not
+let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, accArr;
+let canvas, ctx, ntCanvas, ntCtx; //fractal and network walk canvas
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
-let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType;
+let mistakeSound = new Audio('sounds/mistakeSoundShort.m4a');
+let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType, taskSet;
 let keyListener = 0;
 /*  keyListener explanations:
       0: No key press expected/needed
       1: Key press expected (triggered by stimulus appearing)
       2: Key press from 1 received. Awaiting keyup event, else promptLetGo() if new trial starts. After keyup resume experiment and reset to 0.
       3: Key press from 0 still being held down. On keyup, reset to 0. promptLetGo() if new trial starts.
-      4: participant didn't let go in time, letgo prompt given. on key release resume task after countdown.
-      5: mini block screen/feedback. Awaiting key press to continue, keyup resets to 0 and goes to next trial.
-      6: instruction start task "press to continue"
-      7: proceed to next instruction "press to continue"
-      8: Screen Size too small, "press any button to continue"
+      4: Screen Size too small, "press any button to continue"
+      5: press button to start experiment (from instructions)
+      6: press button to continue to instructions (from feedback)
+      7: proceed to next block of task (from block break screen)
 */
 
-// dont need key mapping but need to choose which keys to press
 let keyMapping = randIntFromInterval(1,2);
+keyMapping = 1;
 /*
   case 1: '1' => n-back repeat | '0' => n-back no repeat
   case 2: '1' => n-back no repeat | '0' => n-back repeat
@@ -56,10 +63,15 @@ function experimentFlow(){
     block++;
   }
 
-  navigateInstructionPath(repeatNecessary);
+  // navigateInstructionPath(repeatNecessary);
   // // go to the correct task based on expStage variable
-  // if (expStage.indexOf("prac1") != -1){
-  //   oneBackPractice();
+  if (expStage.indexOf("prac1") != -1){
+    oneBackPractice();
+  } else if (expStage.indexOf("prac2") != -1){
+    twoBackPractice();
+  } else {
+    navigateInstructionPath(repeatNecessary);
+  }
   // } else if (expStage.indexOf("prac2") != -1){
   //   twoBackPractice();
   // } else if (expStage.indexOf("prac3") != -1){
@@ -77,42 +89,45 @@ function experimentFlow(){
 
 $(document).ready(function(){
 
-  // prepare fractal canvas no matter what
-  frCanvas = document.getElementById('fractalCanvas');
-  frCtx = fractalCanvas.getContext('2d');
-  frCtx.textBaseline= "middle";
-  frCtx.textAlign="center";
+  // main display canvas
+  canvas = document.getElementById('fractalCanvas');
+  ctx = fractalCanvas.getContext('2d');
+  ctx.textBaseline= "middle";
+  ctx.textAlign="center";
 
-  // prepare network canvas if needed
-  if (showNetworkWalk == true) {
-    ntCanvas = document.getElementById('networkCanvas');
-    ntCtx = networkCanvas.getContext('2d');
-    ntCtx.textBaseline= "middle";
-    ntCtx.textAlign="center";
-  }
+  // canvas for showing network walk
+  ntCanvas = document.getElementById('networkCanvas');
+  ntCtx = networkCanvas.getContext('2d');
+  ntCtx.textBaseline= "middle";
+  ntCtx.textAlign="center";
 
   // create key press listener
   $("body").keypress(function(event){
     if (keyListener == 0) { //bad press
       keyListener = 3;
     } else if (keyListener == 1) { //good press
-      keyListener = 2;
+      keyListener = 2; //await key up
 
       // accuracy
       partResp = event.which;
-      if (keyMapping == 1 ? !imageIsRotated : imageIsRotated ) {
-        acc = ([122,90].includes(event.which)) ? 1 : 0;
+      if (keyMapping == 1 ? trialIsRepeat : !trialIsRepeat ) {
+        acc = ([49,33].includes(event.which)) ? 1 : 0;
       } else {
-        acc = ([109,77].includes(event.which)) ? 1 : 0;
+        acc = ([48,41].includes(event.which)) ? 1 : 0;
       }
-      if (acc == 1) {accCount++;}
 
-      // task feedback
-      if (acc == 0) {
+      if (acc == 1) {
+        accCount++;
+      } else {
         if (playSounds) {
           mistakeSound.play();
         }
       }
+
+      // task feedback
+      // if (acc == 0 && playSounds) {
+      //   mistakeSound.play();
+      // }
 
       // reaction time
       respOnset = new Date().getTime() - runStart;
@@ -120,17 +135,20 @@ $(document).ready(function(){
     }
   });
 
-  // create key release listener
-  $("body").keyup(function(event){
+// create key release listener
+    $("body").keyup(function(event){
     if (keyListener == 2 ) { //good press release
+      if (earlyRelease){
+        clearTimeout(stimTimeout);
+        itiScreen();
+      }
       keyListener = 0;
     } else if (keyListener == 3) { //resets bad press to 0
       keyListener = 0;
-    } else if (keyListener == 4) { //didn't let go
+    } else if (keyListener == 4) { //screen size warning
       keyListener = 0;
       countDown(3, "fast");
     } else if (keyListener == 5) { //press button to start task (instructions)
-      console.log("key up 5");
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
@@ -150,7 +168,7 @@ $(document).ready(function(){
     } else if (keyListener == 7) { //block break screen
       keyListener = 0;
       clearInterval(sectionTimer);
-      // increment block for next time
+      // increment block
       block++;
       // log data
       sectionEnd = new Date().getTime() - runStart;
@@ -168,6 +186,7 @@ $(document).ready(function(){
   } else {
     // start experiment
     runStart = new Date().getTime();
+
     // setUpNetwork();
     runInstructions();
   }

@@ -27,12 +27,12 @@ let iterateAgain = false, task;
 function navigateInstructionPath(repeat = false){
   if (repeat == true) {
     // if multi stage instructions, ensures it goes back to first not second
-    switch (expStage){
-      case "prac1-1":
-      case "prac1-2":
-        expStage = "prac1-1";
-        break;
-    }
+    // switch (expStage){
+    //   case "prac1-1":
+    //   case "prac1-2":
+    //     expStage = "prac1-1";
+    //     break;
+    // }
   } else {
     switch (expStage){
       case "prac1-1":
@@ -105,7 +105,7 @@ function getNextInstructions(slideNum, expStage){
           return "You will need to get at least 75% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
         case 5:
           iterateAgain = true;
-          $( getImageText(instructionImages[4]) ).insertAfter( "#instructions" + slideNum);
+          $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
           return "Please place your fingers on the 1 and 0 keys before beginning the task.";
         case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
@@ -123,7 +123,7 @@ function getNextInstructions(slideNum, expStage){
           return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
         case 5:
           iterateAgain = true;
-          $( getImageText(instructionImages[4]) ).insertAfter( "#instructions" + slideNum);
+          $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
           return "Please place your fingers on the 1 and 0 keys before beginning the task.";
         case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
@@ -142,7 +142,7 @@ function getNextInstructions(slideNum, expStage){
             return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
           case 5:
             iterateAgain = true;
-            $( getImageText(instructionImages[4]) ).insertAfter( "#instructions" + slideNum);
+            $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
             return "Please place your fingers on the 1 and 0 keys before beginning the task.";
           case 6:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
@@ -200,6 +200,7 @@ function getNextInstructions(slideNum, expStage){
 }
 
 function runInstructions(){
+
   // main instruction function (come here at start of instruction block)
   sectionStart = new Date().getTime() - runStart;
   sectionType = "instructions";
