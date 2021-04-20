@@ -9,11 +9,11 @@ let openerNeeded = false; // require menu.html to also be open to run experiment
 
 // ----- Experiment Paramenters (CHANGE ME) -----
 let fractalsNeeded = 10; //defined by network structure
-let showFixation = true;
+let showFixation = false;
 let fixationSymbol = ""; // "", "+"
 let fixInterval = 500;
 let showFeedback = true;
-let feedbackInterval = 1200;
+let feedbackInterval = 1000;
 let playSounds = false;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let earlyRelease = true;
@@ -21,7 +21,7 @@ let nTrials = 1000; //number of trials during random walk
 let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nTrials into
-let practiceAccCutoff = (testMode == true) ? 0 : 90; // 70 acc%
+let practiceAccCutoff = (testMode == true) ? 0 : 80; // 70 acc%
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //initial expStage
 
 // global task variables

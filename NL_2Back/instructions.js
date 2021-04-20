@@ -102,7 +102,7 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "For example, if you see A then E, press '0'. If you see A then A, press '1'.";
         case 4:
-          return "You will need to get at least 75% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
+          return "You will need to get at least 80% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
@@ -120,7 +120,7 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "For example, if you see the sequence A, I, A press the '1' key. If you see the sequence A, A, I press the '0' key.";
         case 4:
-          return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
+          return "You will need to get a least 80% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
@@ -139,7 +139,7 @@ function getNextInstructions(slideNum, expStage){
           case 3:
             return " Press the '1' key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the '0' key.";
           case 4:
-            return "You will need to get a least 75% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
+            return "You will need to get a least 80% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
           case 5:
             iterateAgain = true;
             $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
