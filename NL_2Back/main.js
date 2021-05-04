@@ -7,6 +7,7 @@ speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
 let playSounds = true;
+let showNetworkWalk = false;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
 let fractalsNeeded = 10; //defined by network structure
@@ -22,11 +23,11 @@ let nParsingTrials = 600;
 let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nFractalTrials into
-let practiceAccCutoff = (testMode == true) ? 0 : 80; // 70 acc%
+let practiceAccCutoff = (testMode == true) ? 0 : 85; // 70 acc%
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //initial expStage
 
-// global task variables
-let activeNode, prevNode, taskNetwork = new Network(), showNetworkWalk = true, hamiltonianPath = [], transitionType;
+// task variables
+let activeNode, prevNode, taskNetwork = new Network(), hamiltonianPath = [], transitionType;
 let taskFunc; //function for current task
 let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, trialIsNA, switchType, accArr, fractalTrialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
 let canvas, ctx, ntCanvas, ntCtx; //fractal and network walk canvas
@@ -194,7 +195,8 @@ $(document).ready(function(){
     runStart = new Date().getTime();
 
     setUpNetwork();
-    runInstructions();
+    // runInstructions();
+    oddOneOutTest();
   }
 
 });

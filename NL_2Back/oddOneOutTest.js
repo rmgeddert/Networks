@@ -4,21 +4,18 @@ function oddOneOutTest() {
 
   // fill taskNodesSets
   createNodeSetArr();
-  console.log(taskNodeSets);
+  // iterationTesting();
 
   // run algorithm to set up main task array
   // prevents repeat of nodes from one trial to next
   let mainTaskArr;
-  mainTaskArr = shuffle(taskNodeSets);
-  // let algorithmIterationCap = 1000;
-  // for (let i = 1; i < algorithmIterationCap; i++) {
-  //   console.log("iteration ", i);
-  //   mainTaskArr = shuffleNodeSets();
-  //   if (mainTaskArr.length != 0) {
-  //     break;
-  //   }
-  // }
-  console.log(mainTaskArr);
+  let algorithmIterationCap = 10000;
+  for (let i = 1; i < algorithmIterationCap; i++) {
+    mainTaskArr = shuffleNodeSets();
+    if (mainTaskArr.length != 0) {
+      break;
+    }
+  }
 
   // set section type
   sectionType = "mainTask";
@@ -100,7 +97,7 @@ function oddOneOutTest() {
 
   function shuffleNodeSets(){
     // shuffling function for oddoneout task
-    // shuffle node sets so there are no repeats in images
+    // shuffle node sets so there are no repeats in target images
     let newArr = [];
     let baseArr = shuffle($.extend(true,[],taskNodeSets)); //copy taskNodeSets into new variable (shuffled)
 
@@ -129,12 +126,13 @@ function oddOneOutTest() {
       let filteredArr = baseArr.filter(checkNodeSet);
 
       function checkNodeSet(nodeSet){
-        // // filter to those nodesets that don't include the previous target node
-        // let targetNode = lastNodeSet.nodes[lastNodeSet.indexer.indexOf(1)];
-        // return !nodeSet.nodes.includes(targetNode);
+        // // filter to those nodesets that don't include the previous target node, and whose images are all different than previous (at any location)
+        let targetNode = lastNodeSet.nodes[lastNodeSet.indexer.indexOf(1)];
+        return !nodeSet.nodes.includes(targetNode) && nodeSet.nodes.every((n, i) => n != lastNodeSet.nodes[i]);
+
 
         //filter out all nodeSets that share nodes with previous nodeset
-        return !nodeSet.nodes.some(n => lastNodeSet.nodes.includes(n));
+        // return !nodeSet.nodes.some(n => lastNodeSet.nodes.includes(n));
       }
 
       if (filteredArr.length == 0) {
@@ -158,23 +156,25 @@ function oddOneOutTest() {
   function iterationTesting(){
     // for testing algorithmic efficiency
     // logs how many iterations algorithm takes to find solution
-    let nTests = 1000;
-    let algorithmicCap = 10000; //after testing 100,000 iterations of algorithm, max was 148 attempts to find solution
+    let nTests = 100;
+    let algorithmicCap = 1000; //after testing 100,000 iterations of algorithm, max was 148 attempts to find solution
     let iterations = {
-      "No Solution (10000 attempts)": 0
+      "No Solution": 0
     };
     for (var j = 1; j < nTests; j++) {
+      console.log("Test#: ", j);
       let iterationCount = getIterationCount();
       if (iterationCount in iterations) {
         iterations[iterationCount]++;
       } else {
         iterations[iterationCount] = 1;
       }
+      console.log("Test took ", iterationCount, " steps.");
     }
     console.log(iterations);
 
     function getIterationCount(){
-      let taskArr;
+      createNodeSetArr();
       for (var i = 1; i < algorithmicCap; i++) {
         taskArr = shuffleNodeSets();
         if (taskArr.length != 0) {
@@ -189,43 +189,55 @@ function oddOneOutTest() {
     // create node sets for task
     taskNetwork.nodes.forEach((node) => {
 
+      // only use internal nodes
       if (!node.isBoundaryNode) {
 
         let nodeSetsBatch = [];
-        for (let i = 0; i < 3; i++) { //do three times per node
-          // object for node set
-          let newNodeSet = {
-            nodes: [],
-            indexer: []
+
+        // choose two nodes from other community
+        let oppCommNumber = (node.communityNumber == 1) ? 2 : 1;
+        let oppCommNodes = taskNetwork.communityNodes(oppCommNumber);
+        let oppCommSelection = _.sample(oppCommNodes.filter(n => !n.isBoundaryNode),2);
+
+        //  do 6 times, all permutations
+        let count = 1;
+        for (let i = 0; i < 3; i++) { //three times per object
+
+          for (let j = 0; j < 2; j++) { //twice per others (6 total)
+
+            // console.log(count);
+            // console.log(node.name);
+            count++;
+
+            let newNodeSet = {
+              nodes: [],
+              indexer: [],
+              target: node.name
+            }
+
+            let nodeSetArr;
+            let oddOneIndexer = [0,0];
+
+            // starting array
+            if (j == 0) {
+              nodeSetArr = [...oppCommSelection];
+            } else {
+              nodeSetArr = [...oppCommSelection].reverse();
+            }
+
+            // splice in target
+            nodeSetArr.splice(i, 0, node);
+            oddOneIndexer.splice(i, 0, 1);
+
+            // update newNodeSet
+            newNodeSet.nodes = nodeSetArr;
+            newNodeSet.indexer = oddOneIndexer;
+
+            // push newNodeSet into nodeSetsArr
+            nodeSetsBatch.push(newNodeSet);
           }
-
-          // select two random neighbors from the other community
-          let oppCommNumber = (node.communityNumber == 1) ? 2 : 1;
-          let oppCommNodes = taskNetwork.communityNodes(oppCommNumber);
-
-          let oppCommSelection;
-          do {
-            oppCommSelection = _.sample(oppCommNodes.filter(n => !n.isBoundaryNode),2);
-          } while (repeatedNodeSelection()); //check nodeSetsBatch
-
-          function repeatedNodeSelection(){
-            return (nodeSetsBatch.length == 0) ? false : nodeSetsBatch.some(ns => oppCommSelection.every(n => ns.nodes.includes(n)));
-          }
-
-          // create nodeSet node array and indexer (identify which node is oddOneOut)
-          let nodeSetArr = oppCommSelection;
-          nodeSetArr.splice(i, 0, node);
-          let oddOneIndexer = [0,0];
-          oddOneIndexer.splice(i, 0, 1);
-
-          // update newNodeSet
-          newNodeSet.nodes = nodeSetArr;
-          newNodeSet.indexer = oddOneIndexer;
-
-          // push newNodeSet into nodeSetsArr
-          nodeSetsBatch.push(newNodeSet);
         }
-
+        // console.log(nodeSetsBatch);
         // add node set to task set
         taskNodeSets = taskNodeSets.concat(nodeSetsBatch);
 
@@ -234,3 +246,53 @@ function oddOneOutTest() {
     });
   }
 }
+
+// OLD VERSION
+// function createNodeSetArr(){
+//   // create node sets for task
+//   taskNetwork.nodes.forEach((node) => {
+//
+//     if (!node.isBoundaryNode) {
+//
+//       let nodeSetsBatch = [];
+//       for (let i = 0; i < 3; i++) { //do three times per node
+//         // object for node set
+//         let newNodeSet = {
+//           nodes: [],
+//           indexer: []
+//         }
+//
+//         // select two random neighbors from the other community
+//         let oppCommNumber = (node.communityNumber == 1) ? 2 : 1;
+//         let oppCommNodes = taskNetwork.communityNodes(oppCommNumber);
+//
+//         let oppCommSelection;
+//         do {
+//           oppCommSelection = _.sample(oppCommNodes.filter(n => !n.isBoundaryNode),2);
+//         } while (repeatedNodeSelection()); //check nodeSetsBatch
+//
+//         function repeatedNodeSelection(){
+//           return (nodeSetsBatch.length == 0) ? false : nodeSetsBatch.some(ns => oppCommSelection.every(n => ns.nodes.includes(n)));
+//         }
+//
+//         // create nodeSet node array and indexer (identify which node is oddOneOut)
+//         let nodeSetArr = oppCommSelection;
+//         nodeSetArr.splice(i, 0, node);
+//         let oddOneIndexer = [0,0];
+//         oddOneIndexer.splice(i, 0, 1);
+//
+//         // update newNodeSet
+//         newNodeSet.nodes = nodeSetArr;
+//         newNodeSet.indexer = oddOneIndexer;
+//
+//         // push newNodeSet into nodeSetsArr
+//         nodeSetsBatch.push(newNodeSet);
+//       }
+//
+//       // add node set to task set
+//       taskNodeSets = taskNodeSets.concat(nodeSetsBatch);
+//
+//     }
+//
+//   });
+// }

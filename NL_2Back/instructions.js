@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 5, "main2": 5, "main3": 6
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 5, "main2": 6, "main3": 6
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -179,10 +179,12 @@ function getNextInstructions(slideNum, expStage){
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
             return "Press the space bar every time you think you have come to a natural breaking point in the sequence. ";
           case 3:
-            return "This next task will take about 15 minutes, and you will get a break halfway through.";
+            return "So, if you see a fractal image that makes you think a sequence has ended and a new one has begun, press the space bar immediately.";
           case 4:
-            return "Please place your finger on the spacebar before beginning the task.";
+            return "This next task will take about 15 minutes, and you will get a break halfway through.";
           case 5:
+            return "Please place your finger on the spacebar before beginning the task.";
+          case 6:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
             return "Press any button to start."
         }
@@ -191,7 +193,7 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "In this final task, you will see three fractal images. You will be asked to select the image that does not fit with the other two images.";
         case 2:
-          return "In the main task that you completed, the stream of images you saw adhered to a pattern. Thus, some images were presented after one another frequently while others were not."
+          return "In the main task that you completed earlier, the stream of images you saw adhered to a pattern. Thus, some images were presented after one another frequently while others were not."
         case 3:
           return "Your job in this task is to choose the image that would be UNLIKELY to appear after either of the other two images.";
         case 4:
