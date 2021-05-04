@@ -195,8 +195,8 @@ $(document).ready(function(){
     runStart = new Date().getTime();
 
     setUpNetwork();
-    // runInstructions();
-    oddOneOutTest();
+    runInstructions();
+    // oddOneOutTest();
   }
 
 });
