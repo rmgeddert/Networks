@@ -1,9 +1,11 @@
 function twoBackPractice(){
-  console.log("Running 2-Back task...");
+  // console.log("2-Back Practice task");
 
   // declare and set task variables
   sectionType = "pracTask";
-  taskName = "2-Back Task (Practice)";
+  taskName = "2-Back";
+  earlyReleaseExperiment = true;
+  playSoundsExperiment = false;
 
   // hide instructions, show canvas
   $('#instructionsDiv').hide();
@@ -13,12 +15,11 @@ function twoBackPractice(){
   // set up vowel sequence
   nBack = 2, stimSet = ["A","E","O","U","I"];
   switchRepeatArr = getSwitchRepeatArr(nPracticeTrials, percRepeats, nBack);
-  console.log(switchRepeatArr);
+  // console.log(switchRepeatArr);
   stimArr = getStimArr(switchRepeatArr, stimSet, nBack);
-  console.log(stimArr);
+  // console.log(stimArr);
   accArr = [];
-
-  trialCount = 0;
+  accCount = 0;
 
   // run taskFunc ()= run2Back) after countdown
   taskFunc = run2Back;
@@ -26,7 +27,7 @@ function twoBackPractice(){
 }
 
 function run2Back(){
-  if (trialCount < stimArr.length - 1) {
+  if (trialCount <= nPracticeTrials) {
 
     if (screenSizeIsOk()){
 
@@ -42,7 +43,7 @@ function run2Back(){
 
   } else {
 
-    nBackFeedback(Math.round( accCount / (trialCount + 1) * 100 ));
+    nBackFeedback(Math.round( accCount / (trialCount - 1 - nBack) * 100 ));
 
   }
 }

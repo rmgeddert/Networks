@@ -8,7 +8,7 @@ let instructionImages = {
 
 // array for fractal images
 let fractalSRCs = [];
-for (let i = 1; i < 11; i++) { //19 is number of fractals currently made
+for (let i = 1; i < 14; i++) { //15 fractals currently made, excluding last 2
   fractalSRCs.push(`qbist_fractals/Fractal${i}.png`);
 }
 

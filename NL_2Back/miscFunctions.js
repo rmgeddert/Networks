@@ -23,20 +23,20 @@ function promptLetGo(){
   setTimeout(function(){keyListener = 4},1000);
 
   //prepare canvas
-  ctx.clearRect(0, 0, frCanvas.width, frCanvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // show warning
   ctx.fillStyle = "black";
   ctx.font = "30px Arial";
-  ctx.fillText("Please release key",frCanvas.width/2,frCanvas.height/2);
-  ctx.fillText("immediately after responding.",frCanvas.width/2,frCanvas.height/2 + 30);
+  ctx.fillText("Please release key",canvas.width/2,canvas.height/2);
+  ctx.fillText("immediately after responding.",canvas.width/2,canvas.height/2 + 30);
 
   ctx.font = "bold 25px Arial";
-  ctx.fillText("Press any button to resume.",frCanvas.width/2,frCanvas.height/2 + 150);
+  ctx.fillText("Press any button to resume.",canvas.width/2,canvas.height/2 + 150);
 
   ctx.fillStyle = "red";
   ctx.font = "bold 30px Arial";
-  ctx.fillText("Can't initiate trial if a key is held down.",frCanvas.width/2,frCanvas.height/2 - 100);
+  ctx.fillText("Can't initiate trial if a key is held down.",canvas.width/2,canvas.height/2 - 100);
 }
 
 // code for checking screen size

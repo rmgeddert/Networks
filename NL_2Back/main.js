@@ -6,28 +6,29 @@ let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
+let playSounds = true;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
 let fractalsNeeded = 10; //defined by network structure
 let showFixation = false;
 let fixationSymbol = ""; // "", "+"
-let fixInterval = 500;
+let fixInterval = (speed == "fast") ? 5 : 500;
 let showFeedback = true;
-let feedbackInterval = 1000;
-let playSounds = false;
+let feedbackInterval = (speed == "fast") ? 5 : 1000;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let earlyRelease = true;
-let nTrials = 1000; //number of trials during random walk
+let nFractalTrials = 1000; //number of trials during random walk
+let nParsingTrials = 600;
 let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
-let numBlocks = 5; //number of blocks to divide nTrials into
+let numBlocks = 5; //number of blocks to divide nFractalTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 80; // 70 acc%
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //initial expStage
 
 // global task variables
-// let activeNode, taskNetwork = new Network(), showNetworkWalk = false;
-let taskFunc //function for current task
-let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, accArr;
+let activeNode, prevNode, taskNetwork = new Network(), showNetworkWalk = true, hamiltonianPath = [], transitionType;
+let taskFunc; //function for current task
+let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, trialIsNA, switchType, accArr, fractalTrialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
 let canvas, ctx, ntCanvas, ntCtx; //fractal and network walk canvas
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
@@ -55,10 +56,9 @@ keyMapping = 1;
 function experimentFlow(){
   // reset block and trial counts (unless repeat)
   blockTrialCount = 1;
+  trialCount = 1;
   if (!repeatNecessary) {
     block = 1;
-    trialCount = 1;
-    accCount = 0;
   } else {
     block++;
   }
@@ -69,21 +69,19 @@ function experimentFlow(){
     oneBackPractice();
   } else if (expStage.indexOf("prac2") != -1){
     twoBackPractice();
+  } else if (expStage.indexOf("prac3") != -1){
+    twoBackFractalPractice();
+  } else if (expStage.indexOf("main1") != -1){
+    learnNetworkTask();
+  } else if (expStage.indexOf("main2") != -1){
+    parsingTask();
+  } else if (expStage.indexOf("main3") != -1){
+    oddOneOutTest();
   } else {
-    navigateInstructionPath(repeatNecessary);
+    endOfExperiment();
   }
-  // } else if (expStage.indexOf("prac2") != -1){
-  //   twoBackPractice();
-  // } else if (expStage.indexOf("prac3") != -1){
-  //   twoBackFractalPractice();
-  // } else if (expStage.indexOf("main1") != -1){
-  //   learnNetworkTask();
-  // } else if (expStage.indexOf("main2") != -1){
-  //   parsingTask();
-  // } else if (expStage.indexOf("main3") != -1){
-  //   oddOneOutTest();
   // } else {
-  //   endOfExperiment();
+  //   navigateInstructionPath(repeatNecessary);
   // }
 }
 
@@ -117,17 +115,20 @@ $(document).ready(function(){
       }
 
       if (acc == 1) {
-        accCount++;
+        if (!trialIsNA) {
+          accCount++;
+        }
       } else {
-        if (playSounds) {
+        if (playSounds && playSoundsExperiment && !trialIsNA) {
           mistakeSound.play();
         }
       }
 
-      // task feedback
-      // if (acc == 0 && playSounds) {
-      //   mistakeSound.play();
-      // }
+      // reaction time
+      respOnset = new Date().getTime() - runStart;
+      respTime = respOnset - stimOnset;
+    } else if (keyListener == 8) { //parsing task exclusive key listener
+      partResp = event.which;
 
       // reaction time
       respOnset = new Date().getTime() - runStart;
@@ -139,8 +140,10 @@ $(document).ready(function(){
     $("body").keyup(function(event){
     if (keyListener == 2 ) { //good press release
       if (earlyRelease){
-        clearTimeout(stimTimeout);
-        itiScreen();
+        if (earlyReleaseExperiment) {
+          clearTimeout(stimTimeout);
+          itiScreen();
+        }
       }
       keyListener = 0;
     } else if (keyListener == 3) { //resets bad press to 0
@@ -152,7 +155,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
       // go to next experiment
       keyListener = 0;
@@ -161,7 +164,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, NaN, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      data.push([sectionType, NaN, taskName, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
       // go to instructions
       navigateInstructionPath(repeatNecessary);
@@ -170,10 +173,13 @@ $(document).ready(function(){
       clearInterval(sectionTimer);
       // increment block
       block++;
+      blockTrialCount = 1;
+
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, NaN, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      data.push([sectionType, NaN, taskName, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
+
       // resume task
       keyListener = 0; sectionType = "mainTask";
       countDown(3);
@@ -187,7 +193,7 @@ $(document).ready(function(){
     // start experiment
     runStart = new Date().getTime();
 
-    // setUpNetwork();
+    setUpNetwork();
     runInstructions();
   }
 

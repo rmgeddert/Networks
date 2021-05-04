@@ -1,9 +1,11 @@
 function oneBackPractice(){
-  console.log("Running 1-Back task...");
+  // console.log("1-Back Practice task");
 
   // declare and set task variables
   sectionType = "pracTask";
-  taskName = "1-Back Task (Practice)";
+  taskName = "1-Back";
+  earlyReleaseExperiment = true;
+  playSoundsExperiment = false;
 
   // hide instructions, show canvas
   $('#instructionsDiv').hide();
@@ -13,12 +15,11 @@ function oneBackPractice(){
   // set up vowel sequence
   nBack = 1, stimSet = ["A","E","I","O","U"];
   switchRepeatArr = getSwitchRepeatArr(nPracticeTrials, percRepeats, nBack);
-  console.log(switchRepeatArr);
+  // console.log(switchRepeatArr);
   stimArr = getStimArr(switchRepeatArr, stimSet, nBack);
-  console.log(stimArr);
+  // console.log(stimArr);
   accArr = [];
-
-  trialCount = 0;
+  accCount = 0;
 
   // run taskFunc ()= run1Back) after countdown
   taskFunc = run1Back;
@@ -26,7 +27,7 @@ function oneBackPractice(){
 }
 
 function run1Back(){
-  if (trialCount < stimArr.length - 1) {
+  if (trialCount <= nPracticeTrials) {
 
     if (screenSizeIsOk()){
 
@@ -44,6 +45,6 @@ function run1Back(){
     // let passesAccuracy = checkAccuracy(accArr, switchRepeatArr);
     // nBackFeedback(passesAccuracy);
 
-    nBackFeedback(Math.round( accCount / (trialCount + 1) * 100 ));
+    nBackFeedback(Math.round( accCount / (trialCount - 1 - nBack) * 100 ));
   }
 }

@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 6, "main1": 5, "main2": 5, "main3": 6
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 5, "main2": 5, "main3": 6
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -42,6 +42,9 @@ function navigateInstructionPath(repeat = false){
         expStage = "prac2";
         break;
       case "prac2":
+        expStage = "prac3";
+        break;
+      case "prac3":
         expStage = "main1";
         break;
       case "main1":
@@ -87,7 +90,7 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Welcome to the experiment, thank you for your participation!";
         case 2:
-          return "In this experiment you will be completing several practice tasks followed by the main task. There will be a few minor tasks after the main task as well. The experiment is expected to take approximately XXXXXX minutes";
+          return "In this experiment you will be completing several practice tasks followed by the main task. There will be a few minor tasks after the main task as well. The experiment is expected to take approximately XXXXXX minutes.";
         case 3:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 4:
@@ -102,11 +105,11 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "For example, if you see A then E, press '0'. If you see A then A, press '1'.";
         case 4:
-          return "You will need to get at least 80% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
+          return "You will need to get at least " + practiceAccCutoff + "% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
-          return "Please place your fingers on the 1 and 0 keys before beginning the task.";
+          return "Please place your fingers on the '1' and '0' keys before beginning the task.";
         case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button to start.";
@@ -120,7 +123,7 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "For example, if you see the sequence A, I, A press the '1' key. If you see the sequence A, A, I press the '0' key.";
         case 4:
-          return "You will need to get a least 80% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
+          return "You will need to get a least " + practiceAccCutoff+ "% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
@@ -135,16 +138,19 @@ function getNextInstructions(slideNum, expStage){
             $(imageTableDiv).insertAfter("#instructions" + slideNum);
             return "In the third and final practice task, you will see a sequence of fractal images, like those pictured below.";
           case 2:
-            return "You will perform a similar task as in the second practice task in which you will pay attention to repeats from TWO trials before, but in this task you will be looking at repeats in the fractal images presented.";
+            return "You will perform the same task as in the second practice task in which you will pay attention for repeats from TWO trials before, but in this case you will be looking for repeats in the fractal images.";
           case 3:
             return " Press the '1' key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the '0' key.";
           case 4:
-            return "You will need to get a least 80% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
+            return "You will need to get a least " + practiceAccCutoff + " correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
           case 5:
+            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+            return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on."
+          case 6:
             iterateAgain = true;
             $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
             return "Please place your fingers on the 1 and 0 keys before beginning the task.";
-          case 6:
+          case 7:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
             return "Press any button to start."
         }
@@ -159,7 +165,7 @@ function getNextInstructions(slideNum, expStage){
           return "Press the '1' key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the '0' key.";
         case 4:
           iterateAgain = true;
-          $( getImageText(instructionImages[4]) ).insertAfter( "#instructions" + slideNum);
+          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
           return "Please place your fingers on the '1' and '0' keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
         case 5:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
@@ -171,7 +177,7 @@ function getNextInstructions(slideNum, expStage){
             return "Great job! In this next task, you will see a sequence of fractal images again."
           case 2:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Press the space bar every time you think you have come to a natural breaking point in the sequence.";
+            return "Press the space bar every time you think you have come to a natural breaking point in the sequence. ";
           case 3:
             return "This next task will take about 15 minutes, and you will get a break halfway through.";
           case 4:
@@ -261,7 +267,7 @@ function runInstructions(){
   $(document).on('click', '#startExpButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN])
+    data.push([sectionType, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart]);
     console.log(data);
 
     $('#instructionsDiv').hide();
@@ -278,7 +284,7 @@ function runInstructions(){
   $(document).on('click', '#nextSectionButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN])
+    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // clear all button press listeners

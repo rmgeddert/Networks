@@ -3,7 +3,7 @@ function getSwitchRepeatArr(nTrials, percRepeat, nBack){
   let nSwitch = nTrials - nRepeats;
 
   // build array of switch and repeats (starts with a repeat)
-  let switchRepeatArr = new Array(nBack).fill("s").concat(shuffle(new Array(nRepeats).fill("r").concat(new Array(nSwitch - nBack).fill("s"))));
+  let switchRepeatArr = new Array(nBack).fill("n").concat(shuffle(new Array(nRepeats).fill("r").concat(new Array(nSwitch - nBack).fill("s"))));
 
   return switchRepeatArr;
 }
@@ -26,30 +26,30 @@ function getStimArr(swRpArr, stimSet, nBack){
   return stimArr;
 }
 
-function checkAccuracy(accArr, switchRepeatArr){
-  let switchCount = 0, switchAccCount = 0;
-  let repeatCount = 0, repeatAccCount = 0;
-  for (var i = 0; i < switchRepeatArr.length; i++) {
-    if (switchRepeatArr[i] == "r") {
-      repeatCount++;
-      if (accArr[i] == 1) {
-        repeatAccCount++;
-      }
-    } else {
-      switchCount++;
-      if (accArr[i] == 1) {
-        switchAccCount++;
-      }
-    }
-  }
-  if ((switchAccCount / switchCount) > practiceAccCutoff) {
-    return "failed_switches";
-  } else if ((repeatAccCount / repeatCount) > practiceAccCutoff) {
-    return "failed_repeats";
-  } else {
-    return "passed";
-  }
-}
+// function checkAccuracy(accArr, switchRepeatArr){
+//   let switchCount = 0, switchAccCount = 0;
+//   let repeatCount = 0, repeatAccCount = 0;
+//   for (var i = 0; i < switchRepeatArr.length; i++) {
+//     if (switchRepeatArr[i] == "r") {
+//       repeatCount++;
+//       if (accArr[i] == 1) {
+//         repeatAccCount++;
+//       }
+//     } else {
+//       switchCount++;
+//       if (accArr[i] == 1) {
+//         switchAccCount++;
+//       }
+//     }
+//   }
+//   if ((switchAccCount / switchCount) > practiceAccCutoff) {
+//     return "failed_switches";
+//   } else if ((repeatAccCount / repeatCount) > practiceAccCutoff) {
+//     return "failed_repeats";
+//   } else {
+//     return "passed";
+//   }
+// }
 
 function fixationScreen(){
     // prepare canvas
@@ -69,20 +69,30 @@ function stimScreen(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // display stimulus
-    drawLetter();
+    if (isImage(stimArr[trialCount - 1])) {
+      drawImage();
+    } else {
+      drawLetter();
+    }
 
     //reset all response variables and await response (expType = 1)
     keyListener = 1; acc = NaN, respTime = NaN, partResp = NaN, respOnset = NaN;
 
     // proceed to next screen after timeout
-    trialIsRepeat = switchRepeatArr[trialCount] == "r";
+    trialIsRepeat = switchRepeatArr[trialCount - 1] == "r";
+    trialIsNA = switchRepeatArr[trialCount - 1] == "n";
     stimTimeout = setTimeout(itiScreen,stimInterval);
 }
 
+function isImage(i){
+  return i instanceof HTMLImageElement;
+}
+
 function drawLetter(){
-    let letter = stimArr[trialCount];
+    let letter = stimArr[trialCount - 1];
 
     // prepare canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.font = "bold 100px Arial";
 
@@ -90,23 +100,44 @@ function drawLetter(){
     ctx.fillText(letter,canvas.width/2,canvas.height/2);
 }
 
+function drawImage(){
+  let img = stimArr[trialCount - 1];
+
+  // clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // display image
+  ctx.drawImage(img,canvas.width/2 - img.width/2,canvas.height/2-img.height/2);
+}
+
 function itiScreen(){
   if (keyListener == 1) { // participant didn't respond
-    if (playSounds && speed != "fast") {mistakeSound.play();}
+    if (playSounds && speed != "fast" && playSoundsExperiment && !trialIsNA) {mistakeSound.play();}
     keyListener = 0;
   } else if (keyListener == 2) { //participant still holding down response key
     keyListener = 3;
   }
 
+  // display feedback
+  if (showFeedback) {
+    if (switchRepeatArr[trialCount - 1] != "n") {
+      drawFeedback();
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
   // log data
+  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, getStim(stimArr[trialCount - 1]), switchRepeatArr[trialCount - 1], getAccuracy(acc), stimOnset, respOnset, respTime, partResp, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+  console.log(data);
 
   // iterate trial count
   trialCount++;
+  blockTrialCount++;
   accArr.push(getAccuracy(acc));
 
-  if (showFeedback) {
-    drawFeedback();
-
+  // proceed to next after delay
+  if (showFeedback && !playSoundsExperiment) {
     // proceed to next trial or to next section after delay
     setTimeout(taskFunc, feedbackInterval);
   } else {
@@ -135,7 +166,6 @@ function nBackFeedback(accuracy){
   // 1 sec buffer before proceed allowed
   setTimeout(function(){
     keyListener = 6;
-    console.log("keyListener changed");
   }, 1000);
 
   // display feedback
@@ -159,5 +189,13 @@ function nBackFeedback(accuracy){
     // prep key press/instruction logic
     repeatNecessary = false;
 
+  }
+}
+
+function getStim(stim){
+  if (isImage(stim)) {
+    return fileOnly(stim.src);
+  } else {
+    return stim
   }
 }
