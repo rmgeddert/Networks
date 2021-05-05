@@ -8,6 +8,7 @@ let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
 let playSounds = true;
 let showNetworkWalk = false;
+let showNavButtons = true;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
 let fractalsNeeded = 10; //defined by network structure
@@ -186,6 +187,23 @@ $(document).ready(function(){
       countDown(3);
     }
   });
+
+  //set up navButtons
+  $(document).on("click", "#navNetworkLearning", function(){
+    expStage = "main1";
+    runInstructions();
+  });
+
+  $(document).on("click", "#navParsing", function(){
+    expStage = "main2";
+    runInstructions();
+  });
+
+  $(document).on("click", "#navOddOneOut", function(){
+    expStage = "main3";
+    runInstructions();
+  });
+
 
   // see if menu.html is still open
   if (openerNeeded == true && opener == null) {

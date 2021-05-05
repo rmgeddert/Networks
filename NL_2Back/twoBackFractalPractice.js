@@ -9,6 +9,7 @@ function twoBackFractalPractice(){
 
   // hide instructions, show canvas
   $('#instructionsDiv').hide();
+  $("#navButtons").hide();
   canvas.style.display = "inline-block";
   $(".canvasas").show();
 

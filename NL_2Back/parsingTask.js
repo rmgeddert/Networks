@@ -7,6 +7,7 @@ function parsingTask(){
 
   // hide instructions and show canvas
   $('#instructionsDiv').hide();
+  $("#navButtons").hide();
   canvas.style.display = "inline-block";
   if (showNetworkWalk == true) {ntCanvas.style.display = "inline-block";}
   $(".canvasas").show();

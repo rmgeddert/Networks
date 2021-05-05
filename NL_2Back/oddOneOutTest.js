@@ -23,6 +23,7 @@ function oddOneOutTest() {
 
   // show task div and hide instructions
   $('#instructionsDiv').hide();
+  $("#navButtons").hide();
   $("#oddOneOutTaskDiv").show();
 
   // set up task vars

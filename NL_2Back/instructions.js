@@ -142,7 +142,7 @@ function getNextInstructions(slideNum, expStage){
           case 3:
             return " Press the '1' key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the '0' key.";
           case 4:
-            return "You will need to get a least " + practiceAccCutoff + " correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
+            return "You will need to get a least " + practiceAccCutoff + "% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
           case 5:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
             return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on."
@@ -216,8 +216,14 @@ function runInstructions(){
   // hide/clear everything, just in case
   hideInstructions();
 
-  // hide canvas if visible
+  // hide canvas and other tasks if visible
   $(".canvasas").hide();
+  $("#mathTask").hide();
+  $("#fractalPreferenceTask").hide();
+  $("#oddOneOutTaskDiv").hide();
+  if (showNavButtons) {
+    $("#navButtons").show();
+  }
 
   // if need to repeat instructions (e.g., participant failed to meet accuracy requirement), then reshow all instructions
   if (instructions["iterator"][expStage] >= instructions["max"][expStage]){
