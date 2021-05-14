@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 5, "main2": 6, "main3": 6
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 6, "main3": 9
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -164,10 +164,13 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "Press the '1' key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the '0' key.";
         case 4:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on."
+        case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
           return "Please place your fingers on the '1' and '0' keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
-        case 5:
+        case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button to start."
       }
@@ -191,18 +194,24 @@ function getNextInstructions(slideNum, expStage){
     case "main3":
       switch (slideNum){
         case 1:
-          return "In this final task, you will see three fractal images. You will be asked to select the image that does not fit with the other two images.";
+          return "Great job! You will now begin the last and final task of this experiment.";
         case 2:
-          return "In the main task that you completed earlier, the stream of images you saw adhered to a pattern. Thus, some images were presented after one another frequently while others were not."
+          return "In the fractal repeat task that you completed earlier, you may have noticated that the sequence of images formed a pattern. Some images appeared after one another frequently, while other images never appeared after one another.";
         case 3:
-          return "Your job in this task is to choose the image that would be UNLIKELY to appear after either of the other two images.";
+          return "In this task, you will see three fractal images. Two of these images will be ones that appeared after one another frequently in the repeat task. The third fractal image will be one that never appeared with the other two.";
         case 4:
+          return "Your job in this task is to choose the fractal image that 'doesn't fit' with either of the other two images.";
+        case 5:
+          return "For example, if you think that the first and third image appeared after one another frequently, choose the second image."
+        case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented after one another frequently.";
-        case 5:
-          return "Please take your time and think carefully about which image does not fit with the other two images based on the image sequence.";
-        case 6:
-          return "If you are unsure, make your best guess.";
+        case 7:
+          return "Please take your time and think carefully about which image does not fit with the other two images based on the image sequence. If you are unsure, make your best guess.";
+        case 8:
+          return "Note that the position of the images in the three positions is random and should not influence your decision.";
+        case 9:
+          return "";
       }
   }
 }
