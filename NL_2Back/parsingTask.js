@@ -184,10 +184,10 @@ function parsingBlockBreak(){
     ctx.fillStyle = "black";
     ctx.font = "25px Arial";
     ctx.fillText("This is a short break. Please don't pause for more than 3 minutes.",canvas.width/2,canvas.height/2 - 150);
-    if (numBlocks - block > 1) {
-      ctx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " blocks left.",canvas.width/2,canvas.height/2);
+    if (Math.ceil(nParsingTrials / 300) - block > 1) {
+      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(nParsingTrials / 300) - block) + " blocks left.",canvas.width/2,canvas.height/2);
     } else {
-      ctx.fillText("You are finished with block " + block + ". You have " + (numBlocks - block) + " block left.",canvas.width/2,canvas.height/2);
+      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(nParsingTrials / 300) - block) + " block left.",canvas.width/2,canvas.height/2);
     }
     ctx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",canvas.width/2,canvas.height/2+50);
     ctx.font = "bold 25px Arial";
