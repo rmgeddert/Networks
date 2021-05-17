@@ -196,11 +196,11 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Great job! You will now begin the last and final task of this experiment.";
         case 2:
-          return "In the fractal repeat task that you completed earlier, you may have noticated that the sequence of images formed a pattern. Some images appeared after one another frequently, while other images never appeared after one another.";
+          return "In the fractal repeat task that you completed earlier, you may have noticed that the sequence of images formed a pattern. Some images appeared after one another frequently, while other images never appeared after one another.";
         case 3:
           return "In this task, you will see three fractal images. Two of these images will be ones that appeared after one another frequently in the repeat task. The third fractal image will be one that never appeared with the other two.";
         case 4:
-          return "Your job in this task is to choose the fractal image that 'doesn't fit' with either of the other two images.";
+          return "Your job in this task is to choose the fractal image that 'doesn't fit' with the other two images.";
         case 5:
           return "For example, if you think that the first and third image appeared after one another frequently, choose the second image."
         case 6:
