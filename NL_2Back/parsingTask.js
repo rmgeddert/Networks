@@ -178,19 +178,18 @@ function parsingBlockBreak(){
 
     // draw timer (with color from previous function)
     ctx.font = "bold 45px Arial";
-    ctx.fillText(minutes + ":" + seconds,canvas.width/2,canvas.height/2 - 100);
+    ctx.fillText(minutes + ":" + seconds,canvas.width/2,canvas.height/2 - 50);
 
     // display miniblock text
     ctx.fillStyle = "black";
     ctx.font = "25px Arial";
     ctx.fillText("This is a short break. Please don't pause for more than 3 minutes.",canvas.width/2,canvas.height/2 - 150);
     if (Math.ceil(nParsingTrials / 300) - block > 1) {
-      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(nParsingTrials / 300) - block) + " blocks left.",canvas.width/2,canvas.height/2);
+      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(nParsingTrials / 300) - block) + " blocks left.",canvas.width/2,canvas.height/2 + 50);
     } else {
-      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(nParsingTrials / 300) - block) + " block left.",canvas.width/2,canvas.height/2);
+      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(nParsingTrials / 300) - block) + " block left.",canvas.width/2,canvas.height/2 + 50);
     }
-    ctx.fillText("Your overall accuracy so far is " + Math.round((accCount/trialCount)*100) + "%.",canvas.width/2,canvas.height/2+50);
     ctx.font = "bold 25px Arial";
-    ctx.fillText("Press any button to continue.",canvas.width/2,canvas.height/2 + 200);
+    ctx.fillText("Press any button to continue.",canvas.width/2,canvas.height/2 + 100);
   }
 }

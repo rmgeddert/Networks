@@ -30,7 +30,7 @@ function twoBackFractalPractice(){
 }
 
 function run2BackFractal(){
-  if (trialCount < nPracticeTrials) {
+  if (trialCount <= nPracticeTrials) {
 
     if (screenSizeIsOk()){
 

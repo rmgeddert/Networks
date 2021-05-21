@@ -4,11 +4,11 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1
+    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 6, "main3": 9
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 6, "main3": 9, "final": 2
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -19,7 +19,8 @@ let instructions = {
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
     "main2": 'buttonPressStartTask',
-    "main3": '#startExpButton'
+    "main3": '#startExpButton',
+    "final": 'buttonPressStartTask'
   }
 };
 let iterateAgain = false, task;
@@ -53,6 +54,9 @@ function navigateInstructionPath(repeat = false){
       case "main2":
         expStage = "main3";
         break;
+      case "main3":
+        expStage = "final";
+        break;
     }
   }
   runInstructions();
@@ -61,6 +65,10 @@ function navigateInstructionPath(repeat = false){
 function displayDefaults(stage){
   // default values of instruction blocks. add any special cases
   switch(stage){
+    case "final":
+      showFirst();
+      $('.instruction-header').hide();
+      break;
     case "prac1-1":
     case "prac1-2":
     case "prac2":
@@ -177,12 +185,12 @@ function getNextInstructions(slideNum, expStage){
       case "main2":
         switch (slideNum){
           case 1:
-            return "Great job! In this next task, you will see a sequence of fractal images again."
+            return "Great job! In this next task, you will see another sequence of fractal images."
           case 2:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Press the space bar every time you think you have come to a natural breaking point in the sequence. ";
+            return "Simply press the space bar at times times in the sequence that feel like natural breaking points.";
           case 3:
-            return "So, if you see a fractal image that makes you think a sequence has ended and a new one has begun, press the space bar immediately.";
+            return "So, if you see a fractal image that makes you think a breakpoint has been reached and a new section has begun, press the space bar immediately.";
           case 4:
             return "This next task will take about 15 minutes, and you will get a break halfway through.";
           case 5:
@@ -212,6 +220,15 @@ function getNextInstructions(slideNum, expStage){
           return "Note that the position of the images in the three positions is random and should not influence your decision.";
         case 9:
           return "";
+      }
+    case "final":
+      switch (slideNum){
+        case 1:
+          iterateAgain = true;
+          return "Thank you for your participation. Press any button to return to the other experiment window, which you used to open this experiment window. Be sure to read the final paragraph carefully and then submit your data to receive your confirmation code.";
+        case 2:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Press any button close this window.";
       }
   }
 }
@@ -247,6 +264,7 @@ function runInstructions(){
 
     // display instructions and prepare exit response mapping
     $('#instructionsDiv').show();
+    displayDefaults(expStage);
     exitResponse();
 
   } else {
@@ -284,7 +302,7 @@ function runInstructions(){
   $(document).on('click', '#startExpButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart]);
+    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     $('#instructionsDiv').hide();

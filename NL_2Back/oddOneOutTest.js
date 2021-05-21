@@ -64,7 +64,7 @@ function oddOneOutTest() {
         respTime = respOnset - stimOnset;
 
         // log data
-        data.push([sectionType, NaN, taskName, NaN, NaN, NaN,  nodeSetIterator, NaN, NaN, NaN, NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, partResp, currentNodeSet.nodes[imageNum - 1].name, fileOnly(currentNodeSet.nodes[imageNum - 1].img.src), currentNodeSet.nodes[imageNum - 1].communityNumber, currentNodeSet.nodes[0].name, fileOnly(currentNodeSet.nodes[0].img.src), currentNodeSet.nodes[0].communityNumber, currentNodeSet.nodes[1].name,  fileOnly(currentNodeSet.nodes[1].img.src), currentNodeSet.nodes[1].communityNumber, currentNodeSet.nodes[2].name,  fileOnly(currentNodeSet.nodes[2].img.src), currentNodeSet.nodes[2].communityNumber]);
+        data.push([sectionType, NaN, taskName, NaN, NaN, NaN,  nodeSetIterator + 1, nodeSetIterator + 1, block, NaN, NaN, acc, stimOnset, respOnset, respTime, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, partResp, currentNodeSet.nodes[imageNum - 1].name, fileOnly(currentNodeSet.nodes[imageNum - 1].img.src), currentNodeSet.nodes[imageNum - 1].communityNumber, currentNodeSet.nodes[0].name, fileOnly(currentNodeSet.nodes[0].img.src), currentNodeSet.nodes[0].communityNumber, currentNodeSet.nodes[1].name,  fileOnly(currentNodeSet.nodes[1].img.src), currentNodeSet.nodes[1].communityNumber, currentNodeSet.nodes[2].name,  fileOnly(currentNodeSet.nodes[2].img.src), currentNodeSet.nodes[2].communityNumber]);
         console.log(data);
 
         if (nodeSetIterator < mainTaskArr.length - 1) {
@@ -80,8 +80,8 @@ function oddOneOutTest() {
         } else {
           // end of experiment, proceed to next instructions
           $("#oddOneOutTaskDiv").hide();
-          // navigateInstructionPath();
-          endOfExperiment();
+          navigateInstructionPath();
+          // endOfExperiment();
         }
       // }
     }
