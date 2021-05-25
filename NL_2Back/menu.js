@@ -103,7 +103,7 @@ $(document).ready(function(){
   });
 
   // check worker ID
-  if (onMturk && (document.getElementById("assignmentId").value == "" || document.getElementById("assignmentId").value == "ASSIGNMENT_ID_NOT_AVAILABLE")){
+  if (onMturk && (document.getElementById("assignmentId").value == "" || document.getElementById("assignmentId").value == "ASSIGNMENT_ID_NOT_AVAILABLE" || document.getElementById("assignmentId").value == "assignment_id_not_available")){
 
     // display text for accepting HIT
     $("#table").show();
