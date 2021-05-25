@@ -58,6 +58,7 @@ function parsingTrial(){
 }
 
 function parsingTransition(){
+  let backwards;
   // log data from previous trial
   data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, fileOnly(activeNode.img.src), NaN, NaN, stimOnset, respOnset, respTime, partResp, activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", transitionType, isNaN(partResp) ? 0 : 1, isCommunityTransition() ? 1 : 0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
   console.log(data);
@@ -70,7 +71,10 @@ function parsingTransition(){
   if ((trialCount - 1)%30 < 15) {
     // console.log("Trial ", trialCount);
     // console.log("Hamiltonian transition");
-    activeNode = nextHamiltonianNode(activeNode);
+    if ((trialCount - 1)%30 == 0) {
+      backwards = Math.random() > 0.5;
+    }
+    activeNode = nextHamiltonianNode(activeNode, backwards);
     transitionType = "h";
   } else {
     // console.log("Trial ", trialCount);
@@ -137,14 +141,22 @@ function getHamiltonianPath(){
   return newPath;
 }
 
-function nextHamiltonianNode(node){
+function nextHamiltonianNode(node, backwards){
   // choose next node from selected hamiltonian path
   let currentIndex = hamiltonianPath.indexOf(node), nextNode;
 
-  if (currentIndex == hamiltonianPath.length - 1){
-    return nextNode = hamiltonianPath[0];
+  if (backwards) {
+    if (currentIndex == 0){
+      return nextNode = hamiltonianPath[hamiltonianPath.length - 1];
+    } else {
+      return nextNode = hamiltonianPath[currentIndex - 1];
+    }
   } else {
-    return nextNode = hamiltonianPath[currentIndex + 1];
+    if (currentIndex == hamiltonianPath.length - 1){
+      return nextNode = hamiltonianPath[0];
+    } else {
+      return nextNode = hamiltonianPath[currentIndex + 1];
+    }
   }
 }
 
