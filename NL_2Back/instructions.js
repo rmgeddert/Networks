@@ -98,7 +98,7 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Welcome to the experiment, thank you for your participation!";
         case 2:
-          return "In this experiment you will be completing several practice tasks followed by the main task. There will be a few minor tasks after the main task as well. The experiment is expected to take approximately XXXXXX minutes.";
+          return "In this experiment you will be completing several practice tasks followed by the main task. There will be a few minor tasks after the main task as well. The experiment is expected to take approximately 50-60 minutes.";
         case 3:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 4:
