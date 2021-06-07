@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 6, "main3": 9, "final": 2
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 7, "main3": 9, "final": 2
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -187,15 +187,17 @@ function getNextInstructions(slideNum, expStage){
           case 1:
             return "Great job! In this next task, you will see another sequence of fractal images."
           case 2:
-            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Simply press the space bar at times times in the sequence that feel like natural breaking points.";
+            return "Occasionally the sequence will shift from one set of images to another set of images."
           case 3:
-            return "So, if you see a fractal image that makes you think a breakpoint has been reached and a new section has begun, press the space bar immediately.";
+            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+            return "Simply press the space bar when the sequence shifts from one set of images to another. You should expect a shift every 5 to 15 images.";
           case 4:
-            return "This next task will take about 15 minutes, and you will get a break halfway through.";
+            return "So, if you see a fractal image that makes you think a shift has occurred and a new set of images has begun, press the space bar immediately.";
           case 5:
-            return "Please place your finger on the spacebar before beginning the task.";
+            return "This next task will take about 15 minutes, and you will get a break halfway through.";
           case 6:
+            return "Please place your finger on the spacebar before beginning the task.";
+          case 7:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
             return "Press any button to start."
         }
