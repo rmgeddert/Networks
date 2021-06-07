@@ -4,11 +4,11 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "final": 1
+    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 9, "final": 2
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 6, "main3": 9, "final": 2
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -18,7 +18,8 @@ let instructions = {
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
-    "main2": '#startExpButton',
+    "main2": 'buttonPressStartTask',
+    "main3": '#startExpButton',
     "final": 'buttonPressStartTask'
   }
 };
@@ -51,6 +52,9 @@ function navigateInstructionPath(repeat = false){
         expStage = "main2";
         break;
       case "main2":
+        expStage = "main3";
+        break;
+      case "main3":
         expStage = "final";
         break;
     }
@@ -94,7 +98,7 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Welcome to the experiment, thank you for your participation!";
         case 2:
-          return "In this experiment you will be completing several practice tasks followed by the main task. There will be a few minor tasks after the main task as well. The experiment is expected to take approximately 35-45 minutes.";
+          return "In this experiment you will be completing several practice tasks followed by the main task. There will be a few minor tasks after the main task as well. The experiment is expected to take approximately XXXXXX minutes.";
         case 3:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 4:
@@ -180,10 +184,27 @@ function getNextInstructions(slideNum, expStage){
       }
       case "main2":
         switch (slideNum){
+          case 1:
+            return "Great job! In this next task, you will see another sequence of fractal images."
+          case 2:
+            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+            return "Simply press the space bar at times times in the sequence that feel like natural breaking points.";
+          case 3:
+            return "So, if you see a fractal image that makes you think a breakpoint has been reached and a new section has begun, press the space bar immediately.";
+          case 4:
+            return "This next task will take about 15 minutes, and you will get a break halfway through.";
+          case 5:
+            return "Please place your finger on the spacebar before beginning the task.";
+          case 6:
+            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+            return "Press any button to start."
+        }
+    case "main3":
+      switch (slideNum){
         case 1:
           return "Great job! You will now begin the last and final task of this experiment.";
         case 2:
-          return "In the fractal repeat task that you just completed, you may have noticed that the sequence of images formed a pattern. Some images appeared after one another frequently, while other images never appeared after one another.";
+          return "In the fractal repeat task that you completed earlier, you may have noticed that the sequence of images formed a pattern. Some images appeared after one another frequently, while other images never appeared after one another.";
         case 3:
           return "In this task, you will see three fractal images. Two of these images will be ones that appeared after one another frequently in the repeat task. The third fractal image will be one that never appeared with the other two.";
         case 4:

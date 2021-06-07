@@ -76,8 +76,8 @@ function experimentFlow(){
   } else if (expStage.indexOf("main1") != -1){
     learnNetworkTask();
   } else if (expStage.indexOf("main2") != -1){
-  //   parsingTask();
-  // } else if (expStage.indexOf("main3") != -1){
+    parsingTask();
+  } else if (expStage.indexOf("main3") != -1){
     oddOneOutTest();
   } else {
     endOfExperiment();
