@@ -9,13 +9,13 @@ let instructionImages = {
 // male face images
 let maleFacesSRCs = [];
 for (let i = 1; i <= 5; i++) { //15
-  maleFacesSRCs.push(`faces/Group_${imageSet}/Male/face_${i}.jpeg`);
+  maleFacesSRCs.push(`faces/Group_${imageSet}/Male/face_${i}m.jpeg`);
 }
 
 // female face images
 let femaleFacesSRCs = [];
 for (let i = 1; i <= 5; i++) { //15
-  femaleFacesSRCs.push(`faces/Group_${imageSet}/Female/face_${i}.jpeg`);
+  femaleFacesSRCs.push(`faces/Group_${imageSet}/Female/face_${i}f.jpeg`);
 }
 
 // // randomly sample from fractal images
