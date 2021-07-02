@@ -235,7 +235,7 @@ function endOfExperiment(){
     // close the experiment window
     JavaScript:window.close();
   } catch (e) {
-    alert("Data upload failed. Did you close the previous screen? Please do not close this screen and contact the MTurk requester.");
+    alert("Data upload failed. Did you close the previous screen?");
   }
 }
 
