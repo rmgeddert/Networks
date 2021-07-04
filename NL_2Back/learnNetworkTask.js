@@ -44,27 +44,31 @@ function runFractalLearning(){
 }
 
 function fractalTrial(){
-  // check if key is being held down going into trial
-  if (keyListener == 2 || keyListener == 3) {
-
-    promptLetGo();
-
+  if (openerNeeded == true && opener == null) {
+    promptMenuClosed();
   } else {
-    // see if image is repeat
-    trialIsRepeat = (blockTrialCount > 2) ?  fractalTrialHistory[trialCount - 1] == fractalTrialHistory[trialCount - 3] : false;
-    trialIsNA = blockTrialCount <= 2;
-    switchType = (blockTrialCount <= 2) ? "n" : (trialIsRepeat) ? "r" : "s";
+    // check if key is being held down going into trial
+    if (keyListener == 2 || keyListener == 3) {
 
-    // display network and fractal
-    if (showNetworkWalk == true) {drawNetwork();}
-    displayFractal();
+      promptLetGo();
 
-    // set up for response
-    stimOnset = new Date().getTime() - runStart;
-    keyListener = 1, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN;
+    } else {
+      // see if image is repeat
+      trialIsRepeat = (blockTrialCount > 2) ?  fractalTrialHistory[trialCount - 1] == fractalTrialHistory[trialCount - 3] : false;
+      trialIsNA = blockTrialCount <= 2;
+      switchType = (blockTrialCount <= 2) ? "n" : (trialIsRepeat) ? "r" : "s";
 
-    // go to next trial after delay
-    setTimeout(fractalTransition, stimInterval);
+      // display network and fractal
+      if (showNetworkWalk == true) {drawNetwork();}
+      displayFractal();
+
+      // set up for response
+      stimOnset = new Date().getTime() - runStart;
+      keyListener = 1, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN;
+
+      // go to next trial after delay
+      setTimeout(fractalTransition, stimInterval);
+    }
   }
 }
 

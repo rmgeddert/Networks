@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 7, "main3": 9, "final": 2
+    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 7, "main3": 9, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -98,7 +98,7 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Welcome to the experiment, thank you for your participation!";
         case 2:
-          return "In this experiment you will be completing several practice tasks followed by the main task. There will be a few minor tasks after the main task as well. The experiment is expected to take approximately 50-60 minutes.";
+          return "In this experiment you will perform a task where you detect and respond to repetitions in fractal images. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 50-60 minutes.";
         case 3:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 4:
@@ -153,19 +153,19 @@ function getNextInstructions(slideNum, expStage){
             return "You will need to get a least " + practiceAccCutoff + "% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
           case 5:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on."
+            return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on.";
           case 6:
             iterateAgain = true;
             $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
             return "Please place your fingers on the 1 and 0 keys before beginning the task.";
           case 7:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Press any button to start."
+            return "Press any button to start.";
         }
     case "main1":
       switch (slideNum){
         case 1:
-          return "You are now ready to start the main task. In the main task, you will follow the same procedure as in the final practice task. This task will last approximately 25 minutes. You will get periodic breaks about every 7 minutes."
+          return "You are now ready to start the main task. In the main task, you will follow the same procedure as in the final practice task. This task will last approximately 25 minutes. You will get periodic breaks about every 7 minutes.";
         case 2:
           $(imageTableDiv).insertAfter("#instructions" + slideNum);
           return "As a reminder, you will see a sequence of fractal images, like those pictured below.";
@@ -173,21 +173,21 @@ function getNextInstructions(slideNum, expStage){
           return "Press the '1' key if the fractal image you see is the same as the fractal image from two trials before in the sequence. Otherwise, press the '0' key.";
         case 4:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on."
+          return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on.";
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
           return "Please place your fingers on the '1' and '0' keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
         case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start."
+          return "Press any button to start.";
       }
       case "main2":
         switch (slideNum){
           case 1:
-            return "Great job! In this next task, you will see another sequence of fractal images."
+            return "Great job! In this next task, you will see another sequence of fractal images.";
           case 2:
-            return "Occasionally the sequence will shift from one set of images to another set of images."
+            return "Occasionally the sequence will shift from one set of images to another set of images.";
           case 3:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
             return "Simply press the space bar when the sequence shifts from one set of images to another. You should expect a shift every 5 to 15 images.";
@@ -229,6 +229,8 @@ function getNextInstructions(slideNum, expStage){
           iterateAgain = true;
           return "Thank you for your participation. Press any button to return to the other experiment window, which you used to open this experiment window. Be sure to read the final paragraph carefully and then submit your data to receive your confirmation code.";
         case 2:
+          return "DO NOT GO BACK TO THE OTHER WINDOW WITHOUT FIRST CLOSING THIS SCREEN VIA BUTTON PRESS. Doing otherwise may result in you losing all data from your participation.";
+        case 3:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button close this window.";
       }

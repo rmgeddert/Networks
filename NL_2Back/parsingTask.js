@@ -28,19 +28,23 @@ function parsingTask(){
 }
 
 function runParsingTask(){
-  if (trialCount <= nParsingTrials) {
-    if (trialCount > 1 && trialCount != nParsingTrials && (trialCount - 1)%(300) == 0 && !breakOn) {
-      breakOn = true;
-      parsingBlockBreak();
-    } else {
-      breakOn = false;
-      parsingTrial();
-    }
+  if (openerNeeded == true && opener == null) {
+    promptMenuClosed();
   } else {
-    // end of experiment code
-    // taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
-    breakOn = false;
-    navigateInstructionPath();
+    if (trialCount <= nParsingTrials) {
+      if (trialCount > 1 && trialCount != nParsingTrials && (trialCount - 1)%(300) == 0 && !breakOn) {
+        breakOn = true;
+        parsingBlockBreak();
+      } else {
+        breakOn = false;
+        parsingTrial();
+      }
+    } else {
+      // end of experiment code
+      // taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
+      breakOn = false;
+      navigateInstructionPath();
+    }
   }
 }
 

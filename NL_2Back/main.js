@@ -5,7 +5,7 @@ let testMode = false;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
-let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
+let openerNeeded = true; // require menu.html to also be open to run experiment (needed for MTurk)
 let playSounds = true;
 let showNetworkWalk = false;
 let showNavButtons = false;
@@ -56,35 +56,39 @@ keyMapping = 1;
 */
 
 function experimentFlow(){
-  // reset block and trial counts (unless repeat)
-  blockTrialCount = 1;
-  trialCount = 1;
-  if (!repeatNecessary) {
-    block = 1;
+  if (openerNeeded == true && opener == null) {
+    promptMenuClosed();
   } else {
-    block++;
-  }
+    // reset block and trial counts (unless repeat)
+    blockTrialCount = 1;
+    trialCount = 1;
+    if (!repeatNecessary) {
+      block = 1;
+    } else {
+      block++;
+    }
 
-  // navigateInstructionPath(repeatNecessary);
-  // // go to the correct task based on expStage variable
-  if (expStage.indexOf("prac1") != -1){
-    oneBackPractice();
-  } else if (expStage.indexOf("prac2") != -1){
-    twoBackPractice();
-  } else if (expStage.indexOf("prac3") != -1){
-    twoBackFractalPractice();
-  } else if (expStage.indexOf("main1") != -1){
-    learnNetworkTask();
-  } else if (expStage.indexOf("main2") != -1){
-    parsingTask();
-  } else if (expStage.indexOf("main3") != -1){
-    oddOneOutTest();
-  } else {
-    endOfExperiment();
+    // navigateInstructionPath(repeatNecessary);
+    // // go to the correct task based on expStage variable
+    if (expStage.indexOf("prac1") != -1){
+      oneBackPractice();
+    } else if (expStage.indexOf("prac2") != -1){
+      twoBackPractice();
+    } else if (expStage.indexOf("prac3") != -1){
+      twoBackFractalPractice();
+    } else if (expStage.indexOf("main1") != -1){
+      learnNetworkTask();
+    } else if (expStage.indexOf("main2") != -1){
+      parsingTask();
+    } else if (expStage.indexOf("main3") != -1){
+      oddOneOutTest();
+    } else {
+      endOfExperiment();
+    }
+    // } else {
+    //   navigateInstructionPath(repeatNecessary);
+    // }
   }
-  // } else {
-  //   navigateInstructionPath(repeatNecessary);
-  // }
 }
 
 $(document).ready(function(){
@@ -220,6 +224,11 @@ $(document).ready(function(){
 });
 
 function promptMenuClosed(){
+  $(".canvasas").hide();
+  $("#mathTask").hide();
+  $("#fractalPreferenceTask").hide();
+  $("#oddOneOutTaskDiv").hide();
+  $('#instructionsDiv').hide();
   $('.MenuClosedPrompt').show();
 }
 
