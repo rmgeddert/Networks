@@ -229,6 +229,7 @@ function getNextInstructions(slideNum, expStage){
           iterateAgain = true;
           return "Thank you for your participation. Press any button to return to the other experiment window, which you used to open this experiment window. Be sure to read the final paragraph carefully and then submit your data to receive your confirmation code.";
         case 2:
+          iterateAgain = true;
           return "DO NOT GO BACK TO THE OTHER WINDOW WITHOUT FIRST CLOSING THIS SCREEN VIA BUTTON PRESS. Doing otherwise may result in you losing all data from your participation.";
         case 3:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
