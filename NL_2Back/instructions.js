@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 4, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 7, "main3": 9, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 7, "main3": 9, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -98,10 +98,12 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Welcome to the experiment, thank you for your participation!";
         case 2:
-          return "In this experiment you will perform a task where you detect and respond to repetitions in fractal images. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 50-60 minutes.";
+          return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
+          return "In this experiment you will perform a task where you detect and respond to repetitions in fractal images. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 50-60 minutes.";
         case 4:
+          return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
+        case 5:
           return "Always respond as quickly and as accurately as possible during the tasks.";
       }
     case "prac1-2":
@@ -233,7 +235,7 @@ function getNextInstructions(slideNum, expStage){
           return "DO NOT GO BACK TO THE OTHER WINDOW WITHOUT FIRST CLOSING THIS SCREEN VIA BUTTON PRESS. Doing otherwise may result in you losing all data from your participation.";
         case 3:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button close this window.";
+          return "Press any button on your keyboard to close this window.";
       }
   }
 }
