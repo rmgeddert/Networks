@@ -57,36 +57,39 @@ class Node {
 function setUpNetwork(){
   // define edges between nodes
   let nodeNeighbors = {
-    1: [2,3,4,5],
-    2: [1,3,4,5],
-    3: [1,2,4,5],
-    4: [1,2,3,6],
-    5: [1,2,3,7],
-    6: [4,8,9,10],
-    7: [5,8,9,10],
-    8: [6,7,9,10],
-    9: [6,7,8,10],
-    10: [6,7,8,9],
+    1: [2,3,4,5,6],
+    2: [1,3,4,5,6],
+    3: [1,2,4,5,6],
+    4: [1,2,3,5,6],
+    5: [1,2,3,4,6],
+    6: [1,2,3,4,5,7],
+    7: [6,8,9,10,11,12],
+    8: [7,9,10,11,12],
+    9: [7,8,10,11,12],
+    10: [7,8,9,11,12],
+    11: [7,8,9,10,12],
+    12: [7,8,9,10,11],
   }
 
   // define coordinates for nodes for drawing purposes
   let coordinates = {
-    1: {x: (1/5), y: (4/5)}, 2: {x: (1/20), y: (1/2)},
-    3: {x: (1/5), y: (1/5)}, 4: {x: (17/40), y: (1/3)},
-    5: {x: (17/40), y: (2/3)}, 6: {x: (23/40), y: (1/3)},
-    7: {x: (23/40), y: (2/3)}, 8: {x: (4/5), y: (1/5)},
-    9: {x: (19/20), y: (1/2)}, 10: {x: (4/5), y: (4/5)}
+    1: {x: (3/9), y: (3/4)}, 2: {x: (2/9), y: (3/4)},
+    3: {x: (1/9), y: (2/4)}, 4: {x: (2/9), y: (1/4)},
+    5: {x: (3/9), y: (1/4)}, 6: {x: (4/9), y: (2/4)},
+    7: {x: (5/9), y: (2/4)}, 8: {x: (6/9), y: (1/4)},
+    9: {x: (7/9), y: (1/4)}, 10: {x: (8/9), y: (2/4)},
+    11: {x: (7/9), y: (3/4)}, 12: {x: (6/9), y: (3/4)}
   }
 
   // defines which nodes are being associated and whose associations will need to be inferred
   let associationStatuses = {
-    1: false, 2: true, 3: true, 4: true, 5: true,
-    6: true, 7: true, 8: false, 9: true, 10: true
+    1: true, 2: true, 3: true, 4: false, 5: true,
+    6: true, 7: true, 8: true, 9: false, 10: true, 11: true, 12: true
   }
 
   // defines if node is a boundary node (connecting to other community)
   let boundaryNodes = {
-    1: false, 2: false, 3: false, 4: true, 5: true,
+    1: false, 2: false, 3: false, 4: false, 5: false,
     6: true, 7: true, 8: false, 9: false, 10: false
   }
 
@@ -110,10 +113,10 @@ function setUpNetwork(){
 
   // assign communities to nodes
   taskNetwork.nodes.forEach((node, i) => {
-    if (i < 5) {
+    if (i < 6) {
       node.community = "lowControl";
       node.communityNumber = 1;
-    } else if (i >= 5) {
+    } else if (i >= 6) {
       node.community = "highControl";
       node.communityNumber = 2;
     } else {

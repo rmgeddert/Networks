@@ -4,14 +4,14 @@
 let testMode = false;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
-let skipPractice = false; // turn practice blocks on or off
+let skipPractice = true; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
-let playSounds = true;
-let showNetworkWalk = false;
+let playSounds = false;
+let showNetworkWalk = true;
 let showNavButtons = false;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
-let fractalsNeeded = 10; //defined by network structure
+let fractalsNeeded = 12; //defined by network structure
 let showFixation = false;
 let fixationSymbol = ""; // "", "+"
 let fixInterval = (speed == "fast") ? 5 : 500;
