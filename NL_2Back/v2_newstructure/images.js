@@ -27,7 +27,7 @@ for (var i = 0; i < selectedImages.length; i++) {
 // -------------------------------------------//
 
 // defines how many images fit per row (within 900px width and 26px padding)
-let chunkSize = 5;
+let chunkSize = 6;
 
 // create image table
 let imageTable = document.createElement("div");

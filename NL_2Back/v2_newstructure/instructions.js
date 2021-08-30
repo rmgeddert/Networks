@@ -4,11 +4,11 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1, "final": 1
+    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 7, "main3": 9, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 9, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -18,8 +18,7 @@ let instructions = {
     "prac2": 'buttonPressStartTask',
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
-    "main2": 'buttonPressStartTask',
-    "main3": '#startExpButton',
+    "main2": '#startExpButton',
     "final": 'buttonPressStartTask'
   }
 };
@@ -52,9 +51,6 @@ function navigateInstructionPath(repeat = false){
         expStage = "main2";
         break;
       case "main2":
-        expStage = "main3";
-        break;
-      case "main3":
         expStage = "final";
         break;
     }
@@ -184,26 +180,7 @@ function getNextInstructions(slideNum, expStage){
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button to start.";
       }
-      case "main2":
-        switch (slideNum){
-          case 1:
-            return "Great job! In this next task, you will see another sequence of fractal images.";
-          case 2:
-            return "Occasionally the sequence will shift from one set of images to another set of images.";
-          case 3:
-            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Simply press the space bar when the sequence shifts from one set of images to another. You should expect a shift every 5 to 15 images.";
-          case 4:
-            return "So, if you see a fractal image that makes you think a shift has occurred and a new set of images has begun, press the space bar immediately.";
-          case 5:
-            return "This next task will take about 15 minutes, and you will get a break halfway through.";
-          case 6:
-            return "Please place your finger on the spacebar before beginning the task.";
-          case 7:
-            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Press any button to start."
-        }
-    case "main3":
+    case "main2":
       switch (slideNum){
         case 1:
           return "Great job! You will now begin the last and final task of this experiment.";

@@ -13,9 +13,11 @@ function oddOneOutTest() {
   for (let i = 1; i < algorithmIterationCap; i++) {
     mainTaskArr = shuffleNodeSets();
     if (mainTaskArr.length != 0) {
+      console.log(i);
       break;
     }
   }
+  console.log(mainTaskArr);
 
   // set section type
   sectionType = "mainTask";

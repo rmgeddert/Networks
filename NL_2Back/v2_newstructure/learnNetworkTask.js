@@ -61,14 +61,7 @@ function fractalTrial(){
       // display network and fractal
       if (showNetworkWalk == true) {drawNetwork();}
       displayFractal();
-console.log('-----------')
-console.log(activeNode.name)
-console.log(activeNode.img)
-console.log(activeNode.community)
-console.log(activeNode.communityNumber)
-console.log(activeNode.associatedWithTask)
-console.log(activeNode.isBoundaryNode)
-console.log(activeNode.visitCount)
+      
       // set up for response
       stimOnset = new Date().getTime() - runStart;
       keyListener = 1, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN;
