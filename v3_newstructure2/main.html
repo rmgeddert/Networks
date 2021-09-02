@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="jquery-3.4.1.js"></script>
+    <script src="underscore_min.js"></script>
+    <script src="instructions.js"></script>
+    <script src="nBackFunctions.js"></script>
+    <script src="oneBackPractice.js"></script>
+    <script src="twoBackPractice.js"></script>
+    <script src="twoBackFractalPractice.js"></script>
+    <script src="fractalFunctions.js"></script>
+    <script src="learnNetworkTask.js"></script>
+    <script src="oddOneOutTest.js"></script>
+    <!-- <script src="oddOneOutTest.js"></script> -->
+    <script src="miscFunctions.js"></script>
+    <script src="main.js"></script>
+    <script src="images.js"></script>
+    <title>Fractal Repeat Task</title>
+  </head>
+
+  <body>
+    <!-- instruction elements for all text screens -->
+    <div id="instructionsDiv">
+      <div class="instruction-content">
+        <div class="instruction-header">
+          <h1>Instructions </h1>
+          <p style="font-weight: bold">Please read these instructions carefully.</p>
+        </div>
+        <div class="instruction-body">
+          <p id="instructions1" ></p>
+          <p id="instructions2" ></p>
+          <p id="instructions3" ></p>
+          <p id="instructions4" ></p>
+          <p id="instructions5" ></p>
+          <p id="instructions6" ></p>
+          <p id="instructions7" ></p>
+          <p id="instructions8" ></p>
+          <p id="instructions9" ></p>
+        </div>
+        <div class="instruction-buttons">
+          <button id="nextInstrButton">Next</button>
+          <button id="startExpButton">Start Experiment</button>
+          <button id="nextSectionButton">Next Section</button>
+        </div>
+      </div>
+    </div>
+    <div id="oneBackPractice">
+
+    </div>
+    <div id="oddOneOutTaskDiv">
+      <div class="OO_task_text">
+        <p id="OO_task_instruction">Which image doesn't fit?</p>
+      </div>
+      <ul id="OO_images">
+        <div class="OO_image_container">
+          <input id="OO_image1" class="OO_image" type="image" ondragstart="return false;">
+        </div>
+        <div class="OO_image_container">
+          <input id="OO_image2" class="OO_image" type="image" ondragstart="return false;">
+        </div>
+        <div class="OO_image_container">
+          <input id="OO_image3" class="OO_image" type="image" ondragstart="return false;">
+        </div>
+      </ul>
+    </div>
+    <div id="fractalPreferenceTask">
+      <div class="FP_task_text">
+        <p id="FP_task_instruction">Select which math problem you'd like to complete.</p>
+      </div>
+      <ul id="FP_images">
+        <div class="FP_image_container">
+          <input id="FP_image1" class="FP_image" type="image" ondragstart="return false;">
+        </div>
+        <div class="FP_image_container">
+          <input id="FP_image2" class="FP_image" type="image" ondragstart="return false;">
+        </div>
+      </ul>
+    </div>
+    <div class="MenuClosedPrompt">
+      <h1 style = "color: red">The opening screen appears to be closed.</h1>
+      <p>You navigated to this window from a previous window, with the prompt: "Click 'Continue' button to start the main task. PLEASE DO NOT CLOSE THIS SCREEN."</p>
+      <p>This navigator window appears to be closed, or the current script has lost contact with the window. Even if the task is now completed, data submission will fail and your data will not be saved.</p>
+      <p>Please return to the MTurk window and restart the experiment. Please do not close any windows during this assignment or you may not be compensated. We apologize for any inconvenience. Thank you.</p>
+    </div>
+    <div class="canvasas">
+      <canvas id="fractalCanvas" width="800" height="600"></canvas>
+      <canvas id="networkCanvas" width="800" height="600"></canvas>
+    </div>
+    <div id="mathTask">
+      <div id="mathTaskInstructions">
+        <p><b>Please do not use a calculator of any sort.</b></p>
+        <p id="timer">0:20</p>
+      </div>
+      <div id="mathTaskReponse">
+        <p><b>Input your response here:</b></p>
+        <input id= "mathInput" type="text" name="mathInput" value="">
+        <button id="mathSubmit1">Submit</button>
+        <button id="mathSubmit2">Submit</button>
+      </div>
+    </div>
+    <div id="navButtons">
+      <button id="navNetworkLearning" class="navButton">Jump to Network Learning Task</button>
+      <button id="navParsing" class="navButton">Jump to Parsing Task</button>
+      <button id="navOddOneOut" class="navButton">Jump to Odd One Out Task</button>
+    </div>
+  </body>
+</html>
