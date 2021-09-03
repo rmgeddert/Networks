@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 9, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 8, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
@@ -96,7 +96,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          return "In this experiment you will perform a task where you detect and respond to repetitions in fractal images. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 50-60 minutes.";
+          return "In this experiment you will perform a task where you detect and respond to repetitions in fractal images. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 30-40 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 5:
@@ -185,21 +185,19 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Great job! You will now begin the last and final task of this experiment.";
         case 2:
-          return "In the fractal repeat task that you completed earlier, you may have noticed that the sequence of images formed a pattern. Some images appeared after one another frequently, while other images never appeared after one another.";
+          return "In the task that you just completed, you may have noticed that the fractal images belonged to two distinct groups.";
         case 3:
-          return "In this task, you will see three fractal images. Two of these images will be ones that appeared after one another frequently in the repeat task. The third fractal image will be one that never appeared with the other two.";
+          return "In this task, you will see three fractal images. Two of these images will belong to one of these groups, and the third image will belong to the other group.";
         case 4:
-          return "Your job in this task is to choose the fractal image that 'doesn't fit' with the other two images.";
+          return "Your job is to choose the fractal image that 'doesn't fit' with the other two images. For example, if you think that the first and third image were in the same group, choose the second image.";
         case 5:
-          return "For example, if you think that the first and third image appeared after one another frequently, choose the second image."
-        case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented after one another frequently.";
+          return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were grouped together frequently.";
+        case 6:
+          return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
         case 7:
-          return "Please take your time and think carefully about which image does not fit with the other two images based on the image sequence. If you are unsure, make your best guess.";
-        case 8:
           return "Note that the position of the images in the three positions is random and should not influence your decision.";
-        case 9:
+        case 8:
           return "";
       }
     case "final":

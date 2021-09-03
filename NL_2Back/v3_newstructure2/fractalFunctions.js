@@ -86,8 +86,8 @@ function setUpNetwork(){
 
   // defines if node is a boundary node (connecting to other community)
   let boundaryNodes = {
-    1: false, 2: false, 3: false, 4: true, 5: true,
-    6: true, 7: true, 8: false, 9: false, 10: false
+    1: false, 2: false, 3: false, 4: false, 5: true,
+    6: false, 7: true, 8: false, 9: false, 10: false
   }
 
   // create network with nodes for each image

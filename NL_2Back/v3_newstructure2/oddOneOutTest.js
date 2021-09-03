@@ -16,7 +16,7 @@ function oddOneOutTest() {
       break;
     }
   }
-
+  console.log(mainTaskArr);
   // set section type
   sectionType = "mainTask";
   taskName = "oddOneOutTest";

@@ -61,15 +61,22 @@ function fractalTrial(){
       // display network and fractal
       if (showNetworkWalk == true) {drawNetwork();}
       displayFractal();
-      
+      setTimeout(displayStroop, 200)
+
       // set up for response
       stimOnset = new Date().getTime() - runStart;
       keyListener = 1, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN;
 
       // go to next trial after delay
-      setTimeout(fractalTransition, stimInterval);
+      // setTimeout(fractalTransition, stimInterval);
     }
   }
+}
+
+
+function displayStroop(){
+  ctx.fillStyle = "blue";
+  ctx.fillText("GREEN",canvas.width/2,canvas.height/2);
 }
 
 function fractalTransition(){
@@ -89,6 +96,9 @@ function fractalTransition(){
   prevNode = activeNode;
   activeNode.reset();
   activeNode = _.sample(activeNode.neighbors,1)[0];
+
+  activeNode = _.sample(activeNode.neighbors.filter(neighbor => neighbor.associatedWithTask),1)[0]
+
   activeNode.activate();
   fractalTrialHistory.push(activeNode.name);
 
