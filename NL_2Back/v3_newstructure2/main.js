@@ -5,9 +5,9 @@ let testMode = false;
 let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
-let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
-let playSounds = false;
-let showNetworkWalk = true;
+let openerNeeded = true; // require menu.html to also be open to run experiment (needed for MTurk)
+let playSounds = true;
+let showNetworkWalk = false;
 let showNavButtons = false;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
