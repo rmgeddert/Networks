@@ -19,6 +19,7 @@ let instructions = {
     "prac3": 'buttonPressStartTask',
     "main1": 'buttonPressStartTask',
     "main2": '#startExpButton',
+    "prac4": 'buttonPressStartTask'
     "main3": 'buttonPressStartTask',
     "final": 'buttonPressStartTask'
   }
