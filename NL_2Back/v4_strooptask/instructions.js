@@ -11,17 +11,17 @@ let instructions = {
     "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 8, "main3": 5, "final": 3
   },
   // what does instruction section end with?
-  // #nextSectionButton, #startExpButton, buttonPressNextSection, buttonPressStartTask
+  // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
   exitResponse: {
     "prac1-1": '#nextSectionButton',
-    "prac1-2": 'buttonPressStartTask',
-    "prac2": 'buttonPressStartTask',
-    "prac3": 'buttonPressStartTask',
-    "main1": 'buttonPressStartTask',
+    "prac1-2": 'keyPressStartTask',
+    "prac2": 'keyPressStartTask',
+    "prac3": 'keyPressStartTask',
+    "main1": 'keyPressStartTask',
     "main2": '#startExpButton',
-    "prac4": 'buttonPressStartTask'
-    "main3": 'buttonPressStartTask',
-    "final": 'buttonPressStartTask'
+    "prac4": 'keyPressStartTask',
+    "main3": 'keyPressStartTask',
+    "final": 'keyPressStartTask'
   }
 };
 let iterateAgain = false, task;
@@ -353,7 +353,7 @@ function exitResponse(){
     $('#startExpButton').show();
   } else if (instructions["exitResponse"][expStage] == "#nextSectionButton") {
     $('#nextSectionButton').show();
-  } else if (instructions["exitResponse"][expStage] == "buttonPressStartTask"){
+  } else if (instructions["exitResponse"][expStage] == "keyPressStartTask"){
     keyListener = 5;
   } //else if (instructions["exitResponse"][expStage] == "buttonPressNextSection"){
     //keyListener = 6;

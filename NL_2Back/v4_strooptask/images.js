@@ -8,18 +8,26 @@ let instructionImages = {
 
 // array for fractal images
 let fractalSRCs = [];
-for (let i = 1; i < 14; i++) { //15 fractals currently made, excluding last 2
+for (let i = 1; i <= 21; i++) {
   fractalSRCs.push(`qbist_fractals/Fractal${i}.png`);
 }
 
 // randomly sample from fractal images
 let selectedSRCs = _.sample(fractalSRCs,fractalsNeeded);
+let unselectedSRCs = fractalSRCs.filter(fractal =>  !selectedSRCs.includes(fractal))
 
 // load images based on URL's and store in selectedImages var
 let selectedImages = Array(selectedSRCs.length);
 for (var i = 0; i < selectedImages.length; i++) {
   selectedImages[i] = new Image();
   selectedImages[i].src = selectedSRCs[i];
+}
+
+// save unselected images for later (Fractal transfer test)
+let unselectedImages = Array(unselectedSRCs.length);
+for (var i = 0; i < unselectedImages.length; i++) {
+  unselectedImages[i] = new Image();
+  unselectedImages[i].src = unselectedSRCs[i];
 }
 
 // -------------------------------------------//

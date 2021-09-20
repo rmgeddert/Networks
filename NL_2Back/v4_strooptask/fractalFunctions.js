@@ -54,6 +54,13 @@ class Node {
   }
 }
 
+class fractalAssociationImage {
+  constructor(imageObj, taskAssociation){
+    this.img = imageObj;
+    this.associatedWithTask = taskAssociation;
+  }
+}
+
 function setUpNetwork(){
   // define edges between nodes
   let nodeNeighbors = {
