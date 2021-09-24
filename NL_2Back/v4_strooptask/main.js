@@ -25,6 +25,7 @@ let earlyRelease = true;
 let nFractalTrials = 900;
 let nStroopAssociationTrials = 100; //number of trials during random walk
 let nTransferTrials = 100;
+let nNovelNodes = 6;
 let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nFractalTrials into

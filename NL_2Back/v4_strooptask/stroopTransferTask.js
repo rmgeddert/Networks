@@ -106,7 +106,7 @@ function createTransferTaskNodes(){
   });
 
   // add novel images to task set as nodes
-  let extraImages = _.sample(unselectedImages,8);
+  let extraImages = _.sample(unselectedImages,nNovelNodes);
   extraImages.forEach((image, i) => {
     let newNode = new Node(i + fractalsNeeded + 1, image);
     newNode.community = "novel";
