@@ -54,13 +54,6 @@ class Node {
   }
 }
 
-class fractalAssociationImage {
-  constructor(imageObj, taskAssociation){
-    this.img = imageObj;
-    this.associatedWithTask = taskAssociation;
-  }
-}
-
 function setUpNetwork(){
   // define edges between nodes
   let nodeNeighbors = {
@@ -118,10 +111,10 @@ function setUpNetwork(){
   // assign communities to nodes
   taskNetwork.nodes.forEach((node, i) => {
     if (i < 5) {
-      node.community = "lowControl";
+      node.community = "congruent";
       node.communityNumber = 1;
     } else if (i >= 5) {
-      node.community = "highControl";
+      node.community = "incongruent";
       node.communityNumber = 2;
     } else {
       node.community = NaN;

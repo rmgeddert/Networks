@@ -51,7 +51,7 @@ function getStimArr(swRpArr, stimSet, nBack){
 //   }
 // }
 
-function fixationScreen(){
+function nBackFixationScreen(){
     // prepare canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = "bold 60px Arial";
@@ -81,6 +81,7 @@ function stimScreen(){
     // proceed to next screen after timeout
     trialIsRepeat = switchRepeatArr[trialCount - 1] == "r";
     trialIsNA = switchRepeatArr[trialCount - 1] == "n";
+    timeoutFunc = itiScreen;
     stimTimeout = setTimeout(itiScreen,stimInterval);
 }
 

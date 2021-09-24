@@ -4,11 +4,11 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1, "final": 1
+    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1, "main4": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 8, "main3": 5, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 8, "main3": 7, "main4": 5, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -21,6 +21,7 @@ let instructions = {
     "main2": '#startExpButton',
     "prac4": 'keyPressStartTask',
     "main3": 'keyPressStartTask',
+    "main4": 'keyPressStartTask',
     "final": 'keyPressStartTask'
   }
 };
@@ -56,6 +57,9 @@ function navigateInstructionPath(repeat = false){
         expStage = "main3";
         break;
       case "main3":
+        expStage = "main4";
+        break;
+      case "main4":
         expStage = "final";
         break;
     }
@@ -208,16 +212,39 @@ function getNextInstructions(slideNum, expStage){
     case "main3":
         switch (slideNum) {
           case 1:
-            return "Great job! You will now begin the last and final task of this experiment.";
+            return "Great job! You have two tasks remaining, each taking about 5 minutes.";
           case 2:
-            return "In this task, you will see a fractal image from the previous task, with the word for a specific color superimposed on top of it. For example, you might see the word 'red' or 'blue'.";
+            return "In this task, you will see a fractal image from the previous task, with the word for a specific color superimposed on top of it. For example, you might see the word 'RED' or 'BLUE'.";
           case 3:
-            return "These words will be written in a specific colored font (red, green, blue, or orange), which can either match the word's meaning (e.g., 'red' in red font), or may not match the word's meaning (e.g., 'red' in blue font).";
+            return "These words will be written in a specific colored font (red, green, blue, or orange), which can either match the word's meaning (e.g., 'RED' in red font), or may not match the word's meaning (e.g., 'RED' in blue font).";
           case 4:
-            return "Regardless of what the word reads, your job is to respond to the FONT COLOR the word is written in. On your keyboard, press 'r' for red font color, 'g' for green, 'b' for blue, and 'o' for orange. For example, if I read the word 'red' in blue font, I would respond with 'b'.";
+            return "Regardless of what the word reads, your job is to respond to the FONT COLOR the word is written in. On your keyboard, press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle finger of both hands.";
           case 5:
-            return "Remember, only respond based on the font color of the word, NOT What the word reads.";
+            return "Remember, only respond based on the font color of the word, NOT what the word reads.";
+          case 6:
+            iterateAgain = true;
+            $( getImageText(instructionImages[2]) ).insertAfter( "#instructions" + slideNum);
+            return "Please place your fingers on the keyboard as shown. Remember to respond as quickly and as accurately as possible.";
+          case 7:
+            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+            return "Press any button to start.";
       }
+      case "main4":
+          switch (slideNum) {
+            case 1:
+              return "Great job! You will now begin the final task of the experiment.";
+            case 2:
+              return "This task is identical to the on you just completed. You will see a fractal image followed by a color word (e.g., 'RED' or 'BLUE'), written in a specific colored font (e.g., 'RED' in blue font).";
+            case 3:
+              return "Remember to indicate the font COLOR, not what the word reads. Press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle finger of both hands.";
+            case 4:
+              iterateAgain = true;
+              $( getImageText(instructionImages[2]) ).insertAfter( "#instructions" + slideNum);
+              return "Please place your fingers on the keyboard as shown. Remember to respond as quickly and as accurately as possible.";
+            case 5:
+              changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+              return "Press any button to start.";
+        }
     case "final":
       switch (slideNum){
         case 1:
@@ -234,6 +261,8 @@ function getNextInstructions(slideNum, expStage){
 }
 
 function runInstructions(){
+  // show cursor
+  document.body.style.cursor = 'auto';
 
   // main instruction function (come here at start of instruction block)
   sectionStart = new Date().getTime() - runStart;
