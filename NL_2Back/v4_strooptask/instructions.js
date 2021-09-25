@@ -53,6 +53,9 @@ function navigateInstructionPath(repeat = false){
         expStage = "main2";
         break;
       case "main2":
+        expStage = "prac4";
+        break;
+      case "prac4":
         expStage = "main3";
         break;
       case "main3":
@@ -204,6 +207,19 @@ function getNextInstructions(slideNum, expStage){
           return "Note that the position of the images in the three positions is random and should not influence your decision.";
         case 8:
           return "";
+      }
+    case "prac4"
+      switch (slideNum){
+        case 1:
+          return "Great job! You will now begin the next practice task."
+        case 2:
+          return "In this task, you will see the word for a color written in a specific font."
+        case 3:
+          return "The font color can either match the word's meaning (e.g., 'RED' in red font), or may not match the word's meaning (e.g., 'RED' in blue font.)"
+        case 4:
+          return "Regardless of what the word reads, your job is to respond to the FONT COLOR the word is written in. On your keyboard, press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle finger of both hands."
+        case 5:
+          return "Remember, only respond based on the font color of the word, NOT what the word reads."
       }
     case "main3":
         switch (slideNum) {
