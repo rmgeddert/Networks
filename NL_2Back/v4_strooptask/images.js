@@ -3,7 +3,8 @@
 // -------------------------------------------//
 
 let instructionImages = {
-  1: 'images/handsOnKeyboard5.png'
+  1: 'images/handsOnKeyboard5.png',
+  2: 'images/handsOnKeyboard2.png'
 }
 
 // array for fractal images

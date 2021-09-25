@@ -128,3 +128,27 @@ function getAccuracy(accValue){
   //normalizes accuracy values into 0 or 1 (NaN becomes 0)
   return accValue == 1 ? 1 : 0;
 }
+
+function randIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function multinomialSample(sampleArr, probArr){
+  // build probability integer var
+  let sampleProbs = [];
+  let probability = 0;
+  for (let i = 0; i < sampleArr.length; i++) {
+    probability += probArr[i];
+    sampleProbs.push(probability);
+  }
+
+  // get random number, use to grab value
+  let randNumber = Math.random();
+  for (let i = 0; i < sampleProbs.length; i++) {
+    if (randNumber > sampleProbs[i]) {
+      continue;
+    } else {
+      return sampleArr[i];
+    }
+  }
+}

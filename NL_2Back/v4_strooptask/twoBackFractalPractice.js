@@ -35,7 +35,7 @@ function run2BackFractal(){
     if (screenSizeIsOk()){
 
       if (showFixation) {
-        fixationScreen();
+        nBackFixationScreen();
       } else {
         stimScreen();
       }

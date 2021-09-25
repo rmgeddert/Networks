@@ -8,7 +8,7 @@ let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
 let playSounds = false;
 let showNetworkWalk = false;
-let showNavButtons = false;
+let showNavButtons = true;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
 let fractalsNeeded = 10; //defined by network structure
@@ -18,23 +18,26 @@ let fixInterval = (speed == "fast") ? 5 : 500;
 let showFeedback = true;
 let feedbackInterval = (speed == "fast") ? 5 : 1000;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
+let fractalPreStroopInterval = 500; //500
+let stroopStimInterval = (speed == "fast") ? 5 : 1500; //2000
+let stroopITI = (speed == "fast") ? 1 : 1200; //1200
 let earlyRelease = true;
 let nFractalTrials = 900;
 let nStroopAssociationTrials = 100; //number of trials during random walk
 let nTransferTrials = 100;
+let nNovelNodes = 6;
 let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nFractalTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 85; // 70 acc%
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //initial expStage
-let fractalPreStroopInterval = 200;
 
 // task variables
-let activeNode, prevNode, taskNetwork = new Network(), hamiltonianPath = [], transitionType;
-let taskFunc; //function for current task
+let activeNode, prevNode, taskNetwork = new Network(), hamiltonianPath = [], transitionType, currentTaskArray = [];
+let taskFunc, timeoutFunc, stimTimeout; //function for current task
 let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, trialIsNA, switchType, accArr, fractalTrialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
 let canvas, ctx, ntCanvas, ntCtx; //fractal and network walk canvas
-let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
+let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart, stroopOnset;
 let breakOn = false, repeatNecessary = false, data=[];
 let mistakeSound = new Audio('sounds/mistakeSoundShort.m4a');
 let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType, taskSet;
@@ -61,6 +64,9 @@ function experimentFlow(){
   if (openerNeeded == true && opener == null) {
     promptMenuClosed();
   } else {
+    // hide cursor
+    document.body.style.cursor = 'none';
+
     // reset block and trial counts (unless repeat)
     blockTrialCount = 1;
     trialCount = 1;
@@ -84,12 +90,11 @@ function experimentFlow(){
       oddOneOutTest();
     } else if (expStage.indexOf("main3") !=-1){
       stroopAssociationTask();
+    } else if (expStage.indexOf("main4") !=-1) {
+      stroopTransferTask();
     } else {
       endOfExperiment();
     }
-    // } else {
-    //   navigateInstructionPath(repeatNecessary);
-    // }
   }
 }
 
@@ -141,6 +146,17 @@ $(document).ready(function(){
       // reaction time
       respOnset = new Date().getTime() - runStart;
       respTime = respOnset - stimOnset;
+    } else if (keyListener == 9) { //stroop task key listener
+      // reaction time
+      respOnset = new Date().getTime() - runStart;
+      respTime = respOnset - stimOnset
+
+      // accuracy
+      partResp = event.which;
+      acc = (currentTaskArray[trialCount-1][3].includes(partResp)) ? 1 : 0;
+
+      // set for release
+      keyListener = 2;
     }
   });
 
@@ -150,7 +166,7 @@ $(document).ready(function(){
       if (earlyRelease){
         if (earlyReleaseExperiment) {
           clearTimeout(stimTimeout);
-          itiScreen();
+          timeoutFunc();
         }
       }
       keyListener = 0;
@@ -200,13 +216,18 @@ $(document).ready(function(){
     runInstructions();
   });
 
-  $(document).on("click", "#navParsing", function(){
+  $(document).on("click", "#navOddOneOut", function(){
     expStage = "main2";
     runInstructions();
   });
 
-  $(document).on("click", "#navOddOneOut", function(){
+  $(document).on("click", "#navStroopAssociation", function(){
     expStage = "main3";
+    runInstructions();
+  });
+
+  $(document).on("click", "#navStroopTransfer", function(){
+    expStage = "main4";
     runInstructions();
   });
 
@@ -249,34 +270,3 @@ function endOfExperiment(){
     alert("Data upload failed. Did you close the previous screen?");
   }
 }
-
-function randIntFromInterval(min, max) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function multinomialSample(sampleArr, probArr){
-  // build probability integer var
-  let sampleProbs = [];
-  let probability = 0;
-  for (let i = 0; i < sampleArr.length; i++) {
-    probability += probArr[i];
-    sampleProbs.push(probability);
-  }
-
-  // get random number, use to grab value
-  let randNumber = Math.random();
-  for (let i = 0; i < sampleProbs.length; i++) {
-    if (randNumber > sampleProbs[i]) {
-      continue;
-    } else {
-      return sampleArr[i];
-    }
-  }
-}
-
-// // testing multinomialSample function
-// let testingVar = {1:0,2:0,3:0,4:0}
-// for (var i = 0; i < 10000; i++) {
-//   testingVar[multinomialSample([1,2,3,4],[0.2,0.4,0.3,0.1])]++;
-// }
-// console.log(testingVar);
