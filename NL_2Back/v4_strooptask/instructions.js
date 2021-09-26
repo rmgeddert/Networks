@@ -4,11 +4,11 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "main3": 1, "main4": 1, "final": 1
+    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "prac4": 1, "main1": 1, "main2": 1, "main3": 1, "main4": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 8, "main3": 7, "main4": 5, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "prac4": 7, "main1": 6, "main2": 8, "main3": 7, "main4": 5, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -224,6 +224,13 @@ function getNextInstructions(slideNum, expStage){
           return "Regardless of what the word reads, your job is to respond to the FONT COLOR the word is written in. On your keyboard, press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle finger of both hands."
         case 5:
           return "Remember, only respond based on the font color of the word, NOT what the word reads."
+        case 6:
+          iterateAgain = true;
+          $( getImageText(instructionImages[2]) ).insertAfter( "#instructions" + slideNum);
+          return "Please place your fingers on the keyboard as shown. Remember to respond as quickly and as accurately as possible.";
+        case 7:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Press any button to start.";
       }
     case "main3":
         switch (slideNum) {
