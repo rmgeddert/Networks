@@ -212,7 +212,7 @@ function getNextInstructions(slideNum, expStage){
         case 8:
           return "";
       }
-    case "prac4"
+    case "prac4":
       switch (slideNum){
         case 1:
           return "Great job! You will now begin the next practice task."
