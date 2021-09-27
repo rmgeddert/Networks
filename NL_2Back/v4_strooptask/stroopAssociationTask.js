@@ -103,7 +103,7 @@ function stroopFractalTransition(){
   keyListener = 0;
   if (stroopITI > 0){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = accFeedbackColor();;
+    ctx.fillStyle = "black"; //accFeedbackColor();
     ctx.font = "bold 60px Arial";
     ctx.fillText(accFeedback(),canvas.width/2,canvas.height/2);
   }
@@ -157,7 +157,7 @@ function createCongruentsArr(nTrials){
   // build stroop array of congruent trials
   let prevColor = "", stimArray = [], stimulus;
   for (var i = 0; i < nTrials; i++) {
-    stimulus = _.sample(congruentStim.filter(s => s[0] != prevColor));
+    stimulus = _.sample(congruentStim);
     stimArray.push(stimulus);
     prevColor = stimulus[0];
   }
@@ -168,7 +168,7 @@ function createIncongruentsArr(nTrials){
   // build stroop array of congruent trials
   let prevStim = [], stimArray = [], stimulus;
   for (var i = 0; i < nTrials; i++) {
-    stimulus = _.sample(incongruentStim.filter(s => s[0] != prevStim[0] && s[1] != prevStim[1]));
+    stimulus = _.sample(incongruentStim);
     stimArray.push(stimulus);
     prevStim = stimulus;
   }

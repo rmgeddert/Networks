@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "prac4": 7, "main1": 6, "main2": 8, "main3": 7, "main4": 5, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "prac4": 7, "main1": 6, "main2": 8, "main3": 8, "main4": 6, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -197,14 +197,14 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Great job! You will now begin the next task of this experiment.";
         case 2:
-          return "In the task that you just completed, you may have noticed that the fractal images belonged to two distinct groups.";
+          return "In the task that you just completed, you may have noticed that the fractal images belonged to two distinct groups or communities, meaning that some of the fractals often showed up close to each other in the sequence.";
         case 3:
           return "In this task, you will see three fractal images. Two of these images will belong to one of these groups, and the third image will belong to the other group.";
         case 4:
-          return "Your job is to choose the fractal image that 'doesn't fit' with the other two images. For example, if you think that the first and third image were in the same group, choose the second image.";
+          return "Your job is to choose the fractal image that 'doesn't fit' with the other two images. For example, if you think that the first and third image were in the same group (appeared together frequently), choose the second image.";
         case 5:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were grouped together frequently.";
+          return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented together frequently.";
         case 6:
           return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
         case 7:
@@ -245,10 +245,12 @@ function getNextInstructions(slideNum, expStage){
           case 5:
             return "Remember, only respond based on the font color of the word, NOT what the word reads.";
           case 6:
+            return "Please always respond as quickly and as accurately as possible.";
+          case 7:
             iterateAgain = true;
             $( getImageText(instructionImages[2]) ).insertAfter( "#instructions" + slideNum);
             return "Please place your fingers on the keyboard as shown. Remember to respond as quickly and as accurately as possible.";
-          case 7:
+          case 8:
             changeTextFormat('#instructions' + slideNum,'font-weight','bold');
             return "Press any button to start.";
       }
@@ -261,10 +263,12 @@ function getNextInstructions(slideNum, expStage){
             case 3:
               return "Remember to indicate the font COLOR, not what the word reads. Press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle finger of both hands.";
             case 4:
+              return "Please always respond as quickly and as accurately as possible.";
+            case 5:
               iterateAgain = true;
               $( getImageText(instructionImages[2]) ).insertAfter( "#instructions" + slideNum);
               return "Please place your fingers on the keyboard as shown. Remember to respond as quickly and as accurately as possible.";
-            case 5:
+            case 6:
               changeTextFormat('#instructions' + slideNum,'font-weight','bold');
               return "Press any button to start.";
         }

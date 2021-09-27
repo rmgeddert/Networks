@@ -57,7 +57,7 @@ function oddOneOutTest() {
   // FUNCTIONS:
   function processImageClick(imageNum){
     respOnset = new Date().getTime() - runStart;
-    if (respOnset - stimOnset > 500) {
+    if (respOnset - stimOnset > 300) {
         acc = (currentNodeSet.indexer[imageNum - 1] == 1) ? 1 : 0;
         partResp = imageNum;
         respOnset = new Date().getTime() - runStart;

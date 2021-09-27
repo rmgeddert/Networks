@@ -6,7 +6,7 @@ let speed = "normal"; //fast, normal
 speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
-let playSounds = false;
+let playSounds = true;
 let showNetworkWalk = false;
 let showNavButtons = true;
 
@@ -23,8 +23,8 @@ let stroopStimInterval = (speed == "fast") ? 5 : 1500; //2000
 let stroopITI = (speed == "fast") ? 1 : 1200; //1200
 let earlyRelease = true;
 let nFractalTrials = 900;
-let nStroopAssociationTrials = 100; //number of trials during random walk
-let nTransferTrials = 100;
+let nStroopAssociationTrials = 96; //number of trials during random walk
+let nTransferTrials = 96;
 let nNovelNodes = 6;
 let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
