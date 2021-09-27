@@ -64,7 +64,12 @@ $(document).ready(function(){
 
 
 function stroopTaskFlow(){
-
+  if (trialCount <= 16){
+    stroopTrial();
+  }
+  else {
+    navigateInstructionPath();
+  }
 }
 
 function stroopTrial(){
