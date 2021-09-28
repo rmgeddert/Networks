@@ -1,5 +1,4 @@
 let transferStimArray, transferTaskArray;
-let transferCongruencyArr;
 function stroopTransferTask(){
   // task details
   sectionType = "mainTask";
@@ -16,13 +15,14 @@ function stroopTransferTask(){
   $("#fractalCanvas").show();
   $(".canvasas").show();
 
-  // create stim array for experiment
-  let transferTaskNodes = createTransferTaskNodes();
-  transferStimArray = createTransferStimArray(transferTaskNodes);
-
   // create task array for experiment
-  transferCongruencyArr = createCongruencyArray(nTransferTrials);
-  transferTaskArray = createTransferTaskArray(nTransferTrials);
+  let transferTaskNodes = createTransferTaskNodes();
+  transferTaskArray = createTransferTaskArray(transferTaskNodes);
+  console.log(transferTaskArray);
+
+  // create stim array for experiment
+  transferStimArray = createTransferStimArray(nTransferTrials);
+  console.log(transferStimArray);
 
   // set taskFunc so countdown goes to right task
   taskFunc = runStroopTransfer;
@@ -45,7 +45,7 @@ function transferTrial(){
     promptMenuClosed();
   } else {
     stimOnset = new Date().getTime() - runStart;
-    activeNode = transferStimArray[trialCount - 1];
+    activeNode = transferTaskArray[trialCount - 1][0];
     displayFractal();
 
     // go to stroop after delay
@@ -54,7 +54,7 @@ function transferTrial(){
 }
 
 function transferStroopTrial(){
-  let stimulus = transferTaskArray[trialCount - 1];
+  let stimulus = transferStimArray[trialCount - 1];
 
   // // add stimulus to currentTaskArray (for access by key listener)
   currentTaskArray.push(stimulus);
@@ -81,7 +81,7 @@ function transferTransition(){
   keyListener = 0;
   if (stroopITI > 0){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = accFeedbackColor();;
+    ctx.fillStyle = "black"; //accFeedbackColor();
     ctx.font = "bold 60px Arial";
     ctx.fillText(accFeedback(),canvas.width/2,canvas.height/2);
   }
@@ -116,34 +116,77 @@ function createTransferTaskNodes(){
   return transferTaskSet;
 }
 
-function createTransferStimArray(nodeArr){
-  let stimArr = [], newBatc = [];
-  let batchesNeeded = Math.ceil(nTransferTrials/nodeArr.length*2);
-  for (var i = 0; i < batchesNeeded; i++) {
-    do {
-      newBatch = createTransferStimBatch(nodeArr);
-    } while (newBatch[0] == stimArr[stimArr.length - 1]);
-    stimArr = stimArr.concat(newBatch);
+function createTransferTaskArray(nodeArr){
+  let taskArr, newBatch;
+  let batchesNeeded = Math.ceil(nTransferTrials/(nodeArr.length*2));
+  do {
+    taskArr = [];
+    for (var i = 0; i < batchesNeeded; i++) {
+      do {
+        newBatch = createTransferTaskBatch(nodeArr);
+      } while (newBatch[0] == taskArr[taskArr.length - 1]);
+      taskArr = taskArr.concat(newBatch);
+    }
+  } while (checkTaskArr(taskArr));
+  return taskArr.slice(0, nTransferTrials);
+
+  function checkTaskArr(arr){
+    let congruentPrevCon = 0, congruentPrevInc = 0;
+    let incongruentPrevCon = 0, incongruentPrevInc = 0;
+    //count number of previous congruent and incongruents
+    arr.forEach((nodePair, i) => {
+      let community = nodePair[0].community;
+      if (community != "novel") {
+        if (i == 0) {
+          return true;
+        } else if (community == "congruent") {
+          if (arr[i - 1][1] == "c") {
+            congruentPrevCon++;
+          } else {
+            congruentPrevInc++;
+          }
+        } else {
+          if (arr[i - 1][1] == "c") {
+            incongruentPrevCon++;
+          } else {
+            incongruentPrevInc++;
+          }
+        }
+      }
+    });
+
+    if (congruentPrevCon != congruentPrevInc ||  incongruentPrevCon != incongruentPrevInc) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  return stimArr.slice(0, nTransferTrials);
 }
 
-function createTransferStimBatch(nodeArr){
+function createTransferTaskBatch(nodeArr, batchCount){
   // create basic task array batch
-  let stimArrBatch = [];
+  let taskArrBatch = [];
   nodeArr.forEach(node => {
-    stimArrBatch = stimArrBatch.concat(new Array(2).fill(node))
+    taskArrBatch.push([node, "i"]);
+    taskArrBatch.push([node, "c"]);
   })
 
   //use algorithm to shuffle array (with no repeats allowed)
   do {
-    stimArrBatch = shuffle(stimArrBatch);
-  } while (stimRepeat(stimArrBatch));
-  return stimArrBatch;
+    taskArrBatch = shuffle(taskArrBatch);
+  } while (checkShuffle(taskArrBatch));
+  return taskArrBatch;
 
-  function stimRepeat(arr){
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i] == arr[i+1]) {
+  function checkShuffle(arr){
+    //if very first batch, make sure trial 1 isn't a transfer node
+    if (batchCount == 0) {
+      if (arr[0][0].community != "novel") {
+        return true;
+      }
+    }
+    //make sure there are no node repeats in batch of 16
+    for (var i = 1; i < arr.length; i++) {
+      if (arr[i][0] == arr[i-1][0]) {
         return true;
       }
     }
@@ -151,21 +194,15 @@ function createTransferStimBatch(nodeArr){
   }
 }
 
-function createCongruencyArray(nTrials){
-  let nCongruentTrials = Math.ceil(nTrials/2);
-  let nIncongruentTrials = nTrials - nCongruentTrials;
-  return arr = shuffle(new Array(nIncongruentTrials).fill("i").concat(new Array(nCongruentTrials).fill("c")));
-}
-
-function createTransferTaskArray(nTrials){
-  let prevStim = [], taskArray = [], stimulus;
+function createTransferStimArray(nTrials){
+  let taskArray = [], prevStim, stimulus;
   for (var i = 0; i < nTrials; i++) {
-    if (transferCongruencyArr[i] == "c") {
-      stimulus = _.sample(congruentStim.filter(s => s[0] != prevStim[0] && s[1] != prevStim[1]));
+    if (transferTaskArray[i][1] == "c") {
+      stimulus = _.sample(congruentStim);
       taskArray.push(stimulus);
       prevStim = stimulus;
     } else {
-      stimulus = _.sample(incongruentStim.filter(s => s[0] != prevStim[0] && s[1] != prevStim[1]));
+      stimulus = _.sample(incongruentStim);
       taskArray.push(stimulus);
       prevStim = stimulus;
     }

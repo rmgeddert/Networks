@@ -1,4 +1,5 @@
 function oddOneOutTest() {
+  document.body.style.cursor = 'auto';
   // holds task node sets
   let taskNodeSets = [];
 
