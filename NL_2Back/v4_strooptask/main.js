@@ -88,6 +88,8 @@ function experimentFlow(){
       learnNetworkTask();
     } else if (expStage.indexOf("main2") != -1){
       oddOneOutTest();
+    } else if (expStage.indexOf("prac4") !=-1){
+      stroopTaskPractice();
     } else if (expStage.indexOf("main3") !=-1){
       stroopAssociationTask();
     } else if (expStage.indexOf("main4") !=-1) {
