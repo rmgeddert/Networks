@@ -24,7 +24,7 @@ let breakEveryNTrials = 200;
 let nPracticeTrials = 20; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nNetworkTrials into
-let practiceAccCutoff = (testMode == true) ? 0 : 85; // 70 acc%
+let practiceAccCutoff = (testMode == true) ? 0 : 75; // 70 acc%
 let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //initial expStage
 
 // task variables
