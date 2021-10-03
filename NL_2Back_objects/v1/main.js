@@ -19,7 +19,8 @@ let showFeedback = true;
 let feedbackInterval = (speed == "fast") ? 5 : 1000;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let earlyRelease = true;
-let nNetworkTrials = 900;
+let nNetworkTrials = 800;
+let breakEveryNTrials = 200;
 let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nNetworkTrials into

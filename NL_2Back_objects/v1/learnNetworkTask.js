@@ -28,7 +28,7 @@ function learnNetworkTask(){
 
 function runNetworkLearning(){
   if (trialCount <= nNetworkTrials) {
-    if (trialCount > 1 && trialCount != nNetworkTrials && (trialCount - 1)%300 == 0 && !breakOn) {
+    if (trialCount > 1 && trialCount != nNetworkTrials && (trialCount - 1)%breakEveryNTrials == 0 && !breakOn) {
       breakOn = true;
       networkBlockBreak();
     } else {
