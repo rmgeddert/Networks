@@ -88,15 +88,9 @@ function experimentFlow(){
       learnNetworkTask();
     } else if (expStage.indexOf("main2") != -1){
       oddOneOutTest();
-<<<<<<< HEAD
     } else if (expStage.indexOf("prac4") != -1){
       stroopTaskPractice();
     } else if (expStage.indexOf("main3") != -1){
-=======
-    } else if (expStage.indexOf("prac4") !=-1){
-      stroopTaskPractice();
-    } else if (expStage.indexOf("main3") !=-1){
->>>>>>> 47011859a1b865abf239db9832cb628448f19df1
       stroopAssociationTask();
     } else if (expStage.indexOf("main4") != -1) {
       stroopTransferTask();
