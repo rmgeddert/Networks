@@ -14,10 +14,11 @@ function stroopTaskPractice(){
 
   stroopTaskArray = createStroopArray(16);
   console.log(stroopTaskArray);
-  taskFunc = stroopTaskFlow;
-  //countDown(3);
-}
 
+  //proceed to first trial
+  taskFunc = stroopTaskFlow;
+  countDown(3);
+}
 
 function stroopTaskFlow(){
   if (trialCount <= 16){
@@ -40,68 +41,17 @@ function stroopTrial(){
   stroopOnset = new Date().getTime() - runStart;
   keyListener = 9, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN
 
+  //display stimulus
+  stimOnset = new Date().getTime();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = "bold 50px Arial";
+  ctx.fillStyle = stimulusColor;
+  ctx.fillText(stimulusText.toUpperCase(), canvas.width/2, canvas.height/2);
+
+  //proceed to transition
   timeoutFunc = practiceTransition;
   stimTimeout = setTimeout(practiceTransition, stroopStimInterval);
-
-  responseExpected = true;
-  instructionsScreen = false;
-  accuracy = NaN;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = "60px Arial";
-  ctx.fillStyle = stimulusColor;
-  ctx.fillText(stimulusText,  canvas.width/2, canvas.height/2);
-  stimOnset = new Date().getTime();
-  respOnset = new Date().getTime();
-  setTimeout(stroopFeedback, stroopITI);
 }
-
-
-  $("body").keypress(function(event){
-      console.log(event.which);
-      responseKey = event.which;
-      if (instructionsScreen == true){
-        if (event.which == 32) {
-          taskFlow();
-        }
-      }
-      else {
-        if (stimulusColor == "red"){
-          if (event.which == 90){
-          }
-          else {
-
-          }
-        }
-        if (stimulusColor == "green"){
-          if (event.which == 88){
-            accuracy = 1
-          }
-          else {
-            accuracy = 0
-          }
-
-        }
-        if (stimulusColor == "blue"){
-          if (event.which == 78){
-            accuracy = 1
-          }
-          else {
-            accuracy = 0
-          }
-
-        }
-        if (stimulusColor == "orange"){
-          if (event.which == 77){
-            accuracy = 1
-          }
-          else {
-            accuracy = 0
-          }
-
-        }
-
-      }
-  })
 
 // function stroopFeedback(){
 //   responseExpected = false;
@@ -150,8 +100,8 @@ function createStroopArray(nTrials){
     else {//"i"
       stroopArray.push(_.sample(incongruentStim));
     }
-    return stroopArray;
   }
+  return stroopArray;
 }
 
 function practiceTransition(){
