@@ -21,7 +21,7 @@ let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let earlyRelease = true;
 let nNetworkTrials = 800;
 let breakEveryNTrials = 200;
-let nPracticeTrials = 25; //number of practice trials for 1-back and 2-back tasks
+let nPracticeTrials = 20; //number of practice trials for 1-back and 2-back tasks
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nNetworkTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 85; // 70 acc%

@@ -105,7 +105,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          return "In this experiment you will perform a task where you detect and respond to repetitions in images of everyday objects. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 30-40 minutes.";
+          return "In this experiment you will perform a task where you detect and respond to repetitions in images of everyday objects. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 25-30 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 5:
@@ -192,7 +192,7 @@ function getNextInstructions(slideNum, expStage){
     case "main2":
       switch (slideNum){
         case 1:
-          return "Great job! You will now begin the next task of this experiment.";
+          return "Great job! You will now begin the final task of this experiment.";
         case 2:
           return "In the task that you just completed, you may have noticed that the images belonged to two distinct groups or communities, meaning that some of the images often showed up close to each other in the sequence.";
         case 3:
