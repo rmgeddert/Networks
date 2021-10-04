@@ -269,6 +269,7 @@ function endOfExperiment(){
     // close the experiment window
     JavaScript:window.close();
   } catch (e) {
-    alert("Data upload failed. Did you close the previous screen?");
+    keyListener = 5;
+    alert("Data upload failed. Did you close the previous screen? Please do not close this window and contact the researcher.");
   }
 }
