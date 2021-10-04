@@ -259,7 +259,7 @@ function getNextInstructions(slideNum, expStage){
             case 1:
               return "Great job! You will now begin the final task of the experiment.";
             case 2:
-              return "This task is identical to the on you just completed. You will see a fractal image followed by a color word (e.g., 'RED' or 'BLUE'), written in a specific colored font (e.g., 'RED' in blue font).";
+              return "This task is identical to the one you just completed. You will see a fractal image followed by a color word (e.g., 'RED' or 'BLUE'), written in a specific colored font (e.g., 'RED' in blue font).";
             case 3:
               return "Remember to indicate the font COLOR, not what the word reads. Press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle finger of both hands.";
             case 4:
