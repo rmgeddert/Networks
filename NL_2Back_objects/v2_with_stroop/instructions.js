@@ -29,6 +29,8 @@ let iterateAgain = false, task;
 
 function navigateInstructionPath(repeat = false){
   if (repeat == true) {
+    block++;
+    repeatNecessary = false;
     // if multi stage instructions, ensures it goes back to first not second
     // switch (expStage){
     //   case "prac1-1":
@@ -37,6 +39,7 @@ function navigateInstructionPath(repeat = false){
     //     break;
     // }
   } else {
+    block = 1;
     switch (expStage){
       case "prac1-1":
         expStage = "prac1-2";
@@ -217,12 +220,12 @@ function getNextInstructions(slideNum, expStage){
         case 1:
           return "Great job! You will now begin the second half of the experiment. You will start with a short practice task.";
         case 2:
-          return "In this task, you will see the word for a color written in a specific font. The font color can either match the word's meaning (e.g., 'RED' in red font), or may not match the word's meaning (e.g., 'RED' in blue font)."
+          return "In this task, you will see a color word (e.g., 'RED' or 'BLUE') appear on the screen. The font color of the word can either match the word's meaning (e.g., 'RED' in red font) or may not match the word's meaning (e.g., 'RED' in blue font)."
         case 3:
           $( getImageText(instructionImages[3]) ).insertBefore( "#instructions" + slideNum);
-          return "Regardless of what the word reads, your job is to respond to the FONT COLOR the word is written in. On your keyboard, press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle finger of both hands."
+          return "Your job is to indicate the FONT COLOR of the word, while ignoring what the word itself says. On your keyboard, press 'z' if the font color is red, 'x' if it is green, 'n' if it is blue, and 'm' if it is orange, using the index and middle fingers of both hands."
         case 4:
-          return "Remember, only respond based on the font color of the word, NOT what the word reads."
+          return "You will need to get a least " + practiceAccCutoff + "% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice."
         case 5:
           iterateAgain = true;
           $( getImageText(instructionImages[2]) ).insertAfter( "#instructions" + slideNum);
@@ -351,7 +354,7 @@ function runInstructions(){
   $(document).on('click', '#startExpButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     $('#instructionsDiv').hide();
@@ -368,7 +371,7 @@ function runInstructions(){
   $(document).on('click', '#nextSectionButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
     console.log(data);
 
     // clear all button press listeners

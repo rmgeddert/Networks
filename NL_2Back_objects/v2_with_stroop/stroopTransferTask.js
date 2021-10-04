@@ -18,11 +18,11 @@ function stroopTransferTask(){
   // create task array for experiment
   let transferTaskNodes = createTransferTaskNodes();
   transferTaskArray = createTransferTaskArray(transferTaskNodes);
-  console.log(transferTaskArray);
+  // console.log(transferTaskArray);
 
   // create stim array for experiment
   transferStimArray = createTransferStimArray(nTransferTrials);
-  console.log(transferStimArray);
+  // console.log(transferStimArray);
 
   // set taskFunc so countdown goes to right task
   taskFunc = runStroopTransfer;
@@ -87,7 +87,7 @@ function transferTransition(){
   }
 
   // log Data
-  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, fileOnly(activeNode.img.src), NaN, getAccuracy(acc), stimOnset, respOnset, respTime, partResp, activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, fileOnly(activeNode.img.src), NaN, getAccuracy(acc), stimOnset, respOnset, respTime, partResp, activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", transitionType, isCommunityTransition() ? 1 : 0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, stroopOnset, stroopTaskArray[trialCount - 1][0], stroopTaskArray[trialCount - 1][1], stroopTaskArray[trialCount - 1][2]]);
   console.log(data);
 
   // iterate trial count

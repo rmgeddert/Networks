@@ -68,14 +68,10 @@ function experimentFlow(){
     // hide cursor
     document.body.style.cursor = 'none';
 
-    // reset block and trial counts (unless repeat)
+    // reset block and trial counts
+    accCount = 0;
     blockTrialCount = 1;
     trialCount = 1;
-    if (!repeatNecessary) {
-      block = 1;
-    } else {
-      block++;
-    }
 
     // navigateInstructionPath(repeatNecessary);
     // // go to the correct task based on expStage variable
@@ -152,11 +148,15 @@ $(document).ready(function(){
     } else if (keyListener == 9) { //stroop task key listener
       // reaction time
       respOnset = new Date().getTime() - runStart;
-      respTime = respOnset - stimOnset
+      respTime = respOnset - stimOnset;
 
       // accuracy
       partResp = event.which;
       acc = (currentTaskArray[trialCount-1][3].includes(partResp)) ? 1 : 0;
+
+      if (acc == 1) {
+        accCount++;
+      }
 
       // set for release
       keyListener = 2;
@@ -182,7 +182,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
       // go to next experiment
       keyListener = 0;
@@ -191,7 +191,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      data.push([sectionType, NaN, taskName, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
       // go to instructions
       navigateInstructionPath(repeatNecessary);
@@ -204,7 +204,7 @@ $(document).ready(function(){
 
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      data.push([sectionType, NaN, taskName, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+      data.push([sectionType, NaN, taskName, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, block, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
       console.log(data);
 
       // resume task

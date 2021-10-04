@@ -129,7 +129,7 @@ function itiScreen(){
   }
 
   // log data
-  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, getStim(stimArr[trialCount - 1]), switchRepeatArr[trialCount - 1], getAccuracy(acc), stimOnset, respOnset, respTime, partResp, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, getStim(stimArr[trialCount - 1]), switchRepeatArr[trialCount - 1], getAccuracy(acc), stimOnset, respOnset, respTime, partResp, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
   console.log(data);
 
   // iterate trial count
@@ -156,7 +156,7 @@ function drawFeedback(){
   ctx.fillText(accFeedback(),canvas.width/2,canvas.height/2);
 }
 
-function nBackFeedback(accuracy){
+function practiceFeedback(accuracy){
   sectionStart = new Date().getTime() - runStart;
   sectionType = "pracFeedback";
 

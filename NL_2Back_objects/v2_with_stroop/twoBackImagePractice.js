@@ -40,7 +40,7 @@ function run2BackImage(){
 
   } else {
 
-    nBackFeedback(Math.round( accCount / (trialCount - 1 - nBack) * 100 ));
+    practiceFeedback(Math.round( accCount / (trialCount - 1 - nBack) * 100 ));
 
   }
 }

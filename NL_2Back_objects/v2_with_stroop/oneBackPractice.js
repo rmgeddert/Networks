@@ -46,6 +46,6 @@ function run1Back(){
     // let passesAccuracy = checkAccuracy(accArr, switchRepeatArr);
     // nBackFeedback(passesAccuracy);
 
-    nBackFeedback(Math.round( accCount / (trialCount - 1 - nBack) * 100 ));
+    practiceFeedback(Math.round( accCount / (trialCount - 1 - nBack) * 100 ));
   }
 }

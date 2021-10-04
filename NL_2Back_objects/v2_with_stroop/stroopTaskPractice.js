@@ -6,14 +6,15 @@ function stroopTaskPractice(){
   playSoundsExperiment = false;
 
   currentTaskArray = [];
+  accCount = 0;
 
   $('#instructionsDiv').hide();
   $("#navButtons").hide();
   canvas.style.display = "inline-block";
   $(".canvasas").show();
 
-  stroopTaskArray = createStroopArray(16);
-  console.log(stroopTaskArray);
+  stroopTaskArray = createStroopArray(nPracticeTrials);
+  // console.log(stroopTaskArray);
 
   //proceed to first trial
   taskFunc = stroopTaskFlow;
@@ -21,11 +22,11 @@ function stroopTaskPractice(){
 }
 
 function stroopTaskFlow(){
-  if (trialCount <= 16){
+  if (trialCount <= nPracticeTrials){
     fixationScreen();
     setTimeout(stroopTrial, fixInterval);
   } else {
-    navigateInstructionPath();
+    practiceFeedback(Math.round( accCount / (trialCount - 1) * 100 ));
   }
 }
 
@@ -39,10 +40,9 @@ function stroopTrial(){
 
   //set up for response
   stroopOnset = new Date().getTime() - runStart;
-  keyListener = 9, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN
+  keyListener = 9, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN, stimOnset = NaN;
 
   //display stimulus
-  stimOnset = new Date().getTime();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.font = "bold 50px Arial";
   ctx.fillStyle = stimulusColor;
@@ -52,36 +52,6 @@ function stroopTrial(){
   timeoutFunc = practiceTransition;
   stimTimeout = setTimeout(practiceTransition, stroopStimInterval);
 }
-
-// function stroopFeedback(){
-//   responseExpected = false;
-//   instructionsScreen = false;
-//   ctx.clearRect(0, 0, canvas.width, canvas. height);
-//   ctx.font = "60px Arial";
-//   if (accuracy == 1){
-//     ctx.fillStyle = "green";
-//     ctx.fillText("Correct", canvas.width/2, canvas.height/2);
-//   }
-//   else if (accuracy == 0){
-//     ctx.fillStyle = "red";
-//     ctx.fillText("Incorrect", canvas.width/2, canvas.height/2);
-//   }
-//   else {
-//     ctx.fillStyle = "black";
-//     ctx.fillText("Too slow!", canvas.width/2, canvas.height/2);
-//   }
-//   setTimeout (stroopPracticeITI, 1000);
-// }
-
-// function stroopPracticeITI(){
-//   instructionsScreen = false;
-//   ctx.clearRect(0, 0, canvas.width, canvas.height);
-//   ctx.fillText("", canvas.width/2, canvas.height/2);
-//   reactionTime = (respOnset - stimOnset);
-//   data.push([trialCount, stimulusArray[trialCount], responseKey, accuracy, reactionTime]);
-//   console.log(data);
-//   setTimeout(stroopTaskFlow, 500);
-// }
 
 function createStroopArray(nTrials){
   //trial counts
@@ -114,8 +84,8 @@ function practiceTransition(){
   }
 
   // log Data
-  // data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, fileOnly(activeNode.img.src), NaN, getAccuracy(acc), stimOnset, respOnset, respTime, partResp, activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
-  // console.log(data);
+  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, NaN, NaN, getAccuracy(acc), stimOnset, respOnset, respTime, partResp, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, stroopOnset, stroopTaskArray[trialCount - 1][0], stroopTaskArray[trialCount - 1][1], stroopTaskArray[trialCount - 1][2]]);
+  console.log(data);
 
   // iterate trial count
   trialCount++; blockTrialCount++;
