@@ -8,7 +8,7 @@ let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
 let playSounds = true;
 let showNetworkWalk = false;
-let showNavButtons = true;
+let showNavButtons = false;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
 let networkSize = 10; //defined by network structure
