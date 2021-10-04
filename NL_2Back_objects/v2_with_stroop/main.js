@@ -20,7 +20,7 @@ let feedbackInterval = (speed == "fast") ? 5 : 1000;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let imagePreStroopInterval = 500; //500
 let stroopStimInterval = (speed == "fast") ? 5 : 1500; //2000
-let stroopITI = (speed == "fast") ? 1 : 1200; //1200
+let stroopITI = (speed == "fast") ? 1 : 1000; //1200
 let earlyRelease = true;
 let nNetworkTrials = 800;
 let nStroopAssociationTrials = 96;

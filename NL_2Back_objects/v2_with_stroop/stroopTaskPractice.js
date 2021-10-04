@@ -44,7 +44,7 @@ function stroopTrial(){
 
   //display stimulus
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = "bold 50px Arial";
+  ctx.font = "bold 60px Arial";
   ctx.fillStyle = stimulusColor;
   ctx.fillText(stimulusText.toUpperCase(), canvas.width/2, canvas.height/2);
 

@@ -80,21 +80,27 @@ function transferStroopTrial(){
 function transferTransition(){
   keyListener = 0;
   if (stroopITI > 0){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "black"; //accFeedbackColor();
-    ctx.font = "bold 60px Arial";
-    ctx.fillText(accFeedback(),canvas.width/2,canvas.height/2);
+    if (getAccuracy(acc) != 1) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "black"; //accFeedbackColor();
+      ctx.font = "bold 60px Arial";
+      ctx.fillText(accFeedback(),canvas.width/2,canvas.height/2);
+    }
   }
 
   // log Data
-  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, fileOnly(activeNode.img.src), NaN, getAccuracy(acc), stimOnset, respOnset, respTime, partResp, activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", transitionType, isCommunityTransition() ? 1 : 0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, stroopOnset, stroopTaskArray[trialCount - 1][0], stroopTaskArray[trialCount - 1][1], stroopTaskArray[trialCount - 1][2]]);
+  data.push([sectionType, NaN, taskName, NaN, NaN, NaN, trialCount, blockTrialCount, block, fileOnly(activeNode.img.src), NaN, getAccuracy(acc), stimOnset, respOnset, respTime, partResp, activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", transitionType, isCommunityTransition() ? 1 : 0, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, stroopOnset, currentTaskArray[trialCount - 1][0], currentTaskArray[trialCount - 1][1], currentTaskArray[trialCount - 1][2]]);
   console.log(data);
 
   // iterate trial count
   trialCount++; blockTrialCount++;
 
   // return to taskFlow func
-  setTimeout(runStroopTransfer,stroopITI);
+  if (getAccuracy(acc) != 1) {
+    setTimeout(runStroopTransfer,stroopITI);
+  } else {
+    runStroopTransfer();
+  }
 }
 
 function createTransferTaskNodes(){

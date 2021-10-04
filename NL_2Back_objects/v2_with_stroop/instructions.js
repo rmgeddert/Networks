@@ -111,7 +111,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          return "In this experiment you will perform a task where you detect and respond to repetitions in images of everyday object. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 30-40 minutes.";
+          return "In this experiment you will perform a task where you detect and respond to repetitions in images of everyday objects. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 30-40 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 5:
