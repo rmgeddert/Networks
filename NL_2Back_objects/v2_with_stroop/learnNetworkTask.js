@@ -134,7 +134,7 @@ function networkBlockBreak(){
     // display miniblock text
     ctx.fillStyle = "black";
     ctx.font = "25px Arial";
-    ctx.fillText("This is a short break. Please don't pause for more than 3 minutes.",canvas.width/2,canvas.height/2 - 150);
+    ctx.fillText("This is a short break. Please don't pause for more than 2 minutes.",canvas.width/2,canvas.height/2 - 150);
     if (Math.ceil(nNetworkTrials / breakEveryNTrials) - block > 1) {
       ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(nNetworkTrials / breakEveryNTrials)  - block) + " blocks left.",canvas.width/2,canvas.height/2);
     } else {
