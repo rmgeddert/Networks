@@ -2,6 +2,7 @@ console.log("Version - Last Updated 8-4-2020");
 // create global curStage variable
 let curStage = 0;
 let onMturk = true;
+let experimentOpened = false;
 
 // creates popup window
 function basicPopup(url) {
@@ -137,8 +138,16 @@ function prepareMenu(){
         basicPopup("demographics.html");
         break;
       case 2:
-        basicPopup("main.html");
-        break;
+        if (experimentOpened == false) {
+          basicPopup("main.html");
+          experimentOpened = true;
+          break;
+        } else {
+          if (confirm("The experiment has already been opened. Are you sure you want to reopen the experiment? You will lose all previous progress. Do not press OK if you have already completed the task. Leave the other experiment window open and contact the requester.")) {
+            basicPopup("main.html");
+            break;
+          }
+        }
     }
   });
 

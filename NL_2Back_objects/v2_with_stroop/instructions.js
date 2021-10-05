@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "prac4": 6, "main1": 6, "main2": 8, "main3": 6, "main4": 5, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "prac4": 6, "main1": 6, "main2": 8, "main3": 6, "main4": 5, "final": 4
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -273,12 +273,14 @@ function getNextInstructions(slideNum, expStage){
     case "final":
       switch (slideNum){
         case 1:
-          iterateAgain = true;
-          return "Thank you for your participation. Press any button to return to the other experiment window, which you used to open this experiment window. Be sure to read the final paragraph carefully and then submit your data to receive your confirmation code.";
+          return "Thank you for your participation! DO NOT MANUALLY CLOSE THIS WINDOW. Your data has not been saved yet. Please read the following carefully."
         case 2:
           iterateAgain = true;
-          return "DO NOT GO BACK TO THE OTHER WINDOW WITHOUT FIRST CLOSING THIS SCREEN VIA BUTTON PRESS. Doing otherwise may result in you losing all data from your participation.";
+          return "Press any button on your keyboard to return to the other experiment window, which you used to open this experiment window. Be sure to read the final paragraph carefully and then submit your data to receive your confirmation code.";
         case 3:
+          iterateAgain = true;
+          return "DO NOT GO BACK TO THE OTHER WINDOW WITHOUT FIRST CLOSING THIS SCREEN VIA BUTTON PRESS. Doing otherwise may result in you losing all data from your participation. Please contact the requester if you are having trouble.";
+        case 4:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button on your keyboard to close this window.";
       }
