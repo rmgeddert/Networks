@@ -138,6 +138,9 @@ function displayImage(){
 }
 
 function drawNetwork(){
+  $(".canvasas").show();
+  $("#networkCanvas").show();
+
   // clear canvas
   ntCtx.clearRect(0, 0, ntCanvas.width, ntCanvas.height);
 
@@ -154,9 +157,10 @@ function drawNetwork(){
   // draw nodes
   taskNetwork.nodes.forEach((node) => {
     ntCtx.fillStyle = node.color;
-    ntCtx.beginPath();
-    ntCtx.arc(node.coord.x,node.coord.y,node.rad,0,2*Math.PI);
-    ntCtx.fill();
+    // ntCtx.beginPath();
+    // ntCtx.arc(node.coord.x,node.coord.y,node.rad,0,2*Math.PI);
+    // ntCtx.fill();
+    ntCtx.drawImage(node.img, node.coord.x - 50,node.coord.y - 50, 100, 100)
   });
 }
 

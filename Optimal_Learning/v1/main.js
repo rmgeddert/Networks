@@ -74,13 +74,9 @@ function experimentFlow(){
     // navigateInstructionPath(repeatNecessary);
     // // go to the correct task based on expStage variable
     if (expStage.indexOf("prac1") != -1){
-      oneBackPractice();
-    } else if (expStage.indexOf("prac2") != -1){
-      twoBackPractice();
-    } else if (expStage.indexOf("prac3") != -1){
-      twoBackImagePractice();
+      // practiceTask()
     } else if (expStage.indexOf("main1") != -1){
-      learnNetworkTask();
+      networkPairsTask();
     } else if (expStage.indexOf("main2") != -1){
       oddOneOutTest();
     } else {
@@ -131,23 +127,6 @@ $(document).ready(function(){
       // reaction time
       respOnset = new Date().getTime() - runStart;
       respTime = respOnset - stimOnset;
-    } else if (keyListener == 8) { //parsing task exclusive key listener
-      partResp = event.which;
-
-      // reaction time
-      respOnset = new Date().getTime() - runStart;
-      respTime = respOnset - stimOnset;
-    } else if (keyListener == 9) { //stroop task key listener
-      // reaction time
-      respOnset = new Date().getTime() - runStart;
-      respTime = respOnset - stimOnset
-
-      // accuracy
-      partResp = event.which;
-      acc = (currentTaskArray[trialCount-1][3].includes(partResp)) ? 1 : 0;
-
-      // set for release
-      keyListener = 2;
     }
   });
 
@@ -209,16 +188,6 @@ $(document).ready(function(){
 
   $(document).on("click", "#navOddOneOut", function(){
     expStage = "main2";
-    runInstructions();
-  });
-
-  $(document).on("click", "#navStroopAssociation", function(){
-    expStage = "main3";
-    runInstructions();
-  });
-
-  $(document).on("click", "#navStroopTransfer", function(){
-    expStage = "main4";
     runInstructions();
   });
 

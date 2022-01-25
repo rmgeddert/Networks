@@ -4,19 +4,17 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "prac2": 1, "prac3": 1, "main1": 1, "main2": 1, "final": 1
+    "prac1-1": 1, "prac1-2": 1, "main1": 1, "main2": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "prac2": 6, "prac3": 7, "main1": 6, "main2": 8, "final": 3
+    "prac1-1": 5, "prac1-2": 6, "main1": 6, "main2": 8, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
   exitResponse: {
     "prac1-1": '#nextSectionButton',
     "prac1-2": 'keyPressStartTask',
-    "prac2": 'keyPressStartTask',
-    "prac3": 'keyPressStartTask',
     "main1": 'keyPressStartTask',
     "main2": '#startExpButton',
     "final": 'keyPressStartTask'
@@ -39,12 +37,6 @@ function navigateInstructionPath(repeat = false){
         expStage = "prac1-2";
         break;
       case "prac1-2":
-        expStage = "prac2";
-        break;
-      case "prac2":
-        expStage = "prac3";
-        break;
-      case "prac3":
         expStage = "main1";
         break;
       case "main1":
@@ -67,7 +59,6 @@ function displayDefaults(stage){
       break;
     case "prac1-1":
     case "prac1-2":
-    case "prac2":
     case "main1":
     case "main2":
        // showFirst();
@@ -96,7 +87,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          return "In this experiment you will perform a task where you detect and respond to repetitions in images of everyday objects. You will begin with several practice tasks designed to familiarize you with the main task. The experiment is expected to take approximately 25-30 minutes.";
+          return "In this experiment you will perform a task where you ... The experiment is expected to take approximately 25-30 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 5:
@@ -105,100 +96,17 @@ function getNextInstructions(slideNum, expStage){
     case "prac1-2":
       switch (slideNum){
         case 1:
-          return "In this first practice task, you will see a sequence of vowels presented one at a time.";
-        case 2:
-          return "Press the '1' key on your keyboard if the vowel you see is a repeat of the previous vowel from one trial before. Press the '0' key if it is not a repeat.";
-        case 3:
-          return "For example, if you see A then E, press '0'. If you see A then A, press '1'.";
-        case 4:
-          return "You will need to get at least " + practiceAccCutoff + "% correct on this task in order to move on to the next section, otherwise you will need to repeat the practice.";
-        case 5:
-          iterateAgain = true;
-          $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
-          return "Please place your fingers on the '1' and '0' keys before beginning the task.";
-        case 6:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start.";
+          return "These are the instructions for the practice task."
       }
-    case "prac2":
-      switch (slideNum){
-        case 1:
-          return "Great job! In this second practice task, you will see a sequence of vowels presented one at a time just as in the first practice task. However, in this task you will be paying attention to repeats from TWO trials before.";
-        case 2:
-          return "Press the '1' key if the vowel you see is the same as the vowel from two trials before in the sequence. Otherwise, press the '0' key.";
-        case 3:
-          return "For example, if you see the sequence A, I, A press the '1' key. If you see the sequence A, A, I press the '0' key.";
-        case 4:
-          return "You will need to get a least " + practiceAccCutoff+ "% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
-        case 5:
-          iterateAgain = true;
-          $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
-          return "Please place your fingers on the 1 and 0 keys before beginning the task.";
-        case 6:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start."
-      }
-      case "prac3":
-        switch (slideNum){
-          case 1:
-            $(imageTableDiv).insertAfter("#instructions" + slideNum);
-            return "In the third and final practice task, you will see a sequence of images, like those pictured below.";
-          case 2:
-            return "You will perform the same task as in the second practice task in which you will pay attention for repeats from TWO trials before, but in this case you will be looking for repeats in the images.";
-          case 3:
-            return " Press the '1' key if the image you see is the same as the image from two trials before in the sequence. Otherwise, press the '0' key.";
-          case 4:
-            return "You will need to get a least " + practiceAccCutoff + "% correct on this task in order to move onto the next section, otherwise you will need to repeat the practice.";
-          case 5:
-            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on.";
-          case 6:
-            iterateAgain = true;
-            $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
-            return "Please place your fingers on the 1 and 0 keys before beginning the task.";
-          case 7:
-            changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-            return "Press any button to start.";
-        }
     case "main1":
       switch (slideNum){
         case 1:
-          return "You are now ready to start the main task. In the main task, you will follow the same procedure as in the final practice task. This task will last approximately 25 minutes. You will get periodic breaks about every 7 minutes.";
-        case 2:
-          $(imageTableDiv).insertAfter("#instructions" + slideNum);
-          return "As a reminder, you will see a sequence of images, like those pictured below.";
-        case 3:
-          return "Press the '1' key if the image you see is the same as the image from two trials before in the sequence. Otherwise, press the '0' key.";
-        case 4:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "You will hear a buzzer sound if you make a mistake or forget to respond. Please make sure your volume is turned on.";
-        case 5:
-          iterateAgain = true;
-          $( getImageText(instructionImages[1]) ).insertAfter( "#instructions" + slideNum);
-          return "Please place your fingers on the '1' and '0' keys before beginning the task. Remember to respond as quickly and as accurately as possible.";
-        case 6:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press any button to start.";
+          return "These are the instructions for the image pairs task."
       }
     case "main2":
       switch (slideNum){
         case 1:
-          return "Great job! You will now begin the final task of this experiment.";
-        case 2:
-          return "In the task that you just completed, you may have noticed that the images belonged to two distinct groups or communities, meaning that some of the images often showed up close to each other in the sequence.";
-        case 3:
-          return "In this task, you will see three images. Two of these images will belong to one of these groups, and the third image will belong to the other group.";
-        case 4:
-          return "Your job is to choose the image that 'doesn't fit' with the other two images. For example, if you think that the first and third image were in the same group (appeared together frequently), choose the second image.";
-        case 5:
-          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented together frequently.";
-        case 6:
-          return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
-        case 7:
-          return "Note that the position of the images in the three positions is random and should not influence your decision.";
-        case 8:
-          return "";
+          return "These are the instructions for the odd one out task.";
       }
     case "final":
       switch (slideNum){
