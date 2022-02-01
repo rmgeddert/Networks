@@ -4,7 +4,7 @@
   border-color: black;
   border-style: solid;
   display: flex;
-  position: relative;
+  /* position: relative; */
 }
 
 .community-container{
@@ -62,5 +62,21 @@
 }
 
 #slot4{
+  margin-top: 250px;
+}
+
+#slot9{
+  margin-bottom: 50px;
+}
+
+#slot10{
+  margin-top: 50px;
+}
+
+#slot7{
+  margin-bottom: 250px;
+}
+
+#slot8{
   margin-top: 250px;
 }

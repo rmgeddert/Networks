@@ -3,14 +3,14 @@
 // -------------------------------------------//
 
 let instructionImages = {
-  1: 'images/handsOnKeyboard5.png',
-  2: 'images/handsOnKeyboard2.png'
+  1: '././images/handsOnKeyboard5.png',
+  2: '././images/handsOnKeyboard2.png'
 }
 
 // array for images
 let imageSRCs = [];
 for (let i = 1; i <= 20; i++) {
-  imageSRCs.push(`object_images/Object${i}.jpg`);
+  imageSRCs.push(`././images/object_pngs/Object${i}.png`);
 }
 
 // randomly sample from images
