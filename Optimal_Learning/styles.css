@@ -1,0 +1,66 @@
+#network-container{
+  width:1200px;
+  height:700px;
+  border-color: black;
+  border-style: solid;
+  display: flex;
+  position: relative;
+}
+
+.community-container{
+  width: 600px;
+  display: flex;
+}
+
+#left-community{
+  margin-right:auto;
+  display: flex;
+}
+
+#right-community{
+  margin-left: auto;
+  display: flex;
+}
+
+.network-slot{
+  width: 150px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  /* for contents */
+  display: flex;
+  align-items: center;
+}
+
+.network-slot-buffer{
+  width: 150px;
+  margin-left: 25px;
+  margin-right: 25px;
+
+  /* for contents */
+  display: flex;
+  align-items: center;
+}
+
+.picture-slot{
+  height: 150px;
+  width: 150px;
+  border-style: solid;
+  background-color: white;
+}
+
+#slot1{
+  margin-bottom: 50px;
+}
+
+#slot2{
+  margin-top: 50px;
+}
+
+#slot3{
+  margin-bottom: 250px;
+}
+
+#slot4{
+  margin-top: 250px;
+}

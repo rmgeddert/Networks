@@ -34,7 +34,7 @@ let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, trialIs
 let canvas, ctx, ntCanvas, ntCtx; //canvases
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
-let mistakeSound = new Audio('sounds/mistakeSoundShort.m4a');
+let mistakeSound = new Audio('././sounds/mistakeSoundShort.m4a');
 let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType, taskSet;
 let keyListener = 0;
 /*  keyListener explanations:
