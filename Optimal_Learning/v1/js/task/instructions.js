@@ -4,18 +4,18 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "prac1-1": 1, "prac1-2": 1, "main1": 1, "main2": 1, "final": 1
+    "intro1": 1, "main1-1": 1, "main1-2": 1, "main2": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "prac1-1": 5, "prac1-2": 6, "main1": 6, "main2": 8, "final": 3
+    "intro1": 5, "main1-1": 6, "main1-2": 1, "main2": 8, "final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
   exitResponse: {
-    "prac1-1": '#nextSectionButton',
-    "prac1-2": 'keyPressStartTask',
-    "main1": 'keyPressStartTask',
+    "intro1": '#nextSectionButton',
+    "main1-1": 'keyPressStartTask',
+    "main1-2": 'keyPressStartTask',
     "main2": '#startExpButton',
     "final": 'keyPressStartTask'
   }
@@ -33,13 +33,13 @@ function navigateInstructionPath(repeat = false){
     // }
   } else {
     switch (expStage){
-      case "prac1-1":
-        expStage = "prac1-2";
+      case "intro1":
+        expStage = "main1-1";
         break;
-      case "prac1-2":
-        expStage = "main1";
+      case "main1-1":
+        expStage = "main1-2";
         break;
-      case "main1":
+      case "main1-2":
         expStage = "main2";
         break;
       case "main2":
@@ -57,9 +57,9 @@ function displayDefaults(stage){
       showFirst();
       $('.instruction-header').hide();
       break;
-    case "prac1-1":
-    case "prac1-2":
-    case "main1":
+    case "intro1":
+    case "main1-1":
+    case "main1-2":
     case "main2":
        // showFirst();
     default:
@@ -80,34 +80,65 @@ function getNextInstructions(slideNum, expStage){
     - $("<img src='../pics/finalpics/M33.jpg' class='insertedImage'>").insertAfter( "#instructions" + slideNum);
 */
   switch (expStage){
-    case "prac1-1":
+    case "intro1":
       switch (slideNum){
         case 1:
           return "Welcome to the experiment, thank you for your participation!";
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          return "In this experiment you will perform a task where you ... The experiment is expected to take approximately 25-30 minutes.";
+          return "In this experiment you will perform a task where you learn the network structure of objects shown below. The experiment is expected to take approximately 25-30 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 5:
           return "Always respond as quickly and as accurately as possible during the tasks.";
       }
-    case "prac1-2":
+    case "main1-1":
       switch (slideNum){
         case 1:
-          return "These are the instructions for the practice task."
+          return "In this first task, you will see an empty network structure with two communities, and you will also see two banks of images at the top. "
+        case 2:
+          return "You will use the image bank to the left to drag & drop the images into the left community of the network structure, and the right bank to drag and drop images to the right community of the network structure."
+        case 3:
+          return "If your placement of an image is correct, the box will be outlined in green."
+        case 4:
+          return "However, if your placement of an image is incorrect, the box will become outlined in red. In this case, drag and drop to reorganize the images until all the images in the network structure are correct (the boxes will be outlined in green.)"
+        case 5:
+          return "You should continue this process of guessing and re-checking which images go where until all the images are in the correct box, as indicated by green outline."
+        case 6:
+          return "Press any key to start the task."
       }
-    case "main1":
+    case "main1-2":
       switch (slideNum){
         case 1:
-          return "These are the instructions for the image pairs task."
+          return "In this next task, you will see a combined bank of all the images necessary for the network structure at the top."
+        case 2:
+          return "Attempt to drag and drop the images from the bank into their correct corresponding locations on the network structure."
+        case 3:
+          return "If you are correct, "
+        case 4:
+          return "You will continue to drag and drop the images throughout multiple trials until you have placed all of images in their correct locations on the structure 3 times in a row correctly."
       }
     case "main2":
-      switch (slideNum){
-        case 1:
-          return "These are the instructions for the odd one out task.";
-      }
+    switch (slideNum){
+      case 1:
+        return "Great job! You will now begin the final task of this experiment.";
+      case 2:
+        return "In the task that you just completed, you may have noticed that the images belonged to two distinct groups or communities, meaning that some of the images often showed up close to each other in the sequence.";
+      case 3:
+        return "In this task, you will see three images. Two of these images will belong to one of these groups, and the third image will belong to the other group.";
+      case 4:
+        return "Your job is to choose the image that 'doesn't fit' with the other two images. For example, if you think that the first and third image were in the same group (appeared together frequently), choose the second image.";
+      case 5:
+        changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+        return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented together frequently.";
+      case 6:
+        return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
+      case 7:
+        return "Note that the position of the images in the three positions is random and should not influence your decision.";
+      case 8:
+        return "";
+    }
     case "final":
       switch (slideNum){
         case 1:
