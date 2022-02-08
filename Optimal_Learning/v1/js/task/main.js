@@ -74,7 +74,7 @@ function experimentFlow(){
     // navigateInstructionPath(repeatNecessary);
     // // go to the correct task based on expStage variable
     if (expStage.indexOf("prac1") != -1){
-      // practiceTask()
+      networkDragTask();
     } else if (expStage.indexOf("main1") != -1){
       networkPairsTask();
     } else if (expStage.indexOf("main2") != -1){
@@ -200,7 +200,8 @@ $(document).ready(function(){
     runStart = new Date().getTime();
 
     setUpNetwork();
-    runInstructions();
+    networkDragTask();
+    // runInstructions();
     // oddOneOutTest();
   }
 

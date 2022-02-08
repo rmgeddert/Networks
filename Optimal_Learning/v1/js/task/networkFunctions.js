@@ -20,10 +20,11 @@ class Network {
 }
 
 class Node {
-  constructor(i, imageObj) {
+  constructor(i, imageJpg, imagePng) {
     this.name = `Node${i}`;
     this.index = i;
-    this.img = imageObj;
+    this.img = imageJpg;
+    this.img_png = imagePng;
     this.neighbors = [];
     this.coord = {x: NaN, y: NaN};
     this.rad = 7;
@@ -91,9 +92,9 @@ function setUpNetwork(){
   }
 
   // create network with nodes for each image
-  selectedImages.forEach((imageObj, i) => {
-    taskNetwork.addNode(new Node(i + 1, imageObj));
-  });
+  for (var i = 0; i < selectedImages.length; i++) {
+    taskNetwork.addNode(new Node(i + 1, selectedImages[i], selectedImages_png[i]));
+  }
 
   // add neighbors to objects as specified in nodeNeighbors var
   taskNetwork.nodes.forEach((node, i) => {
@@ -160,7 +161,7 @@ function drawNetwork(){
     // ntCtx.beginPath();
     // ntCtx.arc(node.coord.x,node.coord.y,node.rad,0,2*Math.PI);
     // ntCtx.fill();
-    ntCtx.drawImage(node.img, node.coord.x - 75,node.coord.y - 75, 150, 150)
+    ntCtx.drawImage(node.img_png, node.coord.x - 75,node.coord.y - 75, 150, 150)
   });
 }
 

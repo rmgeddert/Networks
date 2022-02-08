@@ -96,6 +96,7 @@ function getNextInstructions(slideNum, expStage){
     case "main1-1":
       switch (slideNum){
         case 1:
+          console.log("hello");
           return "In this first task, you will see an empty network structure with two communities, and you will also see two banks of images at the top. "
         case 2:
           return "You will use the image bank to the left to drag & drop the images into the left community of the network structure, and the right bank to drag and drop images to the right community of the network structure."
