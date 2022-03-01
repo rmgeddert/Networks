@@ -214,6 +214,12 @@ function promptMenuClosed(){
   $('.MenuClosedPrompt').show();
 }
 
+function sum(x, y){
+  console.log("this runs before return")
+  return x + y;
+  console.log("this runs after return")
+}
+
 function endOfExperiment(){
   // end of experiment stuff
   try {

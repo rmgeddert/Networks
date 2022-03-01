@@ -158,10 +158,10 @@ function drawNetwork(){
   // draw nodes
   taskNetwork.nodes.forEach((node) => {
     ntCtx.fillStyle = node.color;
-    // ntCtx.beginPath();
-    // ntCtx.arc(node.coord.x,node.coord.y,node.rad,0,2*Math.PI);
-    // ntCtx.fill();
-    ntCtx.drawImage(node.img_png, node.coord.x - 75,node.coord.y - 75, 150, 150)
+    ntCtx.beginPath();
+    ntCtx.arc(node.coord.x,node.coord.y,node.rad,0,2*Math.PI);
+    ntCtx.fill();
+    // ntCtx.drawImage(node.img_png, node.coord.x - 75,node.coord.y - 75, 150, 150)
   });
 }
 

@@ -9,7 +9,7 @@ function networkDragTask(){
   // set up key press listener
   $(document).on("click", "#networkDragButton", function(){
     console.log("submit clicked");
-    checkAnswers();
+    checkAnswer();
   });
 
   //draw network behind div boxes
@@ -29,7 +29,7 @@ function networkDragTaskFlow(){
   // }
   networkDragTrial();
 }
-//
+
 function networkDragTrial(){
   //defines one trial of task
 
@@ -52,6 +52,8 @@ function resetNetwork(){
   })
 }
 
+// node_name: "slot1" or "slot2"
+// node_position integer between 0 and 9. indexes the taskNetwork variable
 function checkAnswer(node_name, node_position){
   // this function runs when submit is hit. checks if answers are correct.
     if (document.getElementById(node_name).childNodes[0].src == taskNetwork.nodes[node_position].img.src) {
@@ -62,17 +64,19 @@ function checkAnswer(node_name, node_position){
     }
 }
 
-function getFeedback(node_position){
-  document.body.querySelectorAll("*").forEach(node =>
-    if node.id.indexOf("slot" != -1){
-      if checkAnswer(node.id, parseInt(node.id.match(/\d+/)[0])-1) == true {
-        document.getElementById(node_position).style.outlineColor = "00ff00"
-      } else {
-        document.getElementById(node_position).style.outlineColor = "ff0000"
-      }
-    }
-});
-}
+// function getFeedback(node_position){
+//   document.body.querySelectorAll("*").forEach(node =>
+//     if (node.id.indexOf("slot" != -1)) {
+//       if (checkAnswer(node.id, parseInt(node.id.match(/\d+/)[0])-1) == true) {
+//         document.getElementById(node_position).style.outlineColor = "00ff00"
+//       } else {
+//         document.getElementById(node_position).style.outlineColor = "ff0000"
+//       }
+//     }
+// });
+// }
+
+
 
 function displayImages(){
   // shuffle images
@@ -210,9 +214,9 @@ function drawHTMLNetwork(){
     2: [1,3,4,5],
     3: [1,2,4,5],
     4: [1,2,3,5],
-    5: [1,2,3,4,6],
-    6: [5,7,8,9,10],
-    7: [6,8,9,10],
+    5: [1,2,3,4,7],
+    6: [7,8,9,10],
+    7: [5,6,8,9,10],
     8: [6,7,9,10],
     9: [6,7,8,10],
     10: [6,7,8,9],

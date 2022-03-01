@@ -307,7 +307,7 @@ canvas {
 }
 
 #slot1{
-  margin-bottom: 85px;
+  margin-top: 250px;
 }
 
 #slot2{
@@ -315,27 +315,27 @@ canvas {
 }
 
 #slot3{
-  margin-bottom: 250px;
-}
-
-#slot4{
-  margin-top: 250px;
-}
-
-#slot9{
   margin-bottom: 85px;
 }
 
-#slot10{
+#slot4{
+  margin-bottom: 250px;
+}
+
+#slot9{
   margin-top: 85px;
 }
 
-#slot7{
+#slot10{
+  margin-top: 250px;
+}
+
+#slot6{
   margin-bottom: 250px;
 }
 
 #slot8{
-  margin-top: 250px;
+  margin-bottom: 85px;
 }
 
 #networkDragButton{
