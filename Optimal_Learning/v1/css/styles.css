@@ -306,35 +306,35 @@ canvas {
   background-color: white;
 }
 
-#slot1{
+#slot0{
   margin-top: 250px;
+}
+
+#slot1{
+  margin-top: 85px;
 }
 
 #slot2{
-  margin-top: 85px;
-}
-
-#slot3{
   margin-bottom: 85px;
 }
 
-#slot4{
-  margin-bottom: 250px;
-}
-
-#slot9{
-  margin-top: 85px;
-}
-
-#slot10{
-  margin-top: 250px;
-}
-
-#slot6{
+#slot3{
   margin-bottom: 250px;
 }
 
 #slot8{
+  margin-top: 85px;
+}
+
+#slot9{
+  margin-top: 250px;
+}
+
+#slot5{
+  margin-bottom: 250px;
+}
+
+#slot7{
   margin-bottom: 85px;
 }
 

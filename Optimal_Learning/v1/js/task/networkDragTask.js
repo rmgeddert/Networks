@@ -8,8 +8,23 @@ function networkDragTask(){
 
   // set up key press listener
   $(document).on("click", "#networkDragButton", function(){
-    console.log("submit clicked");
-    checkAnswer();
+    let anyIncorrect = false;
+    for (var i = 0; i < 10; i++) {
+      if (checkAnswer("slot"+i,i)) {
+        document.getElementById("slot"+i).style.borderWidth = "5px";
+        document.getElementById("slot"+i).style.borderColor = "#00ff00"
+      } else {
+        anyIncorrect = true;
+        document.getElementById("slot"+i).style.borderWidth = "5px";
+        document.getElementById("slot"+i).style.borderColor = "#ff0000"
+      }
+    }
+    // if none are incorrect, proceed to next trial
+    if (!anyIncorrect) {
+      resetNetwork()
+      $("#networkDragButton").hide();
+      networkDragTaskFlow();
+    }
   });
 
   //draw network behind div boxes
@@ -33,35 +48,49 @@ function networkDragTaskFlow(){
 function networkDragTrial(){
   //defines one trial of task
 
-  // first, make sure network is reset
-  // - all boxes are empty
-  // - all frames are back to black and normal thickness
-  resetNetwork();
-
-  // then, randomly display the nework images in the picture-container div
+  // randomly display the nework images in the picture-container div
   displayImages();
 
 }
-//
+
 function resetNetwork(){
-  document.body.querySelectorAll("*").forEach((node) =>
-  {
-    if(node.id.indexOf("slot") !=1){
-      ntCtx.strokeStyle = "black"
+  document.body.querySelectorAll("*").forEach((node) => {
+    if (node.id.indexOf("slot") != -1) {
+      node.style.borderWidth = "1px";
+      node.style.borderColor = "black";
+      node.removeChild(node.childNodes[0]);
     }
   })
 }
 
 // node_name: "slot1" or "slot2"
 // node_position integer between 0 and 9. indexes the taskNetwork variable
-function checkAnswer(node_name, node_position){
+function checkAnswer(slot_name, node_position){
   // this function runs when submit is hit. checks if answers are correct.
-    if (document.getElementById(node_name).childNodes[0].src == taskNetwork.nodes[node_position].img.src) {
+    if (document.getElementById(slot_name).childNodes[0].src == taskNetwork.nodes[node_position].img.src) {
       return true;
     }
     else {
       return false;
     }
+}
+
+function randomlyFill(){
+  let images = [];
+  document.body.querySelectorAll("*").forEach((node) => {
+    if (node.tagName == "IMG") {
+      images.push(node);
+      node.parentElement.remove();
+    }
+  })
+
+  images = shuffle(images);
+
+  for (var i = 0; i < 10; i++) {
+    document.getElementById("slot"+i).append(images[i]);
+  }
+
+  checkIfImageBoxEmpty();
 }
 
 // function getFeedback(node_position){
@@ -111,6 +140,7 @@ function displayImages(){
 
   // insert image table into images box above network
   document.getElementById("picture-container").appendChild(imageTable);
+  document.getElementById("picture-container").style.display = "block";
 
 }
 
@@ -125,12 +155,13 @@ function allowDrop(event){
 function drag(event){
   console.log("drag");
   oldParentDiv = event.target.parentElement;
-  console.log(oldParentDiv);
+  console.log(event.target.parentElement);
   event.dataTransfer.setData("id", event.target.id);
 }
 
 function drop(event) {
   event.preventDefault();
+  console.log(event.target);
 
   // first, figure out what is being dropped
   let data_id = event.dataTransfer.getData("id");
@@ -142,8 +173,10 @@ function drop(event) {
     // if div, just append
     event.target.appendChild(data);
 
-    // then delete old parent, don't need anymore
-    oldParentDiv.remove();
+    if (oldParentDiv.className == "imageDiv") {
+      // then delete old parent, don't need anymore
+      oldParentDiv.remove();
+    }
 
   } else {
 
@@ -191,12 +224,16 @@ function drop(event) {
     }
   }
 
-  // as final check, see if picture-container div is now empty
+  checkIfImageBoxEmpty();
+
+}
+
+function checkIfImageBoxEmpty(){
   if (document.getElementById("dragImageTable").childNodes.length == 0) {
-    document.getElementById("picture-container").remove();
+    document.getElementById("dragImageTable").remove();
+    document.getElementById("picture-container").style.display = "none";
     $("#networkDragButton").show();
   }
-
 }
 
 function drawHTMLNetwork(){
@@ -210,16 +247,16 @@ function drawHTMLNetwork(){
 
   // which nodes are connected to which
   let nodeNeighbors = {
-    1: [2,3,4,5],
-    2: [1,3,4,5],
-    3: [1,2,4,5],
-    4: [1,2,3,5],
-    5: [1,2,3,4,7],
-    6: [7,8,9,10],
-    7: [5,6,8,9,10],
-    8: [6,7,9,10],
-    9: [6,7,8,10],
-    10: [6,7,8,9],
+    0: [1,2,3,4],
+    1: [0,2,3,4],
+    2: [0,1,3,4],
+    3: [0,1,2,4],
+    4: [0,1,2,3,6],
+    5: [6,7,8,9],
+    6: [4,5,7,8,9],
+    7: [5,6,8,9],
+    8: [5,6,7,9],
+    9: [5,6,7,8],
   }
 
   // loop through html elements and draw lines for each
