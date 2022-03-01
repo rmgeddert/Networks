@@ -18,7 +18,7 @@ function networkDragTask(){
   //start task
   networkDragTaskFlow();
 }
-
+//
 function networkDragTaskFlow(){
   //copy code from other function
   // pseudo code:
@@ -29,7 +29,7 @@ function networkDragTaskFlow(){
   // }
   networkDragTrial();
 }
-
+//
 function networkDragTrial(){
   //defines one trial of task
 
@@ -42,15 +42,36 @@ function networkDragTrial(){
   displayImages();
 
 }
-
+//
 function resetNetwork(){
-  // reset network
+  document.body.querySelectorAll("*").forEach((node) =>
+  {
+    if(node.id.indexOf("slot") !=1){
+      ntCtx.strokeStyle = "black"
+    }
+  })
 }
 
-function checkAnswers(){
+function checkAnswer(node_name, node_position){
   // this function runs when submit is hit. checks if answers are correct.
+    if (document.getElementById(node_name).childNodes[0].src == taskNetwork.nodes[node_position].img.src) {
+      return true;
+    }
+    else {
+      return false;
+    }
+}
 
-
+function getFeedback(node_position){
+  document.body.querySelectorAll("*").forEach(node =>
+    if node.id.indexOf("slot" != -1){
+      if checkAnswer(node.id, parseInt(node.id.match(/\d+/)[0])-1) == true {
+        document.getElementById(node_position).style.outlineColor = "00ff00"
+      } else {
+        document.getElementById(node_position).style.outlineColor = "ff0000"
+      }
+    }
+});
 }
 
 function displayImages(){
