@@ -245,15 +245,6 @@ canvas {
   margin-bottom: 20px;
 }
 
-.image{
-  width: 150px;
-  height: 150px;
-}
-
-.picture-row{
-  display: flex;
-}
-
 .community-container{
   width: 600px;
   display: flex;
@@ -269,41 +260,42 @@ canvas {
   display: flex;
 }
 
-.network-slot{
-  width: 150px;
+.net-slot{
+  display: flex;
+  align-items: center;
   margin-left: 0px;
   margin-right: 0px;
-
-  /* for contents */
-  display: flex;
-  align-items: center;
 }
 
-.network-slot-buffer-right{
-  width: 150px;
-  margin-left: 90px;
-  margin-right: 30px;
-
-  /* for contents */
-  display: flex;
-  align-items: center;
+.buff-right{
+  margin-left: 90px !important;
+  margin-right: 30px !important;
 }
 
-.network-slot-buffer-left{
-  width: 150px;
-  margin-left: 30px;
-  margin-right: 90px;
-
-  /* for contents */
-  display: flex;
-  align-items: center;
+.buff-left{
+  margin-left: 30px !important;
+  margin-right: 90px !important;
 }
 
-.picture-slot{
-  height: 150px;
-  width: 150px;
+.slot{
   border-style: solid;
   background-color: white;
+}
+
+.lgW{
+  width:150px;
+}
+
+.smW{
+  width:100px;
+}
+
+.lgH{
+  height:150px;
+}
+
+.smH{
+  height:100px;
 }
 
 #slot0{
