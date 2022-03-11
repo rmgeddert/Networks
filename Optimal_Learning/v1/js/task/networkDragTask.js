@@ -7,25 +7,33 @@ function networkDragTask(){
   $("#networkDragTask").show();
 
   // set up key press listener
-  $(document).on("click", "#networkDragButton", function(){
-    let anyIncorrect = false;
-    for (var i = 0; i < 10; i++) {
-      if (checkAnswer("slot"+i,i)) {
-        document.getElementById("slot"+i).style.borderWidth = "5px";
-        document.getElementById("slot"+i).style.borderColor = "#00ff00"
-      } else {
-        anyIncorrect = true;
-        document.getElementById("slot"+i).style.borderWidth = "5px";
-        document.getElementById("slot"+i).style.borderColor = "#ff0000"
+
+    $(document).on("click", "#networkDragButton", function(){
+      let anyIncorrect = false;
+      for (var i = 0; i < 10; i++) {
+        if (checkAnswer("slot"+i,i)) {
+          document.getElementById("slot"+i).style.borderWidth = "5px";
+          document.getElementById("slot"+i).style.borderColor = "#00ff00"
+        } else {
+          anyIncorrect = true;
+          document.getElementById("slot"+i).style.borderWidth = "5px";
+          document.getElementById("slot"+i).style.borderColor = "#ff0000"
+        }
       }
-    }
-    // if none are incorrect, proceed to next trial
-    if (!anyIncorrect) {
-      resetNetwork()
-      $("#networkDragButton").hide();
-      networkDragTaskFlow();
-    }
-  });
+    });
+
+      // if none are incorrect, proceed to next trial
+      if (!anyIncorrect) {
+        $("#networkDragButton").hide();
+        networkDragDelayButton();
+      }
+
+      $(document).on("click", "#networkDragDelayButton", function(){
+        resetNetwork();
+        networkDragTaskFlow();
+      });
+
+  }
 
   //draw network behind div boxes
   drawHTMLNetwork();
