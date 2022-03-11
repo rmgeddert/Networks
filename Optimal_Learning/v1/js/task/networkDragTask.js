@@ -33,8 +33,6 @@ function networkDragTask(){
         networkDragTaskFlow();
       });
 
-  }
-
   //draw network behind div boxes
   drawHTMLNetwork();
 
