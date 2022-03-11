@@ -99,6 +99,23 @@ function randomlyFill(){
   checkIfImageBoxEmpty();
 }
 
+function correctlyFill(){
+  for (var i = 0; i < 10; i++) {
+    let imageDiv = new Image;
+    imageDiv.src = selectedImages[i].src
+    imageDiv.width = 150; //
+    imageDiv.draggable = true;
+    imageDiv.id = "drag" + i;
+    imageDiv.ondragstart = function(){drag(event);}
+    document.getElementById("slot"+i).append(imageDiv);
+  }
+
+  // remove table and show submit button
+  document.getElementById("dragImageTable").remove();
+  document.getElementById("picture-container").style.display = "none";
+  $("#networkDragButton").show();
+}
+
 // function getFeedback(node_position){
 //   document.body.querySelectorAll("*").forEach(node =>
 //     if (node.id.indexOf("slot" != -1)) {
@@ -159,15 +176,15 @@ function allowDrop(event){
 }
 
 function drag(event){
-  console.log("drag");
+  // console.log("drag");
   oldParentDiv = event.target.parentElement;
-  console.log(event.target.parentElement);
+  // console.log(event.target.parentElement);
   event.dataTransfer.setData("id", event.target.id);
 }
 
 function drop(event) {
   event.preventDefault();
-  console.log(event.target);
+  // console.log(event.target);
 
   // first, figure out what is being dropped
   let data_id = event.dataTransfer.getData("id");
@@ -235,10 +252,12 @@ function drop(event) {
 }
 
 function checkIfImageBoxEmpty(){
-  if (document.getElementById("dragImageTable").childNodes.length == 0) {
-    document.getElementById("dragImageTable").remove();
-    document.getElementById("picture-container").style.display = "none";
-    $("#networkDragButton").show();
+  if (document.getElementById("dragImageTable")) {
+    if (document.getElementById("dragImageTable").childNodes.length == 0) {
+      document.getElementById("dragImageTable").remove();
+      document.getElementById("picture-container").style.display = "none";
+      $("#networkDragButton").show();
+    }
   }
 }
 
