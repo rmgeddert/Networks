@@ -338,7 +338,7 @@ canvas {
   margin-bottom: 85px;
 }
 
-#networkDragButton{
+.submitButton{
   display: none;
   color: black;
   border: 3px outset grey;
@@ -355,10 +355,10 @@ canvas {
 
 }
 
-#networkDragButton:hover {
+.submitButton:hover {
   color: white;
 }
 
-#networkDragButton:active {
+.submitButton:active {
   border: 3px inset grey;
 }
