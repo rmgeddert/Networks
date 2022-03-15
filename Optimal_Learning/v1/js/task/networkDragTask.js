@@ -7,7 +7,7 @@ function networkDragTask(){
   $("#networkDragTask").show();
 
   // set up key press listener
-  $(document).on("click", "#networkDragButton", function(){
+  $(document).on("click", "#networkDragNextTrial", function(){
     // color images if correct or incorrect
     let anyIncorrect = false;
     for (var i = 0; i < 10; i++) {
@@ -23,15 +23,15 @@ function networkDragTask(){
 
     // if none are incorrect, reveal next trial button
     if (!anyIncorrect) {
-      $("#networkDragButton").hide();
-      $("#networkDragDelayButton").show();
+      $("#networkDragNextTrial").hide();
+      $("#networkDragCheckAnswer").show();
     }
   });
 
-  $(document).on("click", "#networkDragDelayButton", function(){
+  $(document).on("click", "#networkDragCheckAnswer", function(){
    resetNetwork();
    networkDragTaskFlow();
-   $("#networkDragDelayButton").hide();
+   $("#networkDragCheckAnswer").hide();
   });
 
   //draw network behind div boxes
@@ -114,7 +114,7 @@ function correctlyFill(){
   // remove table and show submit button
   document.getElementById("dragImageTable").remove();
   document.getElementById("picture-container").style.display = "none";
-  $("#networkDragButton").show();
+  $("#networkDragNextTrial").show();
 }
 
 // function getFeedback(node_position){
