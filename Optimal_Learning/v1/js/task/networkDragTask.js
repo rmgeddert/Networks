@@ -5,6 +5,7 @@ function networkDragTask(){
   $('#instructionsDiv').hide();
   $("#navButtons").hide();
   $("#networkDragTask").show();
+  $("#networkDragNextTrial").show();
 
   // set up key press listener
   $(document).on("click", "#networkDragNextTrial", function(){
@@ -68,6 +69,7 @@ function resetNetwork(){
       node.removeChild(node.childNodes[0]);
     }
   })
+  $("#networkDragNextTrial").show();
 }
 
 // node_name: "slot1" or "slot2"
