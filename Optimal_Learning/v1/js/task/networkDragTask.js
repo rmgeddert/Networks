@@ -1,3 +1,4 @@
+let trialAttempts;
 function networkDragTask(){
   // this code gets run when networkDragTask gets run
 
@@ -9,6 +10,7 @@ function networkDragTask(){
 
   // set up key press listener
   $(document).on("click", "#networkDragCheckAnswer", function(){
+    trialAttempts++;
     // color images if correct or incorrect
     let anyIncorrect = false;
     for (var i = 0; i < 10; i++) {
@@ -31,6 +33,9 @@ function networkDragTask(){
 
   $(document).on("click", "#networkDragNextTrial", function(){
     trialCount++;
+
+    // <- something here about checking if there was only 1 attempt
+
     resetNetwork();
     $("#networkDragNextTrial").hide();
     networkDragTaskFlow();
@@ -52,6 +57,7 @@ function networkDragTaskFlow(){
   //   go to isntructions
   // }
   if (trialCount <= 3) {
+    trialAttempts = 1;
     networkDragTrial();
   } else {
     $("#networkDragTask").hide();
