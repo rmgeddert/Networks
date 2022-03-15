@@ -338,7 +338,7 @@ canvas {
   margin-bottom: 85px;
 }
 
-.submitButton{
+.dragTaskButton{
   display: none;
   color: black;
   border: 3px outset grey;
@@ -355,10 +355,10 @@ canvas {
 
 }
 
-.submitButton:hover {
+.dragTaskButton:hover {
   color: white;
 }
 
-.submitButton:active {
+.dragTaskButton:active {
   border: 3px inset grey;
 }

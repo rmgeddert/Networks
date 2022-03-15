@@ -4,19 +4,19 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "intro1": 1, "main1-1": 1, "main1-2": 1, "main2": 1, "final": 1
+    "main1-1": 1, "main1-2": 1, "main2": 1, "main3": 1, "final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "intro1": 5, "main1": 7, "main2": 1, "main3": 8, "main4": 1, "main5": 1,"final": 3
+    "main1-1": 5, "main1-2": 5, "main2": 1, "main3": 8,"final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
   exitResponse: {
-    "intro1": '#nextSectionButton',
-    "main1-1": 'keyPressStartTask',
-    "main1-2": 'keyPressStartTask',
-    "main2": '#startExpButton',
+    "main1-1": '#nextSectionButton',
+    "main1-2": '#startExpButton',
+    "main2": 'keyPressStartTask',
+    "main3": '#startExpButton',
     "final": 'keyPressStartTask'
   }
 };
@@ -33,9 +33,6 @@ function navigateInstructionPath(repeat = false){
     // }
   } else {
     switch (expStage){
-      case "intro1":
-        expStage = "main1-1";
-        break;
       case "main1-1":
         expStage = "main1-2";
         break;
@@ -43,6 +40,9 @@ function navigateInstructionPath(repeat = false){
         expStage = "main2";
         break;
       case "main2":
+        expStage = "main3";
+        break;
+      case "main3":
         expStage = "final";
         break;
     }
@@ -82,7 +82,7 @@ function getNextInstructions(slideNum, expStage){
     - $("<img src='../pics/finalpics/M33.jpg' class='insertedImage'>").insertAfter( "#instructions" + slideNum);
 */
   switch (expStage){
-    case "intro1":
+    case "main1-1":
       switch (slideNum){
         case 1:
           return "Welcome to the experiment, thank you for your participation!";
@@ -95,22 +95,20 @@ function getNextInstructions(slideNum, expStage){
         case 5:
           return "Always respond as quickly and as accurately as possible during the tasks.";
       }
-    case "main1":
+    case "main1-2":
       switch (slideNum){
         case 1:
           console.log("hello");
           return "In this first task, you will see an empty network structure with two communities, and you will also see two banks of images at the top. "
         case 2:
-          return "You will use the image bank to drag & drop the images into the network structure community, and press the Submit button when you are done."
+          return "You will drag & drop the images from the image bank into the network structure, and press the Submit button when you are done."
         case 3:
           return "If your placement of an image is correct, the box will be outlined in green."
         case 4:
-          return "However, if your placement of an image is incorrect, the box will become outlined in red. In this case, drag and drop to reorganize the images until all the images in the network structure are correct (the boxes will be outlined in green.) Note that to receive feedback on each rearrangement, you must press the Submit button each time."
+          return "However, if your placement of an image is incorrect, the box will become outlined in red. In this case, drag and drop to reorganize the images and press submit again. Keep doing this until all the images in the network structure are correct (the boxes will be outlined in green). "
         case 5:
-          return "You should continue this process of guessing and re-checking which images go where until all the images are in the correct box, as indicated by green outline."
+          return "You will continue to drag and drop the images throughout multiple trials until you have placed all of the images in their correct locations 3 times in a row correctly."
         case 6:
-          return "You will continue to drag and drop the images throughout multiple trials until you have placed all of images in their correct locations on the structure 3 times in a row correctly."
-        case 7:
           return "Press any key to start the task."
       }
   //  case "main1-2":

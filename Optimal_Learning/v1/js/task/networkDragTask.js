@@ -5,10 +5,10 @@ function networkDragTask(){
   $('#instructionsDiv').hide();
   $("#navButtons").hide();
   $("#networkDragTask").show();
-  $("#networkDragNextTrial").show();
+  // $("#networkDragNextTrial").show();
 
   // set up key press listener
-  $(document).on("click", "#networkDragNextTrial", function(){
+  $(document).on("click", "#networkDragCheckAnswer", function(){
     // color images if correct or incorrect
     let anyIncorrect = false;
     for (var i = 0; i < 10; i++) {
@@ -24,15 +24,16 @@ function networkDragTask(){
 
     // if none are incorrect, reveal next trial button
     if (!anyIncorrect) {
-      $("#networkDragNextTrial").hide();
-      $("#networkDragCheckAnswer").show();
+      $("#networkDragNextTrial").show();
+      $("#networkDragCheckAnswer").hide();
     }
   });
 
-  $(document).on("click", "#networkDragCheckAnswer", function(){
-   resetNetwork();
-   networkDragTaskFlow();
-   $("#networkDragCheckAnswer").hide();
+  $(document).on("click", "#networkDragNextTrial", function(){
+    trialCount++;
+    resetNetwork();
+    $("#networkDragNextTrial").hide();
+    networkDragTaskFlow();
   });
 
   //draw network behind div boxes
@@ -50,12 +51,12 @@ function networkDragTaskFlow(){
   // else {
   //   go to isntructions
   // }
-if (trialCount <= 10) {
-  networkDragTrial();
-} else {
-  $("#networkDragTask").hide();
-  navigateInstructionPath();
-}
+  if (trialCount <= 3) {
+    networkDragTrial();
+  } else {
+    $("#networkDragTask").hide();
+    navigateInstructionPath();
+  }
 }
 
 function networkDragTrial(){
@@ -74,7 +75,6 @@ function resetNetwork(){
       node.removeChild(node.childNodes[0]);
     }
   })
-  $("#networkDragNextTrial").show();
 }
 
 // node_name: "slot1" or "slot2"
@@ -121,7 +121,7 @@ function correctlyFill(){
   // remove table and show submit button
   document.getElementById("dragImageTable").remove();
   document.getElementById("picture-container").style.display = "none";
-  $("#networkDragNextTrial").show();
+  $("#networkDragCheckAnswer").show();
 }
 
 // function getFeedback(node_position){
@@ -260,11 +260,14 @@ function drop(event) {
 }
 
 function checkIfImageBoxEmpty(){
+
   if (document.getElementById("dragImageTable")) {
     if (document.getElementById("dragImageTable").childNodes.length == 0) {
       document.getElementById("dragImageTable").remove();
       document.getElementById("picture-container").style.display = "none";
-      $("#networkDragButton").show();
+
+      // show check answer button
+      $("#networkDragCheckAnswer").show();
     }
   }
 }
