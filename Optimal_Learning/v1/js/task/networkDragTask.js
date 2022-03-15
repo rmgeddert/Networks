@@ -50,7 +50,12 @@ function networkDragTaskFlow(){
   // else {
   //   go to isntructions
   // }
+if (trialCount <= 10) {
   networkDragTrial();
+} else {
+  $("#networkDragTask").hide();
+  navigateInstructionPath();
+}
 }
 
 function networkDragTrial(){
