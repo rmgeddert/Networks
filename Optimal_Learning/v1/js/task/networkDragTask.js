@@ -56,6 +56,29 @@ function networkDragTaskFlow(){
   // else {
   //   go to isntructions
   // }
+
+//make sure you get three trials perfect CONSECUTIVELY/resets the trial count
+if (anyIncorrect == false) {
+  trialCount == 0;
+} else {
+  trialCount++
+}
+
+//set up trial attempt variable for every time you press "submit" button
+$("#networkDragCheckAnswer"). click(function(){count++;});
+  if (count == 1){
+    trialAttempt == 1
+  }
+
+//attempt at network drag task flow/conditions that need to be met
+if ((trialCount >= 3 && trialAttempt == 1 && anyIncorrect == false) || (trialCount >= 10)){
+  $("#networkDragTask").hide();
+  navigateInstructionPath();
+} else {
+  networkDragTrial();
+}
+
+//code we had before
   if (trialCount <= 3) {
     trialAttempts = 1;
     networkDragTrial();
