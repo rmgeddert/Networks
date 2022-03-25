@@ -55,21 +55,20 @@ class Node {
   }
 }
 
-function setUpNetwork(){
-  // define edges between nodes
-  let nodeNeighbors = {
-    1: [2,3,4,5],
-    2: [1,3,4,5],
-    3: [1,2,4,5],
-    4: [1,2,3,5],
-    5: [1,2,3,4,7],
-    6: [7,8,9,10],
-    7: [5,6,8,9,10],
-    8: [6,7,9,10],
-    9: [6,7,8,10],
-    10: [6,7,8,9],
-  }
+let nodeNeighbors = {
+  0: [1,2,3,4],
+  1: [0,2,3,4],
+  2: [0,1,3,4],
+  3: [0,1,2,4],
+  4: [0,1,2,3,6],
+  5: [6,7,8,9],
+  6: [4,5,7,8,9],
+  7: [5,6,8,9],
+  8: [5,6,7,9],
+  9: [5,6,7,8],
+}
 
+function setUpNetwork(){
   // define coordinates for nodes for drawing purposes
   let coordinates = {
     1: {x: (1/5), y: (4/5)}, 2: {x: (1/20), y: (1/2)},
@@ -98,8 +97,8 @@ function setUpNetwork(){
 
   // add neighbors to objects as specified in nodeNeighbors var
   taskNetwork.nodes.forEach((node, i) => {
-    nodeNeighbors[node.index].forEach((neighbor) => {
-      taskNetwork.nodes[i].addNeighbor(taskNetwork.nodes[neighbor - 1]);
+    nodeNeighbors[node.index-1].forEach((neighbor) => {
+      taskNetwork.nodes[i].addNeighbor(taskNetwork.nodes[neighbor]);
     })
   })
 

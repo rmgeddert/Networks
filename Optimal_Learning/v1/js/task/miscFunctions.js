@@ -152,3 +152,26 @@ function multinomialSample(sampleArr, probArr){
     }
   }
 }
+
+function endOfExperiment(){
+  // end of experiment stuff
+  try {
+    // upload data to menu.html's DOM element
+    $("#RTs", opener.window.document).val(data.join(";"));
+
+    // call menu debriefing script
+    opener.updateMainMenu(3);
+
+    // close the experiment window
+    JavaScript:window.close();
+  } catch (e) {
+    alert("Data upload failed. Did you close the previous screen?");
+  }
+}
+
+function promptMenuClosed(){
+  $(".canvasas").hide();
+  $("#oddOneOutTaskDiv").hide();
+  $('#instructionsDiv').hide();
+  $('.MenuClosedPrompt').show();
+}

@@ -1,22 +1,17 @@
 "use strict"
 
 // for testing
-let testMode = false;
 let speed = "normal"; //fast, normal
-speed = (testMode == true) ? "fast" : speed; //testMode defaults to "fast"
 let skipPractice = false; // turn practice blocks on or off
 let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
 let playSounds = true;
-let showNetworkWalk = false;
+let showNetworkWalk = true;
 let showNavButtons = false;
 
 // ----- Experiment Paramenters (CHANGE ME) -----
 let networkSize = 10; //defined by network structure
-let showFixation = false;
-let fixationSymbol = ""; // "", "+"
-let fixInterval = (speed == "fast") ? 5 : 500;
-let showFeedback = true;
-let feedbackInterval = (speed == "fast") ? 5 : 1000;
+let nNetworkTrials = 200;
+let breakEveryNTrials = 100;
 let stimInterval = (speed == "fast") ? 5 : 1500; //2000
 let earlyRelease = true;
 let nNetworkTrials = 800;
@@ -28,31 +23,24 @@ let practiceAccCutoff = (testMode == true) ? 0 : 75; // 70 acc%
 let expStage = "main1-1"; //initial expStage
 
 // task variables
-let activeNode, prevNode, taskNetwork = new Network(), hamiltonianPath = [], transitionType, currentTaskArray = [];
-let taskFunc, timeoutFunc, stimTimeout; //function for current task
-let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, trialIsNA, switchType, accArr, trialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
+let activeNode, prevNode, taskNetwork = new Network(), transitionType;
+let taskFunc, timeoutFunc, stimTimeout;
+let trialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
 let canvas, ctx, ntCanvas, ntCtx; //canvases
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
 let breakOn = false, repeatNecessary = false, data=[];
 let mistakeSound = new Audio('././sounds/mistakeSoundShort.m4a');
-let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType, taskSet;
+let sectionStart, sectionEnd, sectionType, taskName, sectionTimer;
 let keyListener = 0;
-/*  keyListener explanations:
+/*  keyListener values:
       0: No key press expected/needed
       1: Key press expected (triggered by stimulus appearing)
-      2: Key press from 1 received. Awaiting keyup event, else promptLetGo() if new trial starts. After keyup resume experiment and reset to 0.
+      2: Key press from 1 received. Awaiting keyup event, reset to 0.  promptLetGo() if new trial starts.
       3: Key press from 0 still being held down. On keyup, reset to 0. promptLetGo() if new trial starts.
       4: Screen Size too small, "press any button to continue"
       5: press button to start experiment (from instructions)
       6: press button to continue to instructions (from feedback)
       7: proceed to next block of task (from block break screen)
-*/
-
-let keyMapping = randIntFromInterval(1,2);
-keyMapping = 1;
-/*
-  case 1: '1' => n-back repeat | '0' => n-back no repeat
-  case 2: '1' => n-back no repeat | '0' => n-back repeat
 */
 
 function experimentFlow(){
@@ -109,21 +97,7 @@ $(document).ready(function(){
 
       // accuracy
       partResp = event.which;
-      if (keyMapping == 1 ? trialIsRepeat : !trialIsRepeat ) {
-        acc = ([49,33].includes(event.which)) ? 1 : 0;
-      } else {
-        acc = ([48,41].includes(event.which)) ? 1 : 0;
-      }
-
-      if (acc == 1) {
-        if (!trialIsNA) {
-          accCount++;
-        }
-      } else {
-        if (playSounds && playSoundsExperiment && !trialIsNA) {
-          mistakeSound.play();
-        }
-      }
+      console.log(partResp);
 
       // reaction time
       respOnset = new Date().getTime() - runStart;
@@ -188,7 +162,7 @@ $(document).ready(function(){
   });
 
   $(document).on("click", "#navOddOneOut", function(){
-    expStage = "main2";
+    expStage = "main3";
     runInstructions();
   });
 
@@ -201,38 +175,12 @@ $(document).ready(function(){
     runStart = new Date().getTime();
 
     setUpNetwork();
-    networkDragTask();
+    prepareNetworkDiagram();
+    createSVG("svg2","#network-container-sm", '472.66px', '806px', false);
+    // drawSVGArrow(0, 7, "#network-container-sm", "svg2")
+    // networkDragTask();
     // runInstructions();
     // oddOneOutTest();
   }
 
 });
-
-function promptMenuClosed(){
-  $(".canvasas").hide();
-  $("#oddOneOutTaskDiv").hide();
-  $('#instructionsDiv').hide();
-  $('.MenuClosedPrompt').show();
-}
-
-function sum(x, y){
-  console.log("this runs before return")
-  return x + y;
-  console.log("this runs after return")
-}
-
-function endOfExperiment(){
-  // end of experiment stuff
-  try {
-    // upload data to menu.html's DOM element
-    $("#RTs", opener.window.document).val(data.join(";"));
-
-    // call menu debriefing script
-    opener.updateMainMenu(3);
-
-    // close the experiment window
-    JavaScript:window.close();
-  } catch (e) {
-    alert("Data upload failed. Did you close the previous screen?");
-  }
-}

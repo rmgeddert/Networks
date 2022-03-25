@@ -7,13 +7,13 @@
     <script src="js/common/underscore_min.js"></script>
     <script src="js/task/instructions.js"></script>
     <script src="js/task/networkFunctions.js"></script>
-    <script src="js/task/networkPairsTask.js"></script>
     <script src="js/task/oddOneOutTest.js"></script>
     <script src="js/task/networkDragTask.js"></script>
+    <script src="js/task/networkIllegalTransitionTask.js"></script>
     <script src="js/task/miscFunctions.js"></script>
     <script src="js/task/main.js"></script>
     <script src="js/task/images.js"></script>
-    <title>Image Repetition Task</title>
+    <title>Network Task</title>
   </head>
 
   <body>
@@ -76,48 +76,48 @@
     <div id="networkDragTask">
       <div id="picture-container">
       </div>
-      <div id="network-container">
+      <div id="network-container-lg">
         <!-- left side community -->
-        <div class="community-container">
+        <div class="w600 community-container">
           <div id="left-community">
-            <div class= "network-slot-buffer-left">
+            <div class= "lgW net-slot buff-left-lg">
               <div class="picture-holder">
-                <div class="picture-slot" id="slot2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <div class="picture-slot" id="slot1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               </div>
             </div>
-            <div class= "network-slot">
+            <div class= "net-slot">
               <div class="picture-holder">
-                <div class="picture-slot" id="slot3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <div class="picture-slot" id="slot0" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot0" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               </div>
             </div>
-            <div class= "network-slot">
+            <div class= "net-slot">
               <div class="picture-holder">
-                <div class="picture-slot" id="slot4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- right side community -->
-        <div class="community-container">
+        <div class="w600 community-container">
           <div id="right-community">
-            <div class= "network-slot">
+            <div class= "net-slot">
               <div class="picture-holder">
-                <div class="picture-slot" id="slot6" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot6" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               </div>
             </div>
-            <div class= "network-slot">
+            <div class= "net-slot">
               <div class="picture-holder">
-                <div class="picture-slot" id="slot5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <div class="picture-slot" id="slot9" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot9" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               </div>
             </div>
-            <div class= "network-slot-buffer-right">
+            <div class= "lgW net-slot buff-right-lg">
               <div class="picture-holder">
-                <div class="picture-slot" id="slot7" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-                <div class="picture-slot" id="slot8" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot7" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot8" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               </div>
             </div>
           </div>
@@ -125,6 +125,54 @@
       </div>
       <button id="networkDragNextTrial" class="dragTaskButton">Next Trial</button>
       <button id="networkDragCheckAnswer" class="dragTaskButton">Submit</button>
+    </div>
+    <div id="network-diagram">
+      <div id="network-container-sm">
+        <div class="w400 community-container">
+          <div id="left-community">
+            <div class= "smW net-slot buff-left-sm">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot2"></div>
+                <div class="smW smH slot" id="plot1"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot3"></div>
+                <div class="smW smH slot" id="plot0"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- right side community -->
+        <div class="w400 community-container">
+          <div id="right-community">
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot6"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot5"></div>
+                <div class="smW smH slot" id="plot9"></div>
+              </div>
+            </div>
+            <div class= "smW net-slot buff-right-sm">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot7"></div>
+                <div class="smW smH slot" id="plot8"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

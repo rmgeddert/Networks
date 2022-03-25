@@ -90,6 +90,23 @@ function checkAnswer(slot_name, node_position){
     }
 }
 
+function correctlyFill(){
+  for (var i = 0; i < 10; i++) {
+    let imageDiv = new Image;
+    imageDiv.src = selectedImages[i].src
+    imageDiv.width = 150; //
+    imageDiv.draggable = true;
+    imageDiv.id = "drag" + i;
+    imageDiv.ondragstart = function(){drag(event);}
+    document.getElementById("slot"+i).append(imageDiv);
+  }
+
+  // remove table and show submit button
+  document.getElementById("dragImageTable").remove();
+  document.getElementById("picture-container").style.display = "none";
+  $("#networkDragButton").show();
+}
+
 function randomlyFill(){
   let images = [];
   document.body.querySelectorAll("*").forEach((node) => {
@@ -274,53 +291,8 @@ function checkIfImageBoxEmpty(){
 }
 
 function drawHTMLNetwork(){
-  // add svg (for drawing lines)
-  let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute('width', '1206px');
-  svg.setAttribute('height', '706px');
-  svg.style.position = 'absolute';
-  svg.setAttribute('z-index', '-1');
-  $(svg).insertBefore("#network-container");
-
-  // which nodes are connected to which
-  let nodeNeighbors = {
-    0: [1,2,3,4],
-    1: [0,2,3,4],
-    2: [0,1,3,4],
-    3: [0,1,2,4],
-    4: [0,1,2,3,6],
-    5: [6,7,8,9],
-    6: [4,5,7,8,9],
-    7: [5,6,8,9],
-    8: [5,6,7,9],
-    9: [5,6,7,8],
-  }
-
-  // loop through html elements and draw lines for each
-  document.body.querySelectorAll("*").forEach(node => {
-    if (node.id.indexOf("slot") != -1) {
-      let x1 = $("#"+node.id).offset().left+ (node.offsetWidth / 2) - $("#network-container").offset().left;
-      let y1 = $("#"+node.id).offset().top + (node.offsetHeight / 2) - $("#network-container").offset().top;
-      let nodeN = node.id.match(/\d+/g);
-      let neighbors = nodeNeighbors[nodeN];
-      neighbors.forEach( neighbor => {
-        let name = "#slot" + neighbor;
-        let x2 = $(name).offset().left+ $(name).outerWidth() / 2 - $("#network-container").offset().left;
-        let y2 = $(name).offset().top + $(name).outerHeight() / 2 - $("#network-container").offset().top;
-
-        // draw line
-        let newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
-        newLine.setAttribute('id','line1');
-        newLine.setAttribute('x1',x1);
-        newLine.setAttribute('y1',y1);
-        newLine.setAttribute('x2',x2);
-        newLine.setAttribute('y2',y2);
-        newLine.setAttribute("stroke", "black");
-        newLine.setAttribute("stroke-width", "5px");
-        $("svg").append(newLine);
-      });
-    }
-  });
+  createSVG("svg","#network-container-lg", '706px', '1206px')
+  drawSVGLines("svg","slot","#network-container-lg")
 }
 
 // //set up trial attempt variable for every time you press "submit" button

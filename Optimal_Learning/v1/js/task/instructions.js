@@ -32,6 +32,7 @@ function navigateInstructionPath(repeat = false){
     //     break;
     // }
   } else {
+    // what is the sequence of experimental instruction stages?
     switch (expStage){
       case "main1-1":
         expStage = "main1-2";
@@ -89,6 +90,8 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
+          $("#network-diagram").insertAfter("#instructions" + slideNum);
+          $("#network-diagram").show();
           return "In this experiment you will perform a task where you learn the network structure of objects shown below. The experiment is expected to take approximately 25-30 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
@@ -98,38 +101,25 @@ function getNextInstructions(slideNum, expStage){
     case "main1-2":
       switch (slideNum){
         case 1:
-          console.log("hello");
-          return "In this first task, you will see an empty network structure with two communities, and you will also see two banks of images at the top. "
+          return "In this first task, you will see an empty network structure with two communities, and you will also see a bank of images at the top. "
         case 2:
-          return "You will drag & drop the images from the image bank into the network structure, and press the Submit button when you are done."
+          return "Drag & drop each image from the image bank into the slots of the network structure below. Press 'submit' when you are finished."
         case 3:
           return "If your placement of an image is correct, the box will be outlined in green."
         case 4:
-          return "However, if your placement of an image is incorrect, the box will become outlined in red. In this case, drag and drop to reorganize the images and press submit again. Keep doing this until all the images in the network structure are correct (the boxes will be outlined in green). "
+          return "However, if your placement of an image is incorrect, the box will be outlined in red. If an image is incorrect, drag and drop to replace it with other incorrect images, and press submit again."
         case 5:
-          return "You will continue to drag and drop the images throughout multiple trials until you have placed all of the images in their correct locations 3 times in a row correctly."
+          return "You will continue this process of guessing and shuffling which images go where until all the images are in the correct box, as indicated by green outlines."
         case 6:
+          return "something about n trials/length of task"
+        case 7:
           return "Press any key to start the task."
       }
-  //  case "main1-2":
-    //  switch (slideNum){
-  //      case 1:
-    //      return "In this next task, you will see a combined bank of all the images necessary for the network structure at the top."
-  //      case 2:
-  //        return "Attempt to drag and drop the images from the bank into their correct corresponding locations on the network structure."
-  //      case 3:
-  //        return "If you are correct, "
-  //      case 4:
-  //        return "You will continue to drag and drop the images throughout multiple trials until you have placed all of images in their correct locations on the structure 3 times in a row correctly."
-  //    }
-
     case "main2":
-    switch (slideNum){
-      case 1:
-        return //instructions for oddball task
-    }
-
-
+      switch (slideNum){
+        case 1:
+          return "Instructions for odd ball task"
+      }
     case "main3":
     switch (slideNum){
       case 1:
@@ -192,6 +182,7 @@ function runInstructions(){
   // hide canvas and other tasks if visible
   $(".canvasas").hide();
   $("#oddOneOutTaskDiv").hide();
+  $("#network-diagram").hide();
   if (showNavButtons) {
     $("#navButtons").show();
   }
