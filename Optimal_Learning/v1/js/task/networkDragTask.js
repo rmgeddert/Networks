@@ -1,6 +1,7 @@
-let trialAttempts;
+let trialAttempts = 0, consecutiveCorrectOnFirstTryTrials = 0;
 function networkDragTask(){
   // this code gets run when networkDragTask gets run
+  trialCount = 0;
 
   // show task div
   $('#instructionsDiv').hide();
@@ -16,11 +17,11 @@ function networkDragTask(){
     for (var i = 0; i < 10; i++) {
       if (checkAnswer("slot"+i,i)) {
         document.getElementById("slot"+i).style.borderWidth = "5px";
-        document.getElementById("slot"+i).style.borderColor = "#00ff00"
+        document.getElementById("slot"+i).style.borderColor = "#00ff00" //green
       } else {
         anyIncorrect = true;
         document.getElementById("slot"+i).style.borderWidth = "5px";
-        document.getElementById("slot"+i).style.borderColor = "#ff0000"
+        document.getElementById("slot"+i).style.borderColor = "#ff0000" //red
       }
     }
 
@@ -33,8 +34,11 @@ function networkDragTask(){
 
   $(document).on("click", "#networkDragNextTrial", function(){
     trialCount++;
-
-    // <- something here about checking if there was only 1 attempt
+    if (trialAttempts == 1) {
+      consecutiveCorrectOnFirstTryTrials++;
+    } else {
+      consecutiveCorrectOnFirstTryTrials = 0;
+    }
 
     resetNetwork();
     $("#networkDragNextTrial").hide();
@@ -49,51 +53,19 @@ function networkDragTask(){
 }
 
 function networkDragTaskFlow(){
-  //copy code from other function
-  // pseudo code:
-  // if trialcount <= trialCountfortask
-  //   networkDragTrial();
-  // else {
-  //   go to isntructions
-  // }
-
-//make sure you get three trials perfect CONSECUTIVELY/resets the trial count
-if (anyIncorrect == false) {
-  trialCount == 0;
-} else {
-  trialCount++
-}
-
-//set up trial attempt variable for every time you press "submit" button
-$("#networkDragCheckAnswer"). click(function(){count++;});
-  if (count == 1){
-    trialAttempt == 1
-  }
-
-//attempt at network drag task flow/conditions that need to be met
-if ((trialCount >= 3 && trialAttempt == 1 && anyIncorrect == false) || (trialCount >= 10)){
-  $("#networkDragTask").hide();
-  navigateInstructionPath();
-} else {
-  networkDragTrial();
-}
-
-//code we had before
-  if (trialCount <= 3) {
-    trialAttempts = 1;
-    networkDragTrial();
-  } else {
+  if (consecutiveCorrectOnFirstTryTrials == 3 || trialCount > 9) {
     $("#networkDragTask").hide();
     navigateInstructionPath();
+  } else {
+    networkDragTrial();
   }
 }
 
 function networkDragTrial(){
-  //defines one trial of task
+  trialAttempts = 0;
 
   // randomly display the nework images in the picture-container div
   displayImages();
-
 }
 
 function resetNetwork(){
@@ -350,3 +322,26 @@ function drawHTMLNetwork(){
     }
   });
 }
+
+// //set up trial attempt variable for every time you press "submit" button
+// $("#networkDragCheckAnswer"). click(function(){count++;});
+//   if (count == 1){
+//     trialAttempt = 1
+//   }
+//
+// //attempt at network drag task flow/conditions that need to be met
+// if ( (trialCount >= 3 && trialAttempt == 1 && anyIncorrect == false) || (trialCount >= 10) ){
+//
+// } else {
+//   networkDragTrial();
+// }
+//
+// //code we had before
+//   if (trialCount <= 3) {
+//     trialAttempts = 1;
+//     networkDragTrial();
+//   } else {
+//     $("#networkDragTask").hide();
+//     navigateInstructionPath();
+//   }
+// }

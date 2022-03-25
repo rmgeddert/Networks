@@ -33,7 +33,6 @@ let taskFunc, timeoutFunc, stimTimeout; //function for current task
 let actionArr, stimArr, switchRepeatArr, buffer, stimSet, trialIsRepeat, trialIsNA, switchType, accArr, trialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
 let canvas, ctx, ntCanvas, ntCtx; //canvases
 let trialCount = 1, blockTrialCount = 1, acc, accCount = 0, stimOnset, respOnset, respTime, block = 1, partResp, runStart;
-let trialAttempt = 1,
 let breakOn = false, repeatNecessary = false, data=[];
 let mistakeSound = new Audio('././sounds/mistakeSoundShort.m4a');
 let sectionStart, sectionEnd, sectionType, taskName, sectionTimer, trialType, taskSet;
@@ -66,15 +65,6 @@ function experimentFlow(){
     // reset block and trial counts (unless repeat)
     blockTrialCount = 1;
     trialCount = 1;
-    if (!repeatNecessary) {
-      block = 1;
-    } else {
-      block++;
-    }
-
-    //reset block and trialAttempts
-    blockTrialAttempt = 1;
-    trialAttempt = 1;
     if (!repeatNecessary) {
       block = 1;
     } else {
