@@ -330,7 +330,7 @@ canvas {
   margin-bottom: 85px;
 }
 
-#networkDragButton{
+.dragTaskButton{
   display: none;
   color: black;
   border: 3px outset grey;
@@ -347,10 +347,10 @@ canvas {
 
 }
 
-#networkDragButton:hover {
+.dragTaskButton:hover {
   color: white;
 }
 
-#networkDragButton:active {
+.dragTaskButton:active {
   border: 3px inset grey;
 }

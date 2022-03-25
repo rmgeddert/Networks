@@ -1,30 +1,48 @@
+let trialAttempts = 0, consecutiveCorrectOnFirstTryTrials = 0;
 function networkDragTask(){
   // this code gets run when networkDragTask gets run
+  trialCount = 0;
 
   // show task div
   $('#instructionsDiv').hide();
   $("#navButtons").hide();
   $("#networkDragTask").show();
+  // $("#networkDragNextTrial").show();
 
   // set up key press listener
-  $(document).on("click", "#networkDragButton", function(){
+  $(document).on("click", "#networkDragCheckAnswer", function(){
+    trialAttempts++;
+    // color images if correct or incorrect
     let anyIncorrect = false;
     for (var i = 0; i < 10; i++) {
       if (checkAnswer("slot"+i,i)) {
         document.getElementById("slot"+i).style.borderWidth = "5px";
-        document.getElementById("slot"+i).style.borderColor = "#00ff00"
+        document.getElementById("slot"+i).style.borderColor = "#00ff00" //green
       } else {
         anyIncorrect = true;
         document.getElementById("slot"+i).style.borderWidth = "5px";
-        document.getElementById("slot"+i).style.borderColor = "#ff0000"
+        document.getElementById("slot"+i).style.borderColor = "#ff0000" //red
       }
     }
-    // if none are incorrect, proceed to next trial
+
+    // if none are incorrect, reveal next trial button
     if (!anyIncorrect) {
-      resetNetwork()
-      $("#networkDragButton").hide();
-      networkDragTaskFlow();
+      $("#networkDragNextTrial").show();
+      $("#networkDragCheckAnswer").hide();
     }
+  });
+
+  $(document).on("click", "#networkDragNextTrial", function(){
+    trialCount++;
+    if (trialAttempts == 1) {
+      consecutiveCorrectOnFirstTryTrials++;
+    } else {
+      consecutiveCorrectOnFirstTryTrials = 0;
+    }
+
+    resetNetwork();
+    $("#networkDragNextTrial").hide();
+    networkDragTaskFlow();
   });
 
   //draw network behind div boxes
@@ -33,24 +51,21 @@ function networkDragTask(){
   //start task
   networkDragTaskFlow();
 }
-//
+
 function networkDragTaskFlow(){
-  //copy code from other function
-  // pseudo code:
-  // if trialcount <= trialCountfortask
-  //   networkDragTrial();
-  // else {
-  //   go to isntructions
-  // }
-  networkDragTrial();
+  if (consecutiveCorrectOnFirstTryTrials == 3 || trialCount > 9) {
+    $("#networkDragTask").hide();
+    navigateInstructionPath();
+  } else {
+    networkDragTrial();
+  }
 }
 
 function networkDragTrial(){
-  //defines one trial of task
+  trialAttempts = 0;
 
   // randomly display the nework images in the picture-container div
   displayImages();
-
 }
 
 function resetNetwork(){
@@ -91,6 +106,23 @@ function randomlyFill(){
   }
 
   checkIfImageBoxEmpty();
+}
+
+function correctlyFill(){
+  for (var i = 0; i < 10; i++) {
+    let imageDiv = new Image;
+    imageDiv.src = selectedImages[i].src
+    imageDiv.width = 150; //
+    imageDiv.draggable = true;
+    imageDiv.id = "drag" + i;
+    imageDiv.ondragstart = function(){drag(event);}
+    document.getElementById("slot"+i).append(imageDiv);
+  }
+
+  // remove table and show submit button
+  document.getElementById("dragImageTable").remove();
+  document.getElementById("picture-container").style.display = "none";
+  $("#networkDragCheckAnswer").show();
 }
 
 // function getFeedback(node_position){
@@ -153,15 +185,15 @@ function allowDrop(event){
 }
 
 function drag(event){
-  console.log("drag");
+  // console.log("drag");
   oldParentDiv = event.target.parentElement;
-  console.log(event.target.parentElement);
+  // console.log(event.target.parentElement);
   event.dataTransfer.setData("id", event.target.id);
 }
 
 function drop(event) {
   event.preventDefault();
-  console.log(event.target);
+  // console.log(event.target);
 
   // first, figure out what is being dropped
   let data_id = event.dataTransfer.getData("id");
@@ -229,10 +261,15 @@ function drop(event) {
 }
 
 function checkIfImageBoxEmpty(){
-  if (document.getElementById("dragImageTable").childNodes.length == 0) {
-    document.getElementById("dragImageTable").remove();
-    document.getElementById("picture-container").style.display = "none";
-    $("#networkDragButton").show();
+
+  if (document.getElementById("dragImageTable")) {
+    if (document.getElementById("dragImageTable").childNodes.length == 0) {
+      document.getElementById("dragImageTable").remove();
+      document.getElementById("picture-container").style.display = "none";
+
+      // show check answer button
+      $("#networkDragCheckAnswer").show();
+    }
   }
 }
 
@@ -285,3 +322,26 @@ function drawHTMLNetwork(){
     }
   });
 }
+
+// //set up trial attempt variable for every time you press "submit" button
+// $("#networkDragCheckAnswer"). click(function(){count++;});
+//   if (count == 1){
+//     trialAttempt = 1
+//   }
+//
+// //attempt at network drag task flow/conditions that need to be met
+// if ( (trialCount >= 3 && trialAttempt == 1 && anyIncorrect == false) || (trialCount >= 10) ){
+//
+// } else {
+//   networkDragTrial();
+// }
+//
+// //code we had before
+//   if (trialCount <= 3) {
+//     trialAttempts = 1;
+//     networkDragTrial();
+//   } else {
+//     $("#networkDragTask").hide();
+//     navigateInstructionPath();
+//   }
+// }

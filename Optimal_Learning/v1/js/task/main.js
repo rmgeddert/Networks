@@ -25,7 +25,7 @@ let nPracticeTrials = 20; //number of practice trials for 1-back and 2-back task
 let percRepeats = 0.25; //percent repeat in 1-back and 2-back practices (match frequency of repeats in random walk)
 let numBlocks = 5; //number of blocks to divide nNetworkTrials into
 let practiceAccCutoff = (testMode == true) ? 0 : 75; // 70 acc%
-let expStage = (skipPractice == true) ? "main1" : "prac1-1"; //initial expStage
+let expStage = "main1-1"; //initial expStage
 
 // task variables
 let activeNode, prevNode, taskNetwork = new Network(), hamiltonianPath = [], transitionType, currentTaskArray = [];
@@ -59,8 +59,8 @@ function experimentFlow(){
   if (openerNeeded == true && opener == null) {
     promptMenuClosed();
   } else {
-    // hide cursor
-    document.body.style.cursor = 'none';
+    // // hide cursor
+    // document.body.style.cursor = 'none';
 
     // reset block and trial counts (unless repeat)
     blockTrialCount = 1;
@@ -73,11 +73,12 @@ function experimentFlow(){
 
     // navigateInstructionPath(repeatNecessary);
     // // go to the correct task based on expStage variable
-    if (expStage.indexOf("prac1") != -1){
+    if (expStage.indexOf("main1") != -1){
       networkDragTask();
-    } else if (expStage.indexOf("main1") != -1){
-      networkPairsTask();
     } else if (expStage.indexOf("main2") != -1){
+      document.body.style.cursor = 'none';
+      // networkPairsTask();
+    } else if (expStage.indexOf("main3") != -1){
       oddOneOutTest();
     } else {
       endOfExperiment();
