@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "main1-1": 5, "main1-2": 5, "main2": 1, "main3": 8,"final": 3
+    "main1-1": 5, "main1-2": 5, "main2": 3, "main3": 8,"final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -118,7 +118,11 @@ function getNextInstructions(slideNum, expStage){
     case "main2":
       switch (slideNum){
         case 1:
-          return "Instructions for odd ball task"
+          return "jack and jill play a game blah blah blah"
+        case 2:
+          return "press space bar every time an illegal jump happens"
+        case 3:
+          return "Press any button to start the task"
       }
     case "main3":
     switch (slideNum){

@@ -7,7 +7,6 @@ function networkDragTask(){
   $('#instructionsDiv').hide();
   $("#navButtons").hide();
   $("#networkDragTask").show();
-  // $("#networkDragNextTrial").show();
 
   // set up key press listener
   $(document).on("click", "#networkDragCheckAnswer", function(){
@@ -218,7 +217,7 @@ function drop(event) {
 
   // check if data recipient is an empty div or an image
   if (event.target.tagName == "DIV") {
-
+    console.log("DIV");
     // if div, just append
     event.target.appendChild(data);
 
@@ -283,10 +282,11 @@ function checkIfImageBoxEmpty(){
     if (document.getElementById("dragImageTable").childNodes.length == 0) {
       document.getElementById("dragImageTable").remove();
       document.getElementById("picture-container").style.display = "none";
-
       // show check answer button
       $("#networkDragCheckAnswer").show();
     }
+  } else {
+    $("#networkDragCheckAnswer").show();
   }
 }
 
@@ -294,26 +294,3 @@ function drawHTMLNetwork(){
   createSVG("svg","#network-container-lg", '706px', '1206px')
   drawSVGLines("svg","slot","#network-container-lg")
 }
-
-// //set up trial attempt variable for every time you press "submit" button
-// $("#networkDragCheckAnswer"). click(function(){count++;});
-//   if (count == 1){
-//     trialAttempt = 1
-//   }
-//
-// //attempt at network drag task flow/conditions that need to be met
-// if ( (trialCount >= 3 && trialAttempt == 1 && anyIncorrect == false) || (trialCount >= 10) ){
-//
-// } else {
-//   networkDragTrial();
-// }
-//
-// //code we had before
-//   if (trialCount <= 3) {
-//     trialAttempts = 1;
-//     networkDragTrial();
-//   } else {
-//     $("#networkDragTask").hide();
-//     navigateInstructionPath();
-//   }
-// }

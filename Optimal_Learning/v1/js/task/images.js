@@ -1,5 +1,5 @@
 // -------------------------------------------//
-//         Define and load task images
+//   Selected Images to use in experiment
 // -------------------------------------------//
 
 let instructionImages = {
@@ -7,7 +7,7 @@ let instructionImages = {
   2: '././images/handsOnKeyboard2.png'
 }
 
-// array for images
+// select network images to use in task (out of 20 options)
 let imageSRCs = [];
 for (let i = 1; i <= 20; i++) {
   imageSRCs.push(`././images/object_jpgs/Object${i}.jpg`);
@@ -17,7 +17,7 @@ for (let i = 1; i <= 20; i++) {
 let selectedSRCs = _.sample(imageSRCs,networkSize);
 let unselectedSRCs = imageSRCs.filter(image => !selectedSRCs.includes(image))
 
-// load images based on URL's and store in selectedImages var
+// load images and store in selectedImages var
 let selectedImages = new Array(selectedSRCs.length);
 for (var i = 0; i < selectedImages.length; i++) {
   selectedImages[i] = new Image();
@@ -31,7 +31,7 @@ for (var i = 0; i < unselectedImages.length; i++) {
   unselectedImages[i].src = unselectedSRCs[i];
 }
 
-// create png versions of selected srcs
+// also create png versions of selected srcs
 let selectedImages_png = new Array(selectedImages.length);
 for (var i = 0; i < selectedImages_png.length; i++) {
   selectedImages_png[i] = new Image();
@@ -39,44 +39,44 @@ for (var i = 0; i < selectedImages_png.length; i++) {
 }
 
 // -------------------------------------------//
-// Code for displaying images in instructions:
+//  Code for displaying images to participants
 // -------------------------------------------//
 
-// defines how many images fit per row (within 900px width and 26px padding)
-let chunkSize = 5;
+function createImageTable(){
+  // defines how many images fit per row (within 900px width and 26px padding)
+  let chunkSize = 5;
 
-// create image table
-let imageTable = document.createElement("div");
-imageTable.className = "imageTable";
+  // create image table
+  let imageTable = document.createElement("div");
+  imageTable.className = "imageTable";
 
-// add images to imageTable
-selectedImages.forEach((imageObj, i) => {
+  // add images to imageTable
+  selectedImages.forEach((imageObj, i) => {
 
-  // create div element to hold image
-  let imageDiv = document.createElement("div");
-  imageDiv.className = "imageDiv";
+    // create div element to hold image
+    let imageDiv = document.createElement("div");
+    imageDiv.className = "imageDiv";
 
-  // transfor imageObj to new variable for resizing
-  let newImageObj = new Image();
-  newImageObj.src = imageObj.src;
-  newImageObj.ondragstart = function(){return false;};
+    // transfor imageObj to new variable for resizing
+    let newImageObj = new Image();
+    newImageObj.src = imageObj.src;
+    newImageObj.ondragstart = function(){return false;};
 
-  // resize image
-  newImageObj.width = (900 / chunkSize) - 26; //
+    // resize image
+    newImageObj.width = (900 / chunkSize) - 26; //
 
-  // add image to imageDiv
-  imageDiv.appendChild(newImageObj);
+    // add image to imageDiv
+    imageDiv.appendChild(newImageObj);
 
-  // add imageDiv to imageRow
-  imageTable.appendChild(imageDiv);
-});
+    // add imageDiv to imageRow
+    imageTable.appendChild(imageDiv);
+  });
 
-// wrap imageTable in div wrapper of class "insertedContent"
-let imageTableDiv = document.createElement("div");
-imageTableDiv.className = "insertedContent";
-imageTableDiv.appendChild(imageTable);
-
-// createSVG("svg2","#network-container-sm", '472.66px', '806px', false);
+  // wrap imageTable in div wrapper of class "insertedContent"
+  let imageTableDiv = document.createElement("div");
+  imageTableDiv.className = "insertedContent";
+  imageTableDiv.appendChild(imageTable);
+}
 
 function prepareNetworkDiagram(){
   createSVG("svg1","#network-container-sm", '456px', '806px');
@@ -87,7 +87,7 @@ function prepareNetworkDiagram(){
     let imageDiv = new Image;
     imageDiv.src = selectedImages[i].src
     imageDiv.width = 100; //
-    imageDiv.id = "drag" + i;
+    imageDiv.id = "img" + i;
     document.getElementById("plot"+i).append(imageDiv);
   }
 }
@@ -127,6 +127,14 @@ function drawSVGLines(svg, id_tag, reference){
   });
 }
 
+function clearSVGArrows(svg){
+  document.getElementById(svg).childNodes.forEach(node => {
+    if (node.tagName == 'line') {
+      node.remove();
+    }
+  })
+}
+
 function drawSVGArrow(first_n, second_n, reference, svg){
   // grab reference to boxes
   let node1 = document.getElementById("plot"+first_n)
@@ -143,10 +151,10 @@ function drawSVGArrow(first_n, second_n, reference, svg){
   let y1 = node1_y + (node1.offsetHeight / 2);
   let x2 = node2_x + (node2.offsetWidth / 2);
   let y2 = node2_y + (node2.offsetHeight / 2);
-  console.log("#plot"+first_n + " coords (x,y)");
-  console.log(x1, y1);
-  console.log("#plot"+second_n + " coords (x,y)");
-  console.log(x2, y2);
+  // console.log("#plot"+first_n + " coords (x,y)");
+  // console.log(x1, y1);
+  // console.log("#plot"+second_n + " coords (x,y)");
+  // console.log(x2, y2);
 
   // draw buffers around box (fo visualization only)
   let firstBuffer = 5, secondBuffer = 25;
@@ -157,8 +165,8 @@ function drawSVGArrow(first_n, second_n, reference, svg){
   let w_adj, h_adj;
   let w = Math.abs(x2 - x1);
   let h = Math.abs(y2 - y1);
-  console.log("width of t: " + w);
-  console.log("height of t: " + h);
+  // console.log("width of t: " + w);
+  // console.log("height of t: " + h);
 
   if (h < w) {
     w_adj = node1.offsetWidth/2;
@@ -209,26 +217,6 @@ function drawSVGArrow(first_n, second_n, reference, svg){
 
   // draw line
   drawLine(adj_x1, adj_y1, adj_x2, adj_y2, svg,'red', '10px', arrow=true)
-
-
-  // // draw arrow heads (in the most horrible way possible)
-  // let line_angle = Math.atan(h/w);
-  // console.log('angle of line: ',line_angle* 180/Math.PI);
-  // let arrow_angle = 45, arrow_length = 100;
-  // let tot_angle = line_angle + (arrow_angle * Math.PI/180)
-  //
-  // let disp_x = Math.cos(tot_angle) * arrow_length
-  // let disp_y = Math.sin(tot_angle) * arrow_length
-  //
-  // if (x2 > x1) {
-  //
-  // }
-
-  // drawLine(adj_x2, adj_y2, adj_x2 - disp_x, adj_y2 + disp_y, svg)
-  // drawLine(adj_x2, adj_y2, adj_x2 - disp_y, adj_y2 + disp_x, svg)
-
-
-
 }
 
 function drawLine(x1,y1,x2,y2,svg,color='black',thickness='5px', arrow=false){

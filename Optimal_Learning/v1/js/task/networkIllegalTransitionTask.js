@@ -5,6 +5,7 @@ function networkIllegalTransitionTask(){
   // declare task vars
   earlyReleaseExperiment = false;
   playSoundsExperiment = true;
+  skipShown = false;
 
   // hide instructions and show canvas
   $('#instructionsDiv').hide();
@@ -12,6 +13,9 @@ function networkIllegalTransitionTask(){
   canvas.style.display = "inline-block";
   if (showNetworkWalk == true) {ntCanvas.style.display = "inline-block";}
   $(".canvasas").show();
+
+  // get svg network diagram ready (centered) and add text spots
+  getNetworkDiagramReady();
 
   // set up first active node
   activeNode = _.sample(taskNetwork.nodes,1)[0];
@@ -28,6 +32,7 @@ function networkIllegalTransitionTask(){
 
 function runIllegalTransition(){
   if (trialCount <= nNetworkTrials) {
+    // go to break screen every n trials, but only if trial count > 1, its not the end of the task (trialCount == nNetworkTrials), and we didn't JUST do have a break screen (breakOn)
     if (trialCount > 1 && trialCount != nNetworkTrials && (trialCount - 1)%breakEveryNTrials == 0 && !breakOn) {
       breakOn = true;
       networkBlockBreak();
@@ -36,7 +41,6 @@ function runIllegalTransition(){
       networkTrial();
     }
   } else {
-    // end of experiment code
     // taskNetwork.nodes.forEach((node) => {console.log(node.name, node.visitCount)})
     breakOn = false;
     navigateInstructionPath();
@@ -58,8 +62,8 @@ function networkTrial(){
       if (showNetworkWalk == true) {drawNetwork();}
       displayImage();
 
-      console.log(activeNode.name);
-      console.log(transitionType);
+      // console.log(activeNode.name);
+      // console.log(transitionType);
 
       // set up for response
       stimOnset = new Date().getTime() - runStart;
@@ -72,43 +76,79 @@ function networkTrial(){
 }
 
 function networkTransition(){
-  if (keyListener == 1 && speed != "fast") {
-    // tooSlowScreen();
-    // if (playSounds && playSoundsExperiment && switchType != "n") {
-    //   mistakeSound.play();
-    // }
-    // keyListener == 0;
-  }
-
-  // log data from previous trial
-  // data.push([]);
-  // console.log(data);
-
-  prevNode = activeNode;
-  activeNode.reset();
-
-  if (Math.random() < 0.1) {
-    transitionType = "i"; //illegal transition
-    activeNode = _.sample(taskNetwork.nodes.filter(node => !activeNode.neighbors.includes(node) && node != activeNode),1)[0];
+  let missedSkip = (transitionType == "i" && !partResp)
+  if (missedSkip && !skipShown) {
+    showIllegalTransition();
   } else {
-    transitionType = "l"; //legal (random) transition
-    activeNode = _.sample(activeNode.neighbors,1)[0];
+    // log data from previous trial
+    // data.push([]);
+    // console.log(data);
+
+    // remember where we just were
+    prevNode = activeNode;
+    activeNode.reset();
+    prevTransition = transitionType;
+
+    // randomly choose a new node (can be illegal or legal transition)
+    // don't allow for consecutive illegal transitions
+    if (Math.random() < illegalProbability && prevTransition != "i") {
+      transitionType = "i"; //illegal transition
+      activeNode = _.sample(taskNetwork.nodes.filter(node => !activeNode.neighbors.includes(node) && node != activeNode),1)[0];
+      console.log("illegal - press space!");
+    } else {
+      transitionType = "l"; //legal (random) transition
+      activeNode = _.sample(activeNode.neighbors,1)[0];
+    }
+
+    activeNode.activate();
+    trialHistory.push(activeNode.name);
+
+    // iterate trial count
+    trialCount++; blockTrialCount++;
+    skipShown = false;
+
+    // return to taskFlow func
+    runIllegalTransition();
   }
+}
 
-  activeNode.activate();
-  trialHistory.push(activeNode.name);
+function showIllegalTransition(){
+  // show diagram with the illegal transition that was missed
+  skipShown = true;
+  $(".canvasas").hide();
+  $("#network-diagram").show();
+  clearSVGArrows("svg2");
+  drawSVGArrow(prevNode.index-1,activeNode.index-1,"#network-container-sm","svg2")
+  setTimeout(function(){
+    $(".canvasas").show();
+    $("#network-diagram").hide()
+    taskFunc = networkTransition;
+    countDown(3,"fast")
+  },5000)
+}
 
-  // iterate trial count
-  trialCount++; blockTrialCount++;
-
-  // return to taskFlow func
-  runIllegalTransition();
+function getNetworkDiagramReady(){
+  let nd = document.getElementById("network-diagram");
+  //insert diagram back into main html (had been in instructions)
+  $(nd).insertAfter("#networkDragTask");
+  // center network diagram in middle of screen
+  nd.style.position = "absolute";
+  nd.style.top = "50%";
+  nd.style.left = "50%";
+  nd.style.transform = "translate(-50%, -50%)";
+  // get svg ready (for drawing arrows of mistakes)
+  createSVG("svg2","#network-container-sm", '456px', '806px', false);
+  // add text that explains instructions above (-75px) and below (450px)
+  $("<h1 id='upperText' class='illegalText'>Jill cheated! The following skip just occurred.</p>").insertBefore("#network-container-sm");
+  document.getElementById("upperText").style.top = "-75px";
+  $("<h1 id='lowerText' class='illegalText'>The task will resume in 5 seconds.</p>").insertAfter("#network-container-sm");
+  document.getElementById("lowerText").style.top = "450px";
 }
 
 function networkBlockBreak(){
   sectionType = "blockBreak";
   sectionStart = new Date().getTime() - runStart;
-  keyListener = 0; //else keylistener stays = 1 till below runs
+  keyListener = 0; //make sure no responses can get through
   setTimeout(function(){keyListener = 7},2000);
 
   // display break screen (With timer)
