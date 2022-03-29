@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "main1-1": 5, "main1-2": 5, "main2": 3, "main3": 8,"final": 3
+    "main1-1": 5, "main1-2": 7, "main2": 6, "main3": 8,"final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -90,9 +90,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          $("#network-diagram").insertAfter("#instructions" + slideNum);
-          $("#network-diagram").show();
-          return "In this experiment you will perform a task where you learn the network structure of objects shown below. The experiment is expected to take approximately 25-30 minutes.";
+          return "In this experiment you will perform a task where you learn the network structure of objects. The experiment is expected to take approximately 25-30 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 5:
@@ -101,61 +99,58 @@ function getNextInstructions(slideNum, expStage){
     case "main1-2":
       switch (slideNum){
         case 1:
-          return "In this first task, you will see an empty network structure with two communities, and you will also see a bank of images at the top. "
+          $("#network-diagram").insertAfter("#instructions" + slideNum);
+          $("#network-diagram").show();
+          return "In this first task, you will memorize the locations of the images within the network structure shown below.";
         case 2:
-          return "Drag & drop each image from the image bank into the slots of the network structure below. Press 'submit' when you are finished."
+          return "You will see an empty network structure and a bank of images at the top.";
         case 3:
-          return "If your placement of an image is correct, the box will be outlined in green."
+          return "Drag & drop each image from the image bank into the slots of the network structure to correspond to their positions shown above. Press 'check answer' when you are finished.";
         case 4:
-          return "However, if your placement of an image is incorrect, the box will be outlined in red. If an image is incorrect, drag and drop to replace it with other incorrect images, and press submit again."
+          return "If your placement of an image is correct, the box will be outlined in green.";
         case 5:
-          return "You will continue this process of guessing and shuffling which images go where until all the images are in the correct box, as indicated by green outlines."
+          return "However, if your placement of an image is incorrect, the box will be outlined in red. If an image is incorrect, drag and drop to replace it with other incorrect images, and press 'check answer' again.";
         case 6:
-          return "something about n trials/length of task"
+          return "You will continue this process of guessing and checking which images go where until all the images are in the correct box, as indicated by green outlines.";
         case 7:
-          return "Press any key to start the task."
+          return "You will repeat this process several times. The task is expected to last approximately _ minutes, but varies depending on your accuracy.";
       }
     case "main2":
       switch (slideNum){
         case 1:
-          return "jack and jill play a game blah blah blah"
+          return " Jack and Jill are playing a game in which they each take turns picking a picture from a network. However, they are only allowed to pick a picture that is adjacent to the previous picture. For example, in the diagram below, if the current picture is _ then next they would only be allowed to pick __ or __, not __";
         case 2:
-          return "press space bar every time an illegal jump happens"
+          return "Imagine you are Jack and Jill's caretaker, and you want to make sure they are playing fairly. Jill loves to cheat. Sometimes, she will choose a picture that is NOT adjacent to the previous picture. Your job is to catch whenever she tries to cheat.";
         case 3:
-          return "Press any button to start the task"
+          return "In this next task, you will see a series of images from the network structure you just memorized. Press ‘space bar’ whenever Jill cheats, i.e. whenever the image in the series was NOT adjacent on the network structure to the previous image in the series.";
+        case 4:
+          return "You will hear a buzzer when you accidentally accuse Jill of cheating when she wasn't. Make sure your volume is turned on.";
+        case 5:
+          return "This task is expected to take ___ minutes.";
+        case 6:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Press the space bar to start the task."
       }
     case "main3":
     switch (slideNum){
       case 1:
         return "Great job! You will now begin the final task of this experiment.";
       case 2:
-        return "In the task that you just completed, you may have noticed that the images belonged to two distinct groups or communities, meaning that some of the images often showed up close to each other in the sequence.";
+        return "In this task, you will use your knowledge of the network structure that you memorized in the tasks you just completed. You may have noticed that the images in the network structure belong to two distinct groups or communities, meaning that they were grouped adjacent to each other in the first task and often showed up close to each other in the series in the second task.";
       case 3:
-        return "In this task, you will see three images. Two of these images will belong to one of these groups, and the third image will belong to the other group.";
+        return "In this task, you will see three images. Two of these images with belong to one of these communities, and the third image will belong to the other community in the network structure.";
       case 4:
-        return "Your job is to choose the image that 'doesn't fit' with the other two images. For example, if you think that the first and third image were in the same group (appeared together frequently), choose the second image.";
+        return "Your job is to choose the image that belongs to a different community than the other two images (the image that ‘doesn’t fit’ with the other two images). For example, if you think that the first and third image were in the same community, choose the second image.";
       case 5:
         changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-        return "Do not choose based on what the images look like. Your choice should be based purely on the image sequence that you observed and which images were presented together frequently.";
+        return "Do not choose based on what the images look like. Your choice should be based purely on the network structure that you observed and which images were presented together frequently.";
       case 6:
-        return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
-      case 7:
         return "Note that the position of the images in the three positions is random and should not influence your decision.";
+      case 7:
+        return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
       case 8:
-        return "";
+        return "This task is expected to take __ minutes.";
     }
-
-    case "main4":
-      switch (slideNum) {
-        case 1:
-          return //instructions for stroop association task
-      }
-
-    case "main5":
-      switch (slideNum) {
-        case 1:
-          return //instructions for stroop transfer task
-      }
 
     case "final":
       switch (slideNum){
