@@ -1,4 +1,5 @@
 let trialAttempts = 0, consecutiveCorrectOnFirstTryTrials = 0;
+let imageSize = 150, imageScale = 0.6;
 function networkDragTask(){
   // this code gets run when networkDragTask gets run
   trialCount = 0;
@@ -15,11 +16,11 @@ function networkDragTask(){
     let anyIncorrect = false;
     for (var i = 0; i < 10; i++) {
       if (checkAnswer("slot"+i,i)) {
-        document.getElementById("slot"+i).style.borderWidth = "5px";
+        document.getElementById("slot"+i).style.borderWidth = "2px";
         document.getElementById("slot"+i).style.borderColor = "#00ff00" //green
       } else {
         anyIncorrect = true;
-        document.getElementById("slot"+i).style.borderWidth = "5px";
+        document.getElementById("slot"+i).style.borderWidth = "2px";
         document.getElementById("slot"+i).style.borderColor = "#ff0000" //red
       }
     }
@@ -93,7 +94,7 @@ function correctlyFill(){
   for (var i = 0; i < 10; i++) {
     let imageDiv = new Image;
     imageDiv.src = selectedImages[i].src
-    imageDiv.width = 150; //
+    imageDiv.width = imageSize * imageScale; //
     imageDiv.draggable = true;
     imageDiv.id = "drag" + i;
     imageDiv.ondragstart = function(){drag(event);}
@@ -128,7 +129,7 @@ function correctlyFill(){
   for (var i = 0; i < 10; i++) {
     let imageDiv = new Image;
     imageDiv.src = selectedImages[i].src
-    imageDiv.width = 150; //
+    imageDiv.width = imageSize * imageScale; //
     imageDiv.draggable = true;
     imageDiv.id = "drag" + i;
     imageDiv.ondragstart = function(){drag(event);}
@@ -174,7 +175,7 @@ function displayImages(){
     // create new image object for image
     let newImageObj = new Image();
     newImageObj.src = imageObj.src;
-    newImageObj.width = 150; //
+    newImageObj.width = imageSize * imageScale; //
     newImageObj.draggable = true;
     newImageObj.id = "drag" + i;
     newImageObj.ondragstart = function(){drag(event);}
@@ -291,6 +292,6 @@ function checkIfImageBoxEmpty(){
 }
 
 function drawHTMLNetwork(){
-  createSVG("svg","#network-container-lg", '706px', '1206px')
+  createSVG("svg","#network-container-lg", 700*imageScale + 'px', 1200*imageScale + 'px')
   drawSVGLines("svg","slot","#network-container-lg")
 }

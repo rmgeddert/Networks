@@ -79,14 +79,14 @@ function createImageTable(){
 }
 
 function prepareNetworkDiagram(){
-  createSVG("svg1","#network-container-sm", '456px', '806px');
+  createSVG("svg1","#network-container-sm", 450*imageScale + 'px', 800*imageScale + 'px');
   drawSVGLines("svg1", "plot", "#network-container-sm");
 
   // fill images into network diagram
   for (var i = 0; i < 10; i++) {
     let imageDiv = new Image;
     imageDiv.src = selectedImages[i].src
-    imageDiv.width = 100; //
+    imageDiv.width = 100 * imageScale; //
     imageDiv.id = "img" + i;
     document.getElementById("plot"+i).append(imageDiv);
   }
