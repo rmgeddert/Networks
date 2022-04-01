@@ -137,12 +137,12 @@ function getNetworkDiagramReady(){
   nd.style.left = "50%";
   nd.style.transform = "translate(-50%, -50%)";
   // get svg ready (for drawing arrows of mistakes)
-  createSVG("svg2","#network-container-sm", '456px', '806px', false);
+  createSVG("svg2","#network-container-sm", 450*imageScale + 'px', 800*imageScale + 'px', false);
   // add text that explains instructions above (-75px) and below (450px)
-  $("<h1 id='upperText' class='illegalText'>Jill cheated! The following skip just occurred.</p>").insertBefore("#network-container-sm");
-  document.getElementById("upperText").style.top = "-75px";
-  $("<h1 id='lowerText' class='illegalText'>The task will resume in 5 seconds.</p>").insertAfter("#network-container-sm");
-  document.getElementById("lowerText").style.top = "450px";
+  $("<h3 id='upperText' class='illegalText'>Jill cheated! The following skip just occurred.</p>").insertBefore("#network-container-sm");
+  document.getElementById("upperText").style.top = -75*imageScale + 'px';
+  $("<h3 id='lowerText' class='illegalText'>The task will resume in 5 seconds.</p>").insertAfter("#network-container-sm");
+  document.getElementById("lowerText").style.top = 450*imageScale + 'px';
 }
 
 function networkBlockBreak(){
