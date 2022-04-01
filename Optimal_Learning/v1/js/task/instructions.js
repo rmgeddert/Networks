@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "main1-1": 5, "main1-2": 7, "main2": 6, "main3": 8,"final": 3
+    "main1-1": 5, "main1-2": 7, "main2": 5, "main3": 8,"final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -81,6 +81,7 @@ function getNextInstructions(slideNum, expStage){
     -  changeTextFormat('#instructions' + slideNum,'margin-top', '20px');
     -  changeTextFormat('#instructions' + slideNum,'margin-bottom', '20px');
     - $("<img src='../pics/finalpics/M33.jpg' class='insertedImage'>").insertAfter( "#instructions" + slideNum);
+    - $( getImageText(instructionImages[1])).insertAfter( "#instructions" + slideNum);
 */
   switch (expStage){
     case "main1-1":
@@ -107,27 +108,28 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "Drag & drop each image from the image bank into the slots of the network structure to correspond to their positions shown above. Press 'check answer' when you are finished.";
         case 4:
-          return "If your placement of an image is correct, the box will be outlined in green.";
+          return "If your placement of an image is correct, the box will be outlined in green. However, if your placement of an image is incorrect, the box will be outlined in red.";
         case 5:
-          return "However, if your placement of an image is incorrect, the box will be outlined in red. If an image is incorrect, drag and drop to replace it with other incorrect images, and press 'check answer' again.";
+          return "If an image is incorrect, drag and drop to replace it with other incorrect images, and press 'check answer' again. You will continue guessing and checking which images go where until all the images are in the correct box, as indicated by green outlines.";
         case 6:
-          return "You will continue this process of guessing and checking which images go where until all the images are in the correct box, as indicated by green outlines.";
+          return "You will repeat this process until you have learned the network structure. The task is expected to last approximately _ minutes, but varies depending on your accuracy.";
         case 7:
-          return "You will repeat this process several times. The task is expected to last approximately _ minutes, but varies depending on your accuracy.";
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Take a minute to familiarize yourself with the network structure above before beginning the experiment.";
       }
     case "main2":
       switch (slideNum){
         case 1:
-          return " Jack and Jill are playing a game in which they each take turns picking a picture from a network. However, they are only allowed to pick a picture that is adjacent to the previous picture. For example, in the diagram below, if the current picture is _ then next they would only be allowed to pick __ or __, not __";
+        $( getImageText(instructionImages[3])).insertAfter( "#instructions" + slideNum);
+        changeTextFormat('#instructions' + slideNum,'margin-bottom', '5px');
+          return "Jack and Jill are playing a game in which they each take turns picking a picture from a network. However, they are only allowed to pick a picture that is adjacent to the previous picture. For example, in the diagram below, if the current picture is scissors then next they would only be allowed to pick cake or lightbulb, not nail polish.";
         case 2:
           return "Imagine you are Jack and Jill's caretaker, and you want to make sure they are playing fairly. Jill loves to cheat. Sometimes, she will choose a picture that is NOT adjacent to the previous picture. Your job is to catch whenever she tries to cheat.";
         case 3:
-          return "In this next task, you will see a series of images from the network structure you just memorized. Press ‘space bar’ whenever Jill cheats, i.e. whenever the image in the series was NOT adjacent on the network structure to the previous image in the series.";
+          return "In this next task, you will see a series of images from the network structure you just memorized. Press 'space bar' whenever Jill cheats, i.e. whenever the image in the series was NOT adjacent on the network structure to the previous image in the series.";
         case 4:
-          return "You will hear a buzzer when you accidentally accuse Jill of cheating when she wasn't. Make sure your volume is turned on.";
+          return "You will hear a buzzer when you accuse Jill of cheating when she wasn't. Make sure your volume is turned on. This task is expected to take ___ minutes.";
         case 5:
-          return "This task is expected to take ___ minutes.";
-        case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press the space bar to start the task."
       }
@@ -136,16 +138,16 @@ function getNextInstructions(slideNum, expStage){
       case 1:
         return "Great job! You will now begin the final task of this experiment.";
       case 2:
-        return "In this task, you will use your knowledge of the network structure that you memorized in the tasks you just completed. You may have noticed that the images in the network structure belong to two distinct groups or communities, meaning that they were grouped adjacent to each other in the first task and often showed up close to each other in the series in the second task.";
+        return "In this task, you will use your knowledge of the network structure that you memorized. You may remember that the images in the network structure belong to two distinct groups or communities, one on the left and one on the right.";
       case 3:
-        return "In this task, you will see three images. Two of these images with belong to one of these communities, and the third image will belong to the other community in the network structure.";
+        return "In this task, you will see three images. Two of these images with belong to one of these communities, and the third image will belong to the other community.";
       case 4:
-        return "Your job is to choose the image that belongs to a different community than the other two images (the image that ‘doesn’t fit’ with the other two images). For example, if you think that the first and third image were in the same community, choose the second image.";
+        return "Your job is to choose the image that belongs to a different community than the other two images. For example, if you think that the first and third image were in the same community, choose the second image.";
       case 5:
         changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-        return "Do not choose based on what the images look like. Your choice should be based purely on the network structure that you observed and which images were presented together frequently.";
+        return "Do not choose based on what the images look like. Your choice should be based purely on the position of the images in the network structure.";
       case 6:
-        return "Note that the position of the images in the three positions is random and should not influence your decision.";
+        return "Note that the position of the images in the three locations is random and should not influence your decision.";
       case 7:
         return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
       case 8:
@@ -237,7 +239,7 @@ function runInstructions(){
   $(document).on('click', '#startExpButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart ]);
     console.log(data);
 
     $('#instructionsDiv').hide();
@@ -254,7 +256,7 @@ function runInstructions(){
   $(document).on('click', '#nextSectionButton', function(){
     // update data logger on time spent in section
     sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, expStage, NaN, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]);
+    data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart ]);
     console.log(data);
 
     // clear all button press listeners

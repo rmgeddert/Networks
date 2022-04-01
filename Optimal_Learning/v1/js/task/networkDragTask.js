@@ -1,8 +1,10 @@
 let trialAttempts = 0, consecutiveCorrectOnFirstTryTrials = 0;
 let imageSize = 150, imageScale = 0.6;
 function networkDragTask(){
+  sectionType = "mainTask";
+  taskName = "networkDragTask";
+
   // this code gets run when networkDragTask gets run
-  trialCount = 0;
 
   // show task div
   $('#instructionsDiv').hide();
@@ -11,11 +13,16 @@ function networkDragTask(){
 
   // set up key press listener
   $(document).on("click", "#networkDragCheckAnswer", function(){
+    respOnset = new Date().getTime() - runStart;
     trialAttempts++;
     // color images if correct or incorrect
+    let nCorrect = 0;
     let anyIncorrect = false;
+    let slotDict = {}
     for (var i = 0; i < 10; i++) {
+      slotDict["slot"+i] = checkAnswer("slot"+i,i) ? 1 : 0;
       if (checkAnswer("slot"+i,i)) {
+        nCorrect++;
         document.getElementById("slot"+i).style.borderWidth = "2px";
         document.getElementById("slot"+i).style.borderColor = "#00ff00" //green
       } else {
@@ -24,16 +31,22 @@ function networkDragTask(){
         document.getElementById("slot"+i).style.borderColor = "#ff0000" //red
       }
     }
+    console.log(slotDict);
 
     // if none are incorrect, reveal next trial button
     if (!anyIncorrect) {
       $("#networkDragNextTrial").show();
       $("#networkDragCheckAnswer").hide();
     }
+
+    // log data
+    data.push([sectionType, taskName, trialCount, blockTrialCount, block, trialAttempts, stimOnset, respOnset, respOnset - stimOnset, nCorrect, slotDict["slot0"], slotDict["slot1"], slotDict["slot2"], slotDict["slot3"], slotDict["slot4"],slotDict["slot5"], slotDict["slot6"], slotDict["slot7"], slotDict["slot8"], slotDict["slot9"], NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN ]);
+    console.log(data);
   });
 
   $(document).on("click", "#networkDragNextTrial", function(){
     trialCount++;
+    blockTrialCount++;
     if (trialAttempts == 1) {
       consecutiveCorrectOnFirstTryTrials++;
     } else {
@@ -53,7 +66,7 @@ function networkDragTask(){
 }
 
 function networkDragTaskFlow(){
-  if (consecutiveCorrectOnFirstTryTrials == 3 || trialCount > 9) {
+  if (consecutiveCorrectOnFirstTryTrials == 3 || trialCount > 10) {
     $("#networkDragTask").hide();
     navigateInstructionPath();
   } else {
@@ -63,6 +76,7 @@ function networkDragTaskFlow(){
 
 function networkDragTrial(){
   trialAttempts = 0;
+  stimOnset = new Date().getTime() - runStart;
 
   // randomly display the nework images in the picture-container div
   displayImages();

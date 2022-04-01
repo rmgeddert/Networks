@@ -86,8 +86,8 @@ $(document).ready(function(){
 
       // accuracy
       partResp = event.which;
-      // acc = ...
-      // console.log(partResp);
+
+      acc = (transitionType == "i") ? 1 : 0;
 
       if (transitionType == "l") {
         if (playSoundsExperiment) {
@@ -118,7 +118,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      // data.push(...);
+      data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart ]);
       console.log(data);
       // go to next experiment
       keyListener = 0;
@@ -127,7 +127,7 @@ $(document).ready(function(){
       keyListener = 0;
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      // data.push(...);
+      data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,  NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart ]);
       console.log(data);
       // go to instructions
       navigateInstructionPath(repeatNecessary);
@@ -141,7 +141,7 @@ $(document).ready(function(){
 
       // log data
       sectionEnd = new Date().getTime() - runStart;
-      // data.push(...);
+      data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart ]);
       console.log(data);
 
       // resume task
