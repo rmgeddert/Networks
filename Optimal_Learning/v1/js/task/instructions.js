@@ -91,7 +91,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "Remember, do not touch or close the previous window (that said 'Click continue to start the main task').";
         case 3:
-          return "In this experiment you will perform a task where you learn the network structure of objects. The experiment is expected to take approximately 25-30 minutes.";
+          return "In this experiment you will perform a task where you learn the network structure of objects. The experiment is expected to take approximately 30 minutes.";
         case 4:
           return "Please enlarge this window to your entire screen and sit a comfortable distance from the computer screen.";
         case 5:
@@ -112,7 +112,7 @@ function getNextInstructions(slideNum, expStage){
         case 5:
           return "If an image is incorrect, drag and drop to replace it with other incorrect images, and press 'check answer' again. You will continue guessing and checking which images go where until all the images are in the correct box, as indicated by green outlines.";
         case 6:
-          return "You will repeat this process until you have learned the network structure. The task is expected to last approximately _ minutes, but varies depending on your accuracy.";
+          return "You will repeat this process until you have learned the network structure. The task is expected to take approximately 10 minutes, but varies depending on your accuracy.";
         case 7:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Take a minute to familiarize yourself with the network structure above before beginning the experiment.";
@@ -128,7 +128,7 @@ function getNextInstructions(slideNum, expStage){
         case 3:
           return "In this next task, you will see a series of images from the network structure you just memorized. Press 'space bar' whenever Jill cheats, i.e. whenever the image in the series was NOT adjacent on the network structure to the previous image in the series.";
         case 4:
-          return "You will hear a buzzer when you accuse Jill of cheating when she wasn't. Make sure your volume is turned on. This task is expected to take ___ minutes.";
+          return "You will hear a buzzer when you accuse Jill of cheating when she wasn't. Make sure your volume is turned on. This task is expected to take 10 minutes.";
         case 5:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press the space bar to start the task."
@@ -151,7 +151,7 @@ function getNextInstructions(slideNum, expStage){
       case 7:
         return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
       case 8:
-        return "This task is expected to take __ minutes.";
+        return "This task is expected to take 10 minutes.";
     }
 
     case "final":
