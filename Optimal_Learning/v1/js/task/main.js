@@ -2,7 +2,7 @@
 
 // ----- Meta parameters (for testing) -----
 let speed = "normal"; //fast, normal
-let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
+let openerNeeded = true; // require menu.html to also be open to run experiment (needed for MTurk)
 let showNetworkWalk = false;
 let showNavButtons = false;
 let showFeedback = true;
