@@ -1,3 +1,4 @@
+let nodeSetIterator;
 function oddOneOutTest() {
   document.body.style.cursor = 'auto';
   // holds task node sets
@@ -28,7 +29,7 @@ function oddOneOutTest() {
   $("#oddOneOutTaskDiv").show();
 
   // set up task vars
-  let nodeSetIterator = 0;
+  nodeSetIterator = 0;
   let currentNodeSet = mainTaskArr[nodeSetIterator];
   let nodeSetDisplayStart;
   let pressedSameButtonCounter = 0, prevResponse;
