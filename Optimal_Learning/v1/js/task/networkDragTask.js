@@ -66,7 +66,7 @@ function networkDragTask(){
 }
 
 function networkDragTaskFlow(){
-  if ((consecutiveCorrectOnFirstTryTrials == 3 || trialCount > 10) && trialCount > 4 ) {
+  if ((consecutiveCorrectOnFirstTryTrials >= 3 || trialCount > 10) && trialCount > 4 ) {
     $("#networkDragTask").hide();
     navigateInstructionPath();
   } else {
