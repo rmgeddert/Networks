@@ -69,10 +69,8 @@ function practiceTransition(){
   if (!feedbackShown) {
     // feedback (legal or illegal)
     if (transitionType == "i") {
-      console.log('illegal notification');
       showIllegalTransition();
     } else {
-      console.log('legal notification');
       showLegalTransition();
     }
 
