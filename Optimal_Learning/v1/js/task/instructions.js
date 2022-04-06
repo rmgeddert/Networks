@@ -257,20 +257,27 @@ function runInstructions(){
 
   // code for click startExperiment button
   $(document).on('click', '#startExpButton', function(){
-    // update data logger on time spent in section
-    sectionEnd = new Date().getTime() - runStart;
-    data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart ]);
-    console.log(data);
+    let confirm = true;
+    if (expStage == "main1-2" && Boolean(window.confirm)) {
+      confirm = window.confirm("Are you sure you are ready to proceed? Remember to review the image network before proceeding. You will be expected to reproduce it from memory.");
+    }
 
-    $('#instructionsDiv').hide();
-    $('#startExpButton').hide();
-    clearInsertedContent();
+    if (confirm) {
+      // update data logger on time spent in section
+      sectionEnd = new Date().getTime() - runStart;
+      data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart ]);
+      console.log(data);
 
-    // clear all button press listeners
-    $(document).off("click","#nextInstrButton");
-    $(document).off("click","#startExpButton");
-    $(document).off("click","#nextSectionButton");
-    experimentFlow();
+      $('#instructionsDiv').hide();
+      $('#startExpButton').hide();
+      clearInsertedContent();
+
+      // clear all button press listeners
+      $(document).off("click","#nextInstrButton");
+      $(document).off("click","#startExpButton");
+      $(document).off("click","#nextSectionButton");
+      experimentFlow();
+    }
   });
 
   $(document).on('click', '#nextSectionButton', function(){

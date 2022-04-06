@@ -218,10 +218,10 @@ function showLegalTransition(){
   $("#network-diagram").show();
   clearSVGArrows("svg2");
   let waitTime = (acc) ? correctTime : incorrectTime;
-  if (!partResp || acc == 0) {
+  if (acc == 0) {
     $("#upperText").css("color", "red");
     document.getElementById("upperText").innerHTML = "Incorrect";
-    document.getElementById("lowerText").innerHTML = "The task will resume in 3 seconds.";
+    document.getElementById("lowerText").innerHTML = "Jill didn't cheat! The task will resume in 3 seconds.";
   } else {
     $("#upperText").css("color", "green");
     document.getElementById("upperText").innerHTML = "Correct";
@@ -231,6 +231,6 @@ function showLegalTransition(){
   setTimeout(function(){
     $(".canvasas").show();
     $("#network-diagram").hide()
-    practiceTransition();
+    transitionFunc();
   },waitTime);
 }

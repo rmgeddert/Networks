@@ -6,6 +6,7 @@ function practiceIllegalTransitionTask(){
   earlyReleaseExperiment = false;
   playSoundsExperiment = false;
   feedbackShown = false;
+  document.body.style.cursor = 'none';
 
   // hide instructions and show canvas
   $('#instructionsDiv').hide();
@@ -57,16 +58,21 @@ function practiceTrial(){
 
       // set up for response
       stimOnset = new Date().getTime() - runStart;
-      keyListener = 1, respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN;
+      respTime = NaN, partResp = NaN, respOnset = NaN, acc = NaN;
+      if (trialCount == 1) {
+        setTimeout(practiceTransition, stimInterval);
+      } else {
+        keyListener = 1;
+      }
 
       // go to next trial after delay
-      setTimeout(practiceTransition, stimInterval);
+      // setTimeout(practiceTransition, stimInterval);
     }
   }
 }
 
 function practiceTransition(){
-  if (!feedbackShown) {
+  if (!feedbackShown && trialCount != 1) {
     // feedback (legal or illegal)
     if (transitionType == "i") {
       showIllegalTransition();
@@ -76,10 +82,9 @@ function practiceTransition(){
 
   } else {
 
-    // get acc for no responses
-    if (!partResp) {
-      acc = 0;
-    }
+    // adjust accuracy
+    if (!partResp) {acc = 0}
+    if (trialCount == 1) {acc = 1}
     accCount = accCount + acc;
 
     // log data from previous trial

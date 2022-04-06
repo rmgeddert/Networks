@@ -6,6 +6,7 @@ function illegalTransitionTask(){
   earlyReleaseExperiment = false;
   playSoundsExperiment = true;
   feedbackShown = false;
+  document.body.style.cursor = 'none';
 
   // hide instructions and show canvas
   $('#instructionsDiv').hide();
@@ -77,13 +78,29 @@ function networkTrial(){
 }
 
 function networkTransition(){
-  let missedSkip = (transitionType == "i" && !partResp)
-  if (missedSkip && !feedbackShown && showFeedback) {
-    showIllegalTransition();
+  if (transitionType == "i") {
+    acc = (Boolean(partResp)) ? 1 : 0;
   } else {
-    if (!partResp) {
-      acc = (transitionType == "i") ? 0 : 1;
+    acc = (Boolean(partResp)) ? 0 : 1;
+  }
+  let missedSkip = (transitionType == "i" && !partResp);
+  if (missedSkip) {
+    console.log('missed skip');
+  }
+  let falseAlarm = (transitionType == "l" && Boolean(partResp));
+  if (falseAlarm) {
+    console.log('false alarm');
+  }
+  let mistake = missedSkip || falseAlarm;
+  if (mistake && !feedbackShown && showFeedback) {
+
+    if (transitionType == "i") {
+      showIllegalTransition();
+    } else {
+      showLegalTransition();
     }
+
+  } else {
 
     // log data from previous trial
     data.push([sectionType, taskName, trialCount, blockTrialCount, block, NaN, stimOnset, respOnset, respTime, acc, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,fileOnly(activeNode.img.src), activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", transitionType, isCommunityTransition() ? 1 : 0, partResp, missedSkip ? 0 : 1, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN ]);

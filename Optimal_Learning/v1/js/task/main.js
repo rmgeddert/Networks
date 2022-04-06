@@ -98,19 +98,13 @@ $(document).ready(function(){
       // accuracy
       partResp = event.which;
 
-
-      if (taskName == "IllegalTransitionTask") {
-        acc = (transitionType == "i") ? 1 : 0;
-      } else {
+      if (taskName == "practiceTransitionTask") {
         if (transitionType == "l") {
           // partResp will = 90 or 122 if 'z' pressed
           if ([90, 122].indexOf(partResp) != -1) {
             acc = 1;
           } else {
             acc = 0;
-            if (playSoundsExperiment) {
-              mistakeSound.play();
-            }
           }
         } else if (transitionType == "i") {
           // partResp will = 77 or 109 if 'z' pressed
@@ -118,9 +112,6 @@ $(document).ready(function(){
             acc = 1;
           } else {
             acc = 0;
-            if (playSoundsExperiment) {
-              mistakeSound.play();
-            }
           }
         }
       }
@@ -134,6 +125,9 @@ $(document).ready(function(){
 // create key release listener
     $("body").keyup(function(event){
     if (keyListener == 2 ) { //good press release
+      if (taskName == "practiceTransitionTask") {
+        transitionFunc();
+      }
       if (earlyReleaseExperiment) {
         clearTimeout(stimTimeout);
         timeoutFunc();
