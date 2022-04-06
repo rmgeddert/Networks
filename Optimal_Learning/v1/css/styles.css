@@ -431,3 +431,11 @@ canvas {
   position: absolute;
   top: "-100px";
 }
+
+#upperText{
+  font-size: 40px;
+}
+
+#lowerText{
+  font-size: 25px;
+}

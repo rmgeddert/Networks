@@ -171,3 +171,66 @@ function isCommunityTransition(){
     return false;
   }
 }
+
+function getNetworkDiagramReady(){
+  let nd = document.getElementById("network-diagram");
+  //insert diagram back into main html (had been in instructions)
+  $(nd).insertAfter("#networkDragTask");
+  // center network diagram in middle of screen
+  nd.style.position = "absolute";
+  nd.style.top = "50%";
+  nd.style.left = "50%";
+  nd.style.transform = "translate(-50%, -50%)";
+  // get svg ready (for drawing arrows of mistakes)
+  createSVG("svg2","#network-container-sm", 450*imageScale + 'px', 800*imageScale + 'px', false);
+  $("<h3 id='upperText' class='illegalText'></p>").insertBefore("#network-container-sm");
+  document.getElementById("upperText").style.top = -150*imageScale + 'px';
+  $("<h3 id='lowerText' class='illegalText'></p>").insertAfter("#network-container-sm");
+  document.getElementById("lowerText").style.top = 425*imageScale + 'px';
+}
+
+function showIllegalTransition(){
+  feedbackShown = true;
+  let waitTime = (acc) ? correctTime : incorrectTime;
+  $(".canvasas").hide();
+  $("#network-diagram").show();
+  clearSVGArrows("svg2");
+  drawSVGArrow(prevNode.index-1,activeNode.index-1,"#network-container-sm","svg2");
+  if (!partResp || acc == 0) {
+    $("#upperText").css("color", "red");
+    document.getElementById("upperText").innerHTML = "Incorrect";
+    document.getElementById("lowerText").innerHTML = "Jill cheated! The task will resume in 3 seconds.";
+  } else {
+    $("#upperText").css("color", "green");
+    document.getElementById("upperText").innerHTML = "Correct";
+    document.getElementById("lowerText").innerHTML = "";
+  }
+  setTimeout(function(){
+    $(".canvasas").show();
+    $("#network-diagram").hide()
+    transitionFunc();
+  },waitTime);
+}
+
+function showLegalTransition(){
+  feedbackShown = true;
+  $(".canvasas").hide();
+  $("#network-diagram").show();
+  clearSVGArrows("svg2");
+  let waitTime = (acc) ? correctTime : incorrectTime;
+  if (!partResp || acc == 0) {
+    $("#upperText").css("color", "red");
+    document.getElementById("upperText").innerHTML = "Incorrect";
+    document.getElementById("lowerText").innerHTML = "The task will resume in 3 seconds.";
+  } else {
+    $("#upperText").css("color", "green");
+    document.getElementById("upperText").innerHTML = "Correct";
+    document.getElementById("lowerText").innerHTML = "";
+  }
+  // proceed back to practice transition
+  setTimeout(function(){
+    $(".canvasas").show();
+    $("#network-diagram").hide()
+    practiceTransition();
+  },waitTime);
+}

@@ -4,11 +4,11 @@
 let instructions = {
   // contains the interator for each instruction block
   iterator: {
-    "main1-1": 1, "main1-2": 1, "main2": 1, "main3": 1, "final": 1
+    "main1-1": 1, "main1-2": 1, "main2": 1, "main3": 1, "main4": 1,"final": 1
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "main1-1": 5, "main1-2": 7, "main2": 5, "main3": 8,"final": 3
+    "main1-1": 5, "main1-2": 7, "main2": 6, "main3": 4, "main4": 8,"final": 3
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -16,7 +16,8 @@ let instructions = {
     "main1-1": '#nextSectionButton',
     "main1-2": '#startExpButton',
     "main2": 'keyPressStartTask',
-    "main3": '#startExpButton',
+    "main3": 'keyPressStartTask',
+    "main4": '#startExpButton',
     "final": 'keyPressStartTask'
   }
 };
@@ -44,6 +45,9 @@ function navigateInstructionPath(repeat = false){
         expStage = "main3";
         break;
       case "main3":
+        expStage = "main4";
+        break;
+      case "main4":
         expStage = "final";
         break;
     }
@@ -120,38 +124,54 @@ function getNextInstructions(slideNum, expStage){
     case "main2":
       switch (slideNum){
         case 1:
-        $( getImageText(instructionImages[3])).insertAfter( "#instructions" + slideNum);
-        changeTextFormat('#instructions' + slideNum,'margin-bottom', '5px');
+          $( getImageText(instructionImages[3])).insertAfter( "#instructions" + slideNum);
+          changeTextFormat('#instructions' + slideNum,'margin-bottom', '5px');
           return "Jack and Jill are playing a game in which they each take turns picking a picture from a network. However, they are only allowed to pick a picture that is adjacent to the previous picture. For example, in the diagram below, if the current picture is scissors then next they would only be allowed to pick cake or lightbulb, not nail polish.";
         case 2:
           return "Imagine you are Jack and Jill's caretaker, and you want to make sure they are playing fairly. Jill loves to cheat. Sometimes, she will choose a picture that is NOT adjacent to the previous picture. Your job is to catch whenever she tries to cheat.";
         case 3:
-          return "In this next task, you will see a series of images from the network structure you just memorized. Press 'space bar' whenever Jill cheats, i.e. whenever the image in the series was NOT adjacent on the network structure to the previous image in the series.";
+          return "In this next task, you will see a series of images from the network structure you just memorized. Press 'z' whenever Jill makes a correct move and 'm' whenever she cheats.";
         case 4:
-          return "You will hear a buzzer when you accuse Jill of cheating when she wasn't. Make sure your volume is turned on. This task is expected to take 10 minutes.";
+          return "You will start with a practice task, and you will receive feedback on every trial. You need at least 80% accuracy to proceed to the main task."
         case 5:
+          iterateAgain = true;
+          $( getImageText(instructionImages[4])).insertAfter( "#instructions" + slideNum);
+          return "Please place your fingers on the 'z' and 'm' keys before beginning the task. Remember to respond as quickly and as accurately as possible."
+        case 6:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-          return "Press the space bar to start the task."
+          return "Press any button to begin the task."
       }
     case "main3":
-    switch (slideNum){
-      case 1:
-        return "Great job! You will now begin the final task of this experiment.";
-      case 2:
-        return "In this task, you will use your knowledge of the network structure that you memorized. You may remember that the images in the network structure belong to two distinct groups or communities, one on the left and one on the right.";
-      case 3:
-        return "In this task, you will see three images. Two of these images with belong to one of these communities, and the third image will belong to the other community.";
-      case 4:
-        return "Your job is to choose the image that belongs to a different community than the other two images. For example, if you think that the first and third image were in the same community, choose the second image.";
-      case 5:
-        changeTextFormat('#instructions' + slideNum,'font-weight','bold');
-        return "Do not choose based on what the images look like. Your choice should be based purely on the position of the images in the network structure.";
-      case 6:
-        return "Note that the position of the images in the three locations is random and should not influence your decision.";
-      case 7:
-        return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
-      case 8:
-        return "This task is expected to take 10 minutes.";
+      switch (slideNum){
+        case 1:
+          return "You will now begin the main task. Remember, Jack and Jill may only choose images that are adjacent to the last image, and it is your job to catch Jill whenever she cheats and chooses a non-adjacent image.";
+        case 2:
+          return "For this task, you only need to respond if and when Jill cheats, i.e., when an image appears that was not adjacent to the previous image in the task sequence. Press 'space bar' whenever this occurs, otherwise press nothing at all.";
+        case 3:
+          return "You will hear a buzzer when you accuse Jill of cheating when she wasn't. Please make sure your volume is turned on. This task is expected to take 10 minutes.";
+        case 4:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Press the space bar to begin the task."
+    }
+    case "main4":
+      switch (slideNum){
+        case 1:
+          return "Great job! You will now begin the final task of this experiment.";
+        case 2:
+          return "In this task, you will use your knowledge of the network structure that you memorized. You may remember that the images in the network structure belong to two distinct groups or communities, one on the left and one on the right.";
+        case 3:
+          return "In this task, you will see three images. Two of these images with belong to one of these communities, and the third image will belong to the other community.";
+        case 4:
+          return "Your job is to choose the image that belongs to a different community than the other two images. For example, if you think that the first and third image were in the same community, choose the second image.";
+        case 5:
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          return "Do not choose based on what the images look like. Your choice should be based purely on the position of the images in the network structure.";
+        case 6:
+          return "Note that the position of the images in the three locations is random and should not influence your decision.";
+        case 7:
+          return "Please take your time and think carefully about which image does not fit with the other two. If you are unsure, make your best guess.";
+        case 8:
+          return "This task is expected to take 10 minutes.";
     }
 
     case "final":

@@ -5,7 +5,8 @@
 let instructionImages = {
   1: '././images/handsOnKeyboard5.png',
   2: '././images/handsOnKeyboard2.png',
-  3: '././images/networkExample.png'
+  3: '././images/networkExample.png',
+  4: '././images/handsOnKeyboard6.png'
 }
 
 // select network images to use in task (out of 20 options)

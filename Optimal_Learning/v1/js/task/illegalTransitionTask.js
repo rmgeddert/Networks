@@ -1,11 +1,11 @@
-function networkIllegalTransitionTask(){
+function illegalTransitionTask(){
   sectionType = "mainTask";
-  taskName = "IllegalTransitionTask";
+  taskName = "illegalTransitionTask";
 
   // declare task vars
   earlyReleaseExperiment = false;
   playSoundsExperiment = true;
-  skipShown = false;
+  feedbackShown = false;
 
   // hide instructions and show canvas
   $('#instructionsDiv').hide();
@@ -25,6 +25,7 @@ function networkIllegalTransitionTask(){
 
   // set taskFunc so countdown goes to right task
   taskFunc = runIllegalTransition;
+  transitionFunc = networkTransition;
 
   // start task after countdown
   countDown(3);
@@ -77,7 +78,7 @@ function networkTrial(){
 
 function networkTransition(){
   let missedSkip = (transitionType == "i" && !partResp)
-  if (missedSkip && !skipShown && showFeedback) {
+  if (missedSkip && !feedbackShown && showFeedback) {
     showIllegalTransition();
   } else {
     if (!partResp) {
@@ -110,44 +111,11 @@ function networkTransition(){
 
     // iterate trial count
     trialCount++; blockTrialCount++;
-    skipShown = false;
+    feedbackShown = false;
 
     // return to taskFlow func
     runIllegalTransition();
   }
-}
-
-function showIllegalTransition(){
-  // show diagram with the illegal transition that was missed
-  skipShown = true;
-  $(".canvasas").hide();
-  $("#network-diagram").show();
-  clearSVGArrows("svg2");
-  drawSVGArrow(prevNode.index-1,activeNode.index-1,"#network-container-sm","svg2")
-  setTimeout(function(){
-    $(".canvasas").show();
-    $("#network-diagram").hide()
-    taskFunc = networkTransition;
-    countDown(3,"fast")
-  },5000)
-}
-
-function getNetworkDiagramReady(){
-  let nd = document.getElementById("network-diagram");
-  //insert diagram back into main html (had been in instructions)
-  $(nd).insertAfter("#networkDragTask");
-  // center network diagram in middle of screen
-  nd.style.position = "absolute";
-  nd.style.top = "50%";
-  nd.style.left = "50%";
-  nd.style.transform = "translate(-50%, -50%)";
-  // get svg ready (for drawing arrows of mistakes)
-  createSVG("svg2","#network-container-sm", 450*imageScale + 'px', 800*imageScale + 'px', false);
-  // add text that explains instructions above (-75px) and below (450px)
-  $("<h3 id='upperText' class='illegalText'>Jill cheated! The following skip just occurred.</p>").insertBefore("#network-container-sm");
-  document.getElementById("upperText").style.top = -75*imageScale + 'px';
-  $("<h3 id='lowerText' class='illegalText'>The task will resume in 5 seconds.</p>").insertAfter("#network-container-sm");
-  document.getElementById("lowerText").style.top = 450*imageScale + 'px';
 }
 
 function networkBlockBreak(){

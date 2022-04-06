@@ -2,7 +2,7 @@
 
 // ----- Meta parameters (for testing) -----
 let speed = "normal"; //fast, normal
-let openerNeeded = true; // require menu.html to also be open to run experiment (needed for MTurk)
+let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
 let showNetworkWalk = false;
 let showNavButtons = false;
 let showFeedback = true;
@@ -11,16 +11,19 @@ let showFeedback = true;
 let networkSize = 10; //don't change without also updating network structure in networkFunctions.js
 let nNetworkTrials = 200; //# of trials in illegal transition task
 let breakEveryNTrials = 100;
+let nPracticeTrials = 20;
 let stimInterval = (speed == "fast") ? 50 : 1500; //1500 is default for now
 let expStage = "main1-1"; //initialize expStage (make sure matches instructions)
-let illegalProbability = 0.1; //frequency of illegal transitions
+let illegalProbability = 0.2; //frequency of illegal transitions
+let correctTime = 1000;
+let incorrectTime = 3000;
 
 // task variables
 let taskNetwork = new Network(), activeNode, prevNode, transitionType;
-let taskFunc, timeoutFunc, stimTimeout, skipShown;
+let taskFunc, timeoutFunc, stimTimeout, feedbackShown, missedSkip;
 let trialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
 let canvas, ctx, ntCanvas, ntCtx; //canvas variables
-let data=[], taskName, trialCount, blockTrialCount, acc, accCount, stimOnset, respOnset, respTime, block, partResp, runStart; //variables for data logging
+let data=[], taskName, trialCount, blockTrialCount, acc, accCount, stimOnset, respOnset, respTime, block, partResp, runStart, legalIllegalArray = []; //variables for data logging
 let breakOn = false, repeatNecessary = false; //variables for block breaks and repeating practie blocks
 let mistakeSound = new Audio('././sounds/mistakeSoundShort.m4a'); //default error buzz
 let sectionStart, sectionEnd, sectionType, sectionTimer; //for logging non experimental sections (instruction and break screens)
@@ -54,8 +57,11 @@ function experimentFlow(){
     if (expStage.indexOf("main1") != -1){
       networkDragTask();
     } else if (expStage.indexOf("main2") != -1){
-      networkIllegalTransitionTask();
+      getNetworkDiagramReady(); //this needs to run before first illegal transition task
+      practiceIllegalTransitionTask();
     } else if (expStage.indexOf("main3") != -1){
+      illegalTransitionTask();
+    } else if (expStage.indexOf("main4") != -1){
       oddOneOutTest();
     } else {
       endOfExperiment();
@@ -88,11 +94,30 @@ $(document).ready(function(){
       // accuracy
       partResp = event.which;
 
-      acc = (transitionType == "i") ? 1 : 0;
 
-      if (transitionType == "l") {
-        if (playSoundsExperiment) {
-          mistakeSound.play();
+      if (taskName == "IllegalTransitionTask") {
+        acc = (transitionType == "i") ? 1 : 0;
+      } else {
+        if (transitionType == "l") {
+          // partResp will = 90 or 122 if 'z' pressed
+          if ([90, 122].indexOf(partResp) != -1) {
+            acc = 1;
+          } else {
+            acc = 0;
+            if (playSoundsExperiment) {
+              mistakeSound.play();
+            }
+          }
+        } else if (transitionType == "i") {
+          // partResp will = 77 or 109 if 'z' pressed
+          if ([77, 109].indexOf(partResp) != -1) {
+            acc = 1;
+          } else {
+            acc = 0;
+            if (playSoundsExperiment) {
+              mistakeSound.play();
+            }
+          }
         }
       }
 
@@ -164,6 +189,7 @@ $(document).ready(function(){
 
   // having set up all the various key and button listeners, start task
   if (openerNeeded == true && opener == null) {
+    $("#network-diagram").hide();
     promptMenuClosed();
   } else {
     // start experiment
