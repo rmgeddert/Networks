@@ -175,3 +175,41 @@ function promptMenuClosed(){
   $('#instructionsDiv').hide();
   $('.MenuClosedPrompt').show();
 }
+
+function practiceFeedback(accuracy){
+  
+  sectionStart = new Date().getTime() - runStart;
+  sectionType = "pracFeedback";
+
+  // prepare canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "black";
+  ctx.font = "25px Arial";
+  // 1 sec buffer before proceed allowed
+  setTimeout(function(){
+    keyListener = 6;
+  }, 1000);
+
+  // display feedback
+  if (accuracy < practiceAccCutoff) { //if accuracy is too low
+    repeatNecessary = true;
+
+    // display feedback text
+    ctx.fillText("You got " + accuracy + "% correct in this practice block.",canvas.width/2,canvas.height/2 - 50);
+    ctx.fillText("Remember, you need to get >" + practiceAccCutoff + "%.",canvas.width/2,canvas.height/2);
+    ctx.font = "bold 25px Arial";
+    ctx.fillText("Press any button to go back ",canvas.width/2,canvas.height/2 + 80);
+    ctx.fillText("to the instructions and try again.",canvas.width/2,canvas.height/2 + 110);
+
+  } else { //otherwise proceed to next section
+
+    // display feedback text
+    ctx.fillText("You got " + accuracy + "% correct in this practice block.",canvas.width/2,canvas.height/2 - 50);
+    ctx.font = "bold 25px Arial";
+    ctx.fillText("Press any button to go on to the next section.",canvas.width/2,canvas.height/2 + 100);
+
+    // prep key press/instruction logic
+    repeatNecessary = false;
+
+  }
+}

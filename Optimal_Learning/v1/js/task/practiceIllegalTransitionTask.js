@@ -1,6 +1,6 @@
 function practiceIllegalTransitionTask(){
   sectionType = "pracTask";
-  taskName = "IllegalTransitionTask";
+  taskName = "practiceTransitionTask";
 
   // declare task vars
   earlyReleaseExperiment = false;
@@ -36,7 +36,7 @@ function runIllegalPractice(){
   if (trialCount <= nPracticeTrials) {
     practiceTrial();
   } else {
-    navigateInstructionPath();
+    practiceFeedback(Math.round( accCount / (trialCount - 1) * 100 ));
   }
 }
 
@@ -76,6 +76,12 @@ function practiceTransition(){
 
   } else {
 
+    // get acc for no responses
+    if (!partResp) {
+      acc = 0;
+    }
+    accCount = accCount + acc;
+
     // log data from previous trial
     data.push([sectionType, taskName, trialCount, blockTrialCount, block, NaN, stimOnset, respOnset, respTime, acc, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,fileOnly(activeNode.img.src), activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", transitionType, isCommunityTransition() ? 1 : 0, partResp, missedSkip ? 0 : 1, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN ]);
     console.log(data);
@@ -87,7 +93,7 @@ function practiceTransition(){
 
     // randomly choose a new node (can be illegal or legal transition)
     // don't allow for consecutive illegal transitions
-    if (legalIllegalArray[trialCount-1] == "i") {
+    if (legalIllegalArray[trialCount] == "i") {
       transitionType = "i"; //illegal transition
       activeNode = _.sample(taskNetwork.nodes.filter(node => !activeNode.neighbors.includes(node) && node != activeNode),1)[0];
       console.log("illegal - press space!");

@@ -12,11 +12,12 @@ let networkSize = 10; //don't change without also updating network structure in 
 let nNetworkTrials = 200; //# of trials in illegal transition task
 let breakEveryNTrials = 100;
 let nPracticeTrials = 20;
-let stimInterval = (speed == "fast") ? 50 : 1500; //1500 is default for now
+let stimInterval = (speed == "fast") ? 50 : 2000; //1500 is default for now
 let expStage = "main1-1"; //initialize expStage (make sure matches instructions)
 let illegalProbability = 0.2; //frequency of illegal transitions
 let correctTime = 1000;
 let incorrectTime = 3000;
+let practiceAccCutoff = 80; //%
 
 // task variables
 let taskNetwork = new Network(), activeNode, prevNode, transitionType;
@@ -47,6 +48,7 @@ function experimentFlow(){
     // set block and trial counts (unless repeat of task)
     trialCount = 1;
     blockTrialCount = 1;
+    accCount = 0;
     if (!repeatNecessary) {
       block = 1;
     } else {
@@ -57,7 +59,9 @@ function experimentFlow(){
     if (expStage.indexOf("main1") != -1){
       networkDragTask();
     } else if (expStage.indexOf("main2") != -1){
-      getNetworkDiagramReady(); //this needs to run before first illegal transition task
+      if (!repeatNecessary) {
+        getNetworkDiagramReady(); //this needs to run before first illegal transition task
+      }
       practiceIllegalTransitionTask();
     } else if (expStage.indexOf("main3") != -1){
       illegalTransitionTask();
