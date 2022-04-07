@@ -148,7 +148,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "For this task, you only need to respond if and when Jill cheats, i.e., when an image appears that was not adjacent to the previous image in the task sequence. Press 'space bar' whenever this occurs, otherwise press nothing at all.";
         case 3:
-          return "You will hear a buzzer when you accuse Jill of cheating when she wasn't. Please make sure your volume is turned on. This task is expected to take 10 minutes.";
+          return "You will get feedback whenever you accuse Jill of cheating when she wasn't, or if you accidentally miss an instance when Jill did cheat. Otherwise, the task will proceed uninterrupted. This task is expected to take 10 minutes.";
         case 4:
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press the space bar to begin the task."
@@ -160,7 +160,7 @@ function getNextInstructions(slideNum, expStage){
         case 2:
           return "In this task, you will use your knowledge of the network structure that you memorized. You may remember that the images in the network structure belong to two distinct groups or communities, one on the left and one on the right.";
         case 3:
-          return "In this task, you will see three images. Two of these images with belong to one of these communities, and the third image will belong to the other community.";
+          return "In this task, you will see three images. Two of these images will belong to one of the communities, and the third image will belong to the other community.";
         case 4:
           return "Your job is to choose the image that belongs to a different community than the other two images. For example, if you think that the first and third image were in the same community, choose the second image.";
         case 5:

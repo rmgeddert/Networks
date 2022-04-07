@@ -15,9 +15,6 @@ function illegalTransitionTask(){
   if (showNetworkWalk == true) {ntCanvas.style.display = "inline-block";}
   $(".canvasas").show();
 
-  // get svg network diagram ready (centered) and add text spots
-  getNetworkDiagramReady();
-
   // set up first active node
   activeNode = _.sample(taskNetwork.nodes,1)[0];
   activeNode.activate();
