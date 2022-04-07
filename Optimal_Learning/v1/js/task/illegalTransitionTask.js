@@ -81,13 +81,7 @@ function networkTransition(){
     acc = (Boolean(partResp)) ? 0 : 1;
   }
   let missedSkip = (transitionType == "i" && !partResp);
-  if (missedSkip) {
-    console.log('missed skip');
-  }
   let falseAlarm = (transitionType == "l" && Boolean(partResp));
-  if (falseAlarm) {
-    console.log('false alarm');
-  }
   let mistake = missedSkip || falseAlarm;
   if (mistake && !feedbackShown && showFeedback) {
 
@@ -102,19 +96,18 @@ function networkTransition(){
     // log data from previous trial
     data.push([sectionType, taskName, trialCount, blockTrialCount, block, NaN, stimOnset, respOnset, respTime, acc, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,fileOnly(activeNode.img.src), activeNode.name, activeNode.index, activeNode.communityNumber, activeNode.community, activeNode.isBoundaryNode ? "b" : "i", transitionType, isCommunityTransition() ? 1 : 0, partResp, missedSkip ? 0 : 1, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN ]);
     console.log(data);
-    // console.log(data);
 
     // remember where we just were
     prevNode = activeNode;
     activeNode.reset();
-    prevTransition = transitionType;
+    // prevTransition = transitionType;
 
     // randomly choose a new node (can be illegal or legal transition)
     // don't allow for consecutive illegal transitions
     if (Math.random() < illegalProbability && prevTransition != "i") {
       transitionType = "i"; //illegal transition
       activeNode = _.sample(taskNetwork.nodes.filter(node => !activeNode.neighbors.includes(node) && node != activeNode),1)[0];
-      console.log("illegal - press space!");
+      // console.log("illegal - press space!");
     } else {
       transitionType = "l"; //legal (random) transition
       activeNode = _.sample(activeNode.neighbors,1)[0];

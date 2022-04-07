@@ -22,7 +22,7 @@ function practiceIllegalTransitionTask(){
 
   // prepare practice task array (illegal versus legal)
   legalIllegalArray = preparePracticeArray();
-  console.log(legalIllegalArray);
+  // console.log(legalIllegalArray);
   transitionType = legalIllegalArray[trialCount-1];
 
   // set taskFunc so countdown goes to right task
@@ -101,7 +101,7 @@ function practiceTransition(){
     if (legalIllegalArray[trialCount] == "i") {
       transitionType = "i"; //illegal transition
       activeNode = _.sample(taskNetwork.nodes.filter(node => !activeNode.neighbors.includes(node) && node != activeNode),1)[0];
-      console.log("illegal - press space!");
+      // console.log("illegal - press space!");
     } else {
       transitionType = "l"; //legal (random) transition
       activeNode = _.sample(activeNode.neighbors,1)[0];

@@ -31,7 +31,7 @@ function networkDragTask(){
         document.getElementById("slot"+i).style.borderColor = "#ff0000" //red
       }
     }
-    console.log(slotDict);
+    // console.log(slotDict);
 
     // if none are incorrect, reveal next trial button
     if (!anyIncorrect) {
