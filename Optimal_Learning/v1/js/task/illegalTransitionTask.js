@@ -100,7 +100,7 @@ function networkTransition(){
     // remember where we just were
     prevNode = activeNode;
     activeNode.reset();
-    // prevTransition = transitionType;
+    prevTransition = transitionType;
 
     // randomly choose a new node (can be illegal or legal transition)
     // don't allow for consecutive illegal transitions
