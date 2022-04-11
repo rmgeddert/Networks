@@ -2,7 +2,7 @@
 
 // ----- Meta parameters (for testing) -----
 let speed = "normal"; //fast, normal
-let openerNeeded = false; // require menu.html to also be open to run experiment (needed for MTurk)
+let openerNeeded = true; // require menu.html to also be open to run experiment (needed for MTurk)
 let showNetworkWalk = false;
 let showNavButtons = false;
 let showFeedback = true;
@@ -20,7 +20,7 @@ let incorrectTime = 3000;
 let practiceAccCutoff = 80; //%
 
 // task variables
-let taskNetwork = new Network(), activeNode, prevNode, transitionType;
+let taskNetwork = new Network(), activeNode, prevNode, transitionType, prevTransition;
 let taskFunc, timeoutFunc, stimTimeout, feedbackShown, missedSkip;
 let trialHistory = [], earlyReleaseExperiment = false, playSoundsExperiment = false;
 let canvas, ctx, ntCanvas, ntCtx; //canvas variables
