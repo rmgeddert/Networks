@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/common/jquery-3.4.1.js"></script>
+    <script src="js/common/underscore_min.js"></script>
+    <script src="js/task/instructions.js"></script>
+    <script src="js/task/networkFunctions.js"></script>
+    <script src="js/task/oddOneOutTest.js"></script>
+    <script src="js/task/networkDragTask.js"></script>
+    <script src="js/task/practiceIllegalTransitionTask.js"></script>
+    <script src="js/task/illegalTransitionTask.js"></script>
+    <script src="js/task/miscFunctions.js"></script>
+    <script src="js/task/stroopAssociationTask.js"></script>
+    <script src="js/task/stroopTransferTask.js"></script>
+    <script src="js/task/stroopTaskPractice.js"></script>
+    <script src="js/task/stroopTaskFunctions.js"></script>
+    <script src="js/task/main.js"></script>
+    <script src="js/task/images.js"></script>
+    <title>Network Task</title>
+  </head>
+
+  <body>
+    <!-- instruction elements for all text screens -->
+    <div id="instructionsDiv">
+      <div class="instruction-content">
+        <div class="instruction-header">
+          <h1>Instructions </h1>
+          <p style="font-weight: bold">Please read these instructions carefully.</p>
+        </div>
+        <div class="instruction-body">
+          <p id="instructions1" ></p>
+          <p id="instructions2" ></p>
+          <p id="instructions3" ></p>
+          <p id="instructions4" ></p>
+          <p id="instructions5" ></p>
+          <p id="instructions6" ></p>
+          <p id="instructions7" ></p>
+          <p id="instructions8" ></p>
+          <p id="instructions9" ></p>
+        </div>
+        <div class="instruction-buttons">
+          <button id="nextInstrButton">Next</button>
+          <button id="startExpButton">Start Experiment</button>
+          <button id="nextSectionButton">Next Section</button>
+        </div>
+      </div>
+    </div>
+    <div id="oddOneOutTaskDiv">
+      <div class="OO_task_text">
+        <p id="OO_task_instruction">Click on the image that doesn't belong with the others.</p>
+      </div>
+      <ul id="OO_images">
+        <div class="OO_image_container">
+          <input id="OO_image1" class="OO_image" type="image" ondragstart="return false;">
+        </div>
+        <div class="OO_image_container">
+          <input id="OO_image2" class="OO_image" type="image" ondragstart="return false;">
+        </div>
+        <div class="OO_image_container">
+          <input id="OO_image3" class="OO_image" type="image" ondragstart="return false;">
+        </div>
+      </ul>
+    </div>
+    <div class="MenuClosedPrompt">
+      <h1 style = "color: red">The opening screen appears to be closed.</h1>
+      <p>You navigated to this window from a previous window, with the prompt: "Click 'Continue' button to start the main task. PLEASE DO NOT CLOSE THIS SCREEN."</p>
+      <p>This navigator window appears to be closed, or the current script has lost contact with the window. Even if the task is now completed, data submission will fail and your data will not be saved.</p>
+      <p>Please return to the MTurk window and restart the experiment. Please do not close any windows during this assignment or you may not be compensated. We apologize for any inconvenience. Thank you.</p>
+    </div>
+    <div class="canvasas">
+      <canvas id="taskCanvas" width="800" height="600"></canvas>
+      <canvas id="networkCanvas" width="800" height="600"></canvas>
+    </div>
+    <div id="navButtons">
+      <button id="navNetworkLearning" class="navButton">Jump to Network Learning Task (1)</button>
+      <button id="navOddOneOut" class="navButton">Jump to Odd One Out Task (2)</button>
+    </div>
+    <div id="networkDragTask">
+      <div id="picture-container">
+      </div>
+      <div id="network-container-lg">
+        <!-- left side community -->
+        <div class="w600 community-container">
+          <div id="left-community">
+            <div class= "lgW net-slot buff-left-lg">
+              <div class="picture-holder">
+                <div class="lgW lgH slot" id="slot2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="lgW lgH slot" id="slot3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot0" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="lgW lgH slot" id="slot4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- right side community -->
+        <div class="w600 community-container">
+          <div id="right-community">
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="lgW lgH slot" id="slot6" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="lgW lgH slot" id="slot5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot9" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              </div>
+            </div>
+            <div class= "lgW net-slot buff-right-lg">
+              <div class="picture-holder">
+                <div class="lgW lgH slot" id="slot7" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="lgW lgH slot" id="slot8" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button id="networkDragNextTrial" class="dragTaskButton">Next Trial</button>
+      <button id="networkDragCheckAnswer" class="dragTaskButton">Check Answer</button>
+    </div>
+    <div id="network-diagram">
+      <div id="network-container-sm">
+        <div class="w400 community-container">
+          <div id="left-community">
+            <div class= "smW net-slot buff-left-sm">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot2"></div>
+                <div class="smW smH slot" id="plot1"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot3"></div>
+                <div class="smW smH slot" id="plot0"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- right side community -->
+        <div class="w400 community-container">
+          <div id="right-community">
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot6"></div>
+              </div>
+            </div>
+            <div class= "net-slot">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot5"></div>
+                <div class="smW smH slot" id="plot9"></div>
+              </div>
+            </div>
+            <div class= "smW net-slot buff-right-sm">
+              <div class="picture-holder">
+                <div class="smW smH slot" id="plot7"></div>
+                <div class="smW smH slot" id="plot8"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
