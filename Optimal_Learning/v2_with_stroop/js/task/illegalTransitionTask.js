@@ -19,7 +19,10 @@ function illegalTransitionTask(){
   activeNode = _.sample(taskNetwork.nodes,1)[0];
   activeNode.activate();
   trialHistory.push(activeNode.name);
-  transitionType = "l";
+  transitionType = legalIllegalArray[trialCount-1];
+
+  // get legalIllagalArray
+  legalIllegalArray = prepareLegalIllegalArray();
 
   // set taskFunc so countdown goes to right task
   taskFunc = runIllegalTransition;
@@ -100,11 +103,11 @@ function networkTransition(){
     // remember where we just were
     prevNode = activeNode;
     activeNode.reset();
-    // prevTransition = transitionType;
 
-    // randomly choose a new node (can be illegal or legal transition)
-    // don't allow for consecutive illegal transitions
-    if (Math.random() < illegalProbability && prevTransition != "i") {
+    trialCount++; blockTrialCount++;
+
+    // randomly choose a new node if legal or illegal
+    if (legalIllegalArray[trialCount - 1] == "i") {
       transitionType = "i"; //illegal transition
       activeNode = _.sample(taskNetwork.nodes.filter(node => !activeNode.neighbors.includes(node) && node != activeNode),1)[0];
       // console.log("illegal - press space!");
@@ -117,7 +120,6 @@ function networkTransition(){
     trialHistory.push(activeNode.name);
 
     // iterate trial count
-    trialCount++; blockTrialCount++;
     feedbackShown = false;
 
     // return to taskFlow func
@@ -168,5 +170,60 @@ function networkBlockBreak(){
     }
     ctx.font = "bold 25px Arial";
     ctx.fillText("Press any button to continue.",canvas.width/2,canvas.height/2 + 100);
+  }
+}
+
+function prepareLegalIllegalArray(){
+  let nBlocks = Math.ceil(nNetworkTrials/breakEveryNTrials);
+  let batch, mainArr = [];
+  // for each block
+  for (var i = 0; i < nBlocks; i++) {
+    let arr = [];
+    let nBatches = Math.ceil(breakEveryNTrials/20);
+
+    // first batch (make sure first 2 trials aren't illegal)
+    do {
+      batch = getBatch();
+    } while (batch[0] == 'i' || batch[1] == 'i');
+    arr = arr.concat(batch);
+
+    // rest of batches
+    for (var j = 0; j < nBatches - 1; j++) {
+      do {
+        console.log('batch');
+        batch = getBatch();
+      } while (batch[0] == 'i' && arr[arr.length - 1] == 'i');
+      arr = arr.concat(batch);
+    }
+
+    mainArr = mainArr.concat(arr.slice(0, breakEveryNTrials));
+  }
+
+  // SO code for checking instances of 'i' and 'l'
+  //   console.log(mainArr.reduce(function (arr, i) {
+  //   return arr[i] ? ++arr[i] : arr[i] = 1, arr
+  // }, {}));
+  return mainArr;
+
+  function getBatch(){
+    let nIllegalTrials = Math.ceil(20*illegalProbability)
+    let arr = new Array(nIllegalTrials).fill('i').concat(new Array(20 - nIllegalTrials).fill('l'));
+    do {
+      console.log('shuffling');
+      arr = shuffle(arr);
+    } while (!arrShuffled(arr));
+    return arr;
+
+    function arrShuffled(arr){
+      // make sure there are no consecutive "i"s
+      for (var i = 0; i < arr.length; i++) {
+        if (i != 0) {
+          if (arr[i] == 'i' && arr[i - 1] == 'i') {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
   }
 }

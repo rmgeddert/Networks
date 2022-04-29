@@ -82,7 +82,7 @@ function createImageTable(){
 }
 
 function prepareNetworkDiagram(){
-  createSVG("svg1","#network-container-sm", 450*imageScale + 'px', 800*imageScale + 'px');
+  createSVG("svg1","#network-container-sm", 450*imageScale + 'px', 850*imageScale + 'px');
   drawSVGLines("svg1", "plot", "#network-container-sm");
 
   // fill images into network diagram

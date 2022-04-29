@@ -37,6 +37,8 @@ function runIllegalPractice(){
   if (trialCount <= nPracticeTrials) {
     practiceTrial();
   } else {
+    transitionType = "l";
+    prevTransition = "i";
     practiceFeedback(Math.round( accCount / (trialCount - 1) * 100 ));
   }
 }
@@ -137,7 +139,7 @@ function preparePracticeArray(){
       }
     }
     // make sure first or second trial isn't i
-    if (arr[0] == 'i' || arr[1] == 'i') {
+    if (arr[0] == 'i' || arr[1] == 'i' || arr[arr.length-1] == "i") {
       return false;
     } else {
       return true;

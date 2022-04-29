@@ -168,7 +168,7 @@ function getNextInstructions(slideNum, expStage){
     case "main4":
       switch (slideNum){
         case 1:
-          return "Great job! You will now begin the final task of this experiment.";
+          return "Great job! You will now be tested on your memory of the network structure.";
         case 2:
           return "In this task, you will use your knowledge of the network structure that you memorized. You may remember that the images in the network structure belong to two distinct groups or communities, one on the left and one on the right.";
         case 3:
