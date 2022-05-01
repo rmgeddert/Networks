@@ -188,7 +188,7 @@ function practiceFeedback(accuracy){
   // 1 sec buffer before proceed allowed
   setTimeout(function(){
     keyListener = 6;
-  }, 1000);
+  }, 500);
 
   // display feedback
   if (accuracy < practiceAccCutoff) { //if accuracy is too low

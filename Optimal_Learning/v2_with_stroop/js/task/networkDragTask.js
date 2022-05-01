@@ -232,7 +232,6 @@ function drop(event) {
 
   // check if data recipient is an empty div or an image
   if (event.target.tagName == "DIV") {
-    console.log("DIV");
     // if div, just append
     event.target.appendChild(data);
 
