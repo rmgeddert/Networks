@@ -165,7 +165,7 @@ function endOfExperiment(){
     // close the experiment window
     JavaScript:window.close();
   } catch (e) {
-    alert("Data upload failed. Did you close the previous screen?");
+    alert("Data upload failed. Please refer to the instructions below.");
   }
 }
 

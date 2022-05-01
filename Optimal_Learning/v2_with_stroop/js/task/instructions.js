@@ -8,7 +8,7 @@ let instructions = {
   },
   // contains the max value of each instruction iteration. iteration will STOP at max.
   max: {
-    "main1-1": 5, "main1-2": 7, "main2": 6, "main3": 4, "main4": 8,"prac5": 6, "main6": 6, "main7": 5,"final": 3
+    "main1-1": 5, "main1-2": 7, "main2": 6, "main3": 4, "main4": 8,"prac5": 6, "main6": 6, "main7": 5,"final": 7
   },
   // what does instruction section end with?
   // #nextSectionButton, #startExpButton, keyPressNextSection, keyPressStartTask
@@ -249,8 +249,22 @@ function getNextInstructions(slideNum, expStage){
           iterateAgain = true;
           return "DO NOT GO BACK TO THE OTHER WINDOW WITHOUT FIRST CLOSING THIS SCREEN VIA BUTTON PRESS. Doing otherwise may result in you losing all data from your participation.";
         case 3:
+          iterateAgain = true;
           changeTextFormat('#instructions' + slideNum,'font-weight','bold');
           return "Press any button on your keyboard to close this window.";
+        case 4:
+          iterateAgain = true;
+          return "- - - - - - - - - - - - - - - - - - - -"
+        case 5:
+          iterateAgain = true;
+          changeTextFormat('#instructions' + slideNum,'font-weight','bold');
+          changeTextFormat('#instructions' + slideNum,'color','red');
+          return "If pressing a key doesn't work (Data upload failed):";
+        case 6:
+          iterateAgain = true;
+          return "If pressing a key doesn't work, please follow the following instructions. Please do NOT close this window or go back to the other window (that says press the button to start the task) or you will lose your data."
+        case 7:
+          return "Right click anywhere on this page and click inspect. Among the options at the top ('Elements', 'Console', 'Network', etc) press 'Console'. Type in 'data' and press enter. Right click what appears and select 'Copy object'. Paste into an email to egner.lab.studies@gmail.com. Thank you!"
       }
   }
 }

@@ -13,7 +13,7 @@ let nNetworkTrials = 200; //# of trials in illegal transition task
 let breakEveryNTrials = 100;
 let nPracticeTrials = 20;
 let stimInterval = (speed == "fast") ? 50 : 2000; //1500 is default for now
-let expStage = "main1-1"; //initialize expStage (make sure matches instructions)
+let expStage = "final"; //initialize expStage (make sure matches instructions)
 let illegalProbability = 0.2; //frequency of illegal transitions
 let correctTime = 1000;
 let incorrectTime = 3000;
