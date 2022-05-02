@@ -54,7 +54,6 @@ function runStroopAssociation(){
 }
 
 function stroopAssociationTrial(){
-  console.log(trialCount);
   // display network
   stimOnset = new Date().getTime() - runStart;
   if (showNetworkWalk == true) {drawNetwork();}
