@@ -66,7 +66,7 @@ $(document).ready(function(){
 
 function prepareMenu(){
   // update menu to first value
-  updateMainMenu(1);
+  updateMainMenu(3);
 
   $("#demographicSubmit").click(function(){
     let anyBlank = false;
