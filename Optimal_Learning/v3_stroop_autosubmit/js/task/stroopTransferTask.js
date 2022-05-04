@@ -123,7 +123,7 @@ function createTransferTaskNodes(){
 
 function createTransferTaskArray(nodeArr){
   let taskArr, newBatch;
-  let batchesNeeded = Math.ceil(nTransferTrials/(nodeArr.length*2));
+  let batchesNeeded = Math.ceil(nTransferTrials/(nodeArr.length*3)); //3 because 8 nodes, (2x3 + 6)*2 = 24
   do {
     taskArr = [];
     for (var i = 0; i < batchesNeeded; i++) {
@@ -172,8 +172,15 @@ function createTransferTaskBatch(nodeArr, batchCount){
   // create basic task array batch
   let taskArrBatch = [];
   nodeArr.forEach(node => {
-    taskArrBatch.push([node, "i"]);
-    taskArrBatch.push([node, "c"]);
+    if (node.community == "novel") {
+      taskArrBatch.push([node, "i"]);
+      taskArrBatch.push([node, "c"]);
+    } else {
+      for (var i = 0; i < 3; i++) {
+        taskArrBatch.push([node, "i"]);
+        taskArrBatch.push([node, "c"]);
+      }
+    }
   })
 
   //use algorithm to shuffle array (with no repeats allowed)

@@ -216,3 +216,56 @@ function logSectionData(){
   data.push([sectionType, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN,  NaN, NaN, expStage, sectionStart, sectionEnd, sectionEnd - sectionStart, NaN, NaN, NaN, NaN ]);
   console.log(data);
 }
+
+function blockBreak(totalTrials, breakEveryTrials){
+  sectionType = "blockBreak";
+  sectionStart = new Date().getTime() - runStart;
+  keyListener = 0; //make sure no responses can get through
+  setTimeout(function(){keyListener = 7},1000);
+
+  // display break screen (With timer)
+  drawBreakScreen("02","00");
+  blockBreakFunction(2,0);
+
+  function blockBreakFunction(minutes, seconds){
+    let time = minutes*60 + seconds;
+    ctx.fillStyle = "black";
+    sectionTimer = setInterval(function(){
+      if (time < 0) {return}
+      ctx.fillStyle = (time <= 60) ? "red" : "black";
+      let minutes = Math.floor(time / 60);
+      if (minutes < 10) minutes = "0" + minutes;
+      let seconds = Math.floor(time % 60);
+      if (seconds < 10) seconds = "0" + seconds;
+      drawBreakScreen(minutes, seconds);
+      time--;
+    }, 1000);
+  }
+
+  function drawBreakScreen(minutes, seconds){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // draw timer (with color from previous function)
+    ctx.font = "bold 45px Arial";
+    ctx.fillText(minutes + ":" + seconds,canvas.width/2,canvas.height/2 - 100);
+
+    // display miniblock text
+    ctx.fillStyle = "black";
+    ctx.font = "25px Arial";
+    ctx.fillText("This is a short break. Please don't pause for more than 2 minutes.",canvas.width/2,canvas.height/2 - 150);
+    if (Math.ceil(totalTrials / breakEveryTrials) - block > 1) {
+      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(totalTrials / breakEveryTrials)  - block) + " blocks left.",canvas.width/2,canvas.height/2);
+    } else {
+      ctx.fillText("You are finished with block " + block + ". You have " + (Math.ceil(totalTrials / breakEveryTrials) - block) + " block left.",canvas.width/2,canvas.height/2);
+    }
+    ctx.font = "bold 25px Arial";
+    ctx.fillText("Press any button to continue.",canvas.width/2,canvas.height/2 + 100);
+  }
+}
+
+function speedStroop(time = 50){
+  fixInterval = time;
+  stroopITI = time
+  stroopStimInterval = time;
+  imagePreStroopInterval = time;
+}

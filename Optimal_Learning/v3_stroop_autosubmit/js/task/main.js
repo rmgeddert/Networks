@@ -22,7 +22,7 @@ let imagePreStroopInterval = 500;
 let fixInterval = (speed == "fast") ? 5 : 500;
 let stroopStimInterval = (speed == "fast") ? 5 : 1500; //2000
 let stroopITI = (speed == "fast") ? 1 : 1000; //1200
-let nStroopAssociationTrials = 96;
+let nStroopAssociationTrials = 192;
 let nTransferTrials = 96;
 let nNovelNodes = 6;
 

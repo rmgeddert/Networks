@@ -12,10 +12,14 @@ function updateMainMenu(expStage){
       break;
     case 3: //main task
       $("#demographicsForm").hide();
+      $("#soundCheck").hide();
+      $("#table").hide();
       startExperiment();
       break;
     case 4: //debriefing
       $("#mturk_form").show();
+      $("#demographicsForm").hide();
+      $("#soundCheck").hide();
       $("#table").show();
       break;
   }

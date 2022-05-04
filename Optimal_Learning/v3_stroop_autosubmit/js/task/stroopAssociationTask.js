@@ -45,8 +45,14 @@ function stroopAssociationTask(){
 
 function runStroopAssociation(){
   if (trialCount <= nStroopAssociationTrials) {
-    fixationScreen();
-    setTimeout(stroopAssociationTrial, fixInterval);
+    if (trialCount > 1 && trialCount != nStroopAssociationTrials && (trialCount - 1)%(nStroopAssociationTrials/2) == 0 && !breakOn) {
+      breakOn = true;
+      blockBreak(nStroopAssociationTrials, nStroopAssociationTrials/2);
+    } else {
+      breakOn = false;
+      fixationScreen();
+      setTimeout(stroopAssociationTrial, fixInterval);
+    }
   } else {
     // console.log(communityCountersLog);
     navigateInstructionPath();
@@ -67,11 +73,21 @@ function associationStroopTrial(){
   // get stroop stimulus
   let stimulus;
   if (activeNode.community == "congruent") {
-    stimulus = conStroopArr[con_idx];
-    con_idx++;
+    if (Math.random() < 0.9) {
+      stimulus = conStroopArr[con_idx];
+      con_idx++;
+    } else {
+      stimulus = incStroopArr[inc_idx];
+      inc_idx++;
+    }
   } else {
-    stimulus = incStroopArr[inc_idx];
-    inc_idx++;
+    if (Math.random() < 0.9) {
+      stimulus = incStroopArr[inc_idx];
+      inc_idx++;
+    } else {
+      stimulus = conStroopArr[con_idx];
+      con_idx++;
+    }
   }
 
   // add stimulus to currentTaskArray (for access by key listener)
