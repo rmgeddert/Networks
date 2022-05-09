@@ -71,11 +71,11 @@ let nodeNeighbors = {
 function setUpNetwork(){
   // define coordinates for nodes for drawing purposes
   let coordinates = {
-    1: {x: (1/5), y: (4/5)}, 2: {x: (1/20), y: (1/2)},
-    3: {x: (1/5), y: (1/5)}, 4: {x: (17/40), y: (1/3)},
-    5: {x: (17/40), y: (2/3)}, 6: {x: (23/40), y: (1/3)},
-    7: {x: (23/40), y: (2/3)}, 8: {x: (4/5), y: (1/5)},
-    9: {x: (19/20), y: (1/2)}, 10: {x: (4/5), y: (4/5)}
+    1: {x: (12/40), y: (30.5/40)}, 2: {x: (4/40), y: (27/40)},
+    3: {x: (4/40), y: (15/40)}, 4: {x: (12/40), y: (10/40)},
+    5: {x: (17/40), y: (20/40)}, 6: {x: (28/40), y: (10/40)},
+    7: {x: (23/40), y: (20/40)}, 8: {x: (36/40), y: (15/40)},
+    9: {x: (36/40), y: (27/40)}, 10: {x: (28/40), y: (30.5/40)}
   }
 
   // defines which nodes are being associated and whose associations will need to be inferred
